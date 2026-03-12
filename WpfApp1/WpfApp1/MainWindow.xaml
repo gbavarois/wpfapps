@@ -8,137 +8,109 @@
         mc:Ignorable="d"
         Title="画面ファイルエディタ" Height="600" Width="1000">
 
+        <Window.InputBindings>
+            <KeyBinding Key="B" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="0" />
+            <KeyBinding Key="D1" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="1" />
+            <KeyBinding Key="D2" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="2" />
+            <KeyBinding Key="D3" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="3" />
+            <KeyBinding Key="D4" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="4" />
+            <KeyBinding Key="D5" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="5" />
+            <KeyBinding Key="D6" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="6" />
+            <KeyBinding Key="D7" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="7" />
+            <KeyBinding Key="D8" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="8" />
+            <KeyBinding Key="D9" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="9" />
+        </Window.InputBindings>
+
     <Grid>
         <!-- 上：メニューバー、下：DockingManager 本体 -->
         <Grid.RowDefinitions>
+            <!-- メニュー -->
             <RowDefinition Height="Auto"/>
+            <!-- メイン領域 -->
             <RowDefinition Height="*"/>
+            <!-- ステータスバー -->
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- メニューバー -->
         <Menu Grid.Row="0">
-            <MenuItem Header="_View">
+            <MenuItem Header="ファイル(_F)">
+            </MenuItem>
+            <MenuItem Header="表示(_V)">
                 <!-- 右パネルの各タブを表示／非表示切り替え -->
-                <MenuItem Header="表記フォーマット パネル"
-                          IsCheckable="True"
-                          IsChecked="{Binding ElementName=FormatPane, Path=IsVisible, Mode=TwoWay}" />
-                <MenuItem Header="テーブルデータ パネル"
-                          IsCheckable="True"
-                          IsChecked="{Binding ElementName=TablePane, Path=IsVisible, Mode=TwoWay}" />
+                <MenuItem Header="表記フォーマット パネル" Click="ShowFormatPane_Click" />
+                <MenuItem Header="テーブルデータ パネル" Click="ShowTablePane_Click" />
             </MenuItem>
         </Menu>
 
         <!-- Docking 本体 -->
-        <ad:DockingManager Grid.Row="1">
+        <ad:DockingManager Grid.Row="1" x:Name="dockingManager">
             <ad:DockingManager.Layout>
                 <ad:LayoutRoot>
                     <ad:LayoutPanel Orientation="Horizontal">
-
-                        <!-- 左：テキストエディタ領域（消せない） -->
                         <ad:LayoutDocumentPane>
                             <ad:LayoutDocument Title="エディタ" CanClose="False" CanFloat="False">
-                                <RichTextBox FontFamily="MS Gothic"
-                                             Grid.Column="1"
-                                             FontSize="14"
-                                             Block.LineHeight="1"
-                                             AcceptsTab="True"
-                                             AcceptsReturn="True"
-                                             VerticalScrollBarVisibility="Auto"
-                                    HorizontalScrollBarVisibility="Auto" Background="Black" Foreground="White" />
+                                <!-- SelectionChangedを追加 -->
+                                <RichTextBox x:Name="MainEditor"
+                                         FontFamily="MS Gothic"
+                                         FontSize="14"
+                                         Block.LineHeight="1"
+                                         AcceptsTab="True"
+                                         AcceptsReturn="True"
+                                         VerticalScrollBarVisibility="Auto"
+                                         HorizontalScrollBarVisibility="Auto" 
+                                         Background="Black" 
+                                         Foreground="#00FF00"
+                                         
+                                         SelectionChanged="MainEditor_SelectionChanged">
+                                    <RichTextBox.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="色">
+                                                <!-- 指定の10色をネストして配置 -->
+                                                <MenuItem Header="1:青"   Click="SetColor_Click" Tag="#4040FF" InputGestureText="Ctrl+Shift+1" Foreground="#4040FF"/>
+                                                <MenuItem Header="2:赤"   Click="SetColor_Click" Tag="#FF4040" InputGestureText="Ctrl+Shift+2" Foreground="#FF4040"/>
+                                                <MenuItem Header="3:紫"   Click="SetColor_Click" Tag="#FF00FF" InputGestureText="Ctrl+Shift+3" Foreground="#FF00FF"/>
+                                                <MenuItem Header="4:緑"   Click="SetColor_Click" Tag="#00FF00" InputGestureText="Ctrl+Shift+4" Foreground="#00FF00"/>
+                                                <MenuItem Header="6:黄"   Click="SetColor_Click" Tag="#FFFF00" InputGestureText="Ctrl+Shift+5" Foreground="#FFFF00"/>
+                                                <MenuItem Header="5:水色" Click="SetColor_Click" Tag="#00FFFF" InputGestureText="Ctrl+Shift+6" Foreground="#00FFFF"/>
+                                                <MenuItem Header="7:白"   Click="SetColor_Click" Tag="#FFFFFF" InputGestureText="Ctrl+Shift+7" Foreground="White" Background="Gray"/>
+                                                <MenuItem Header="8:橙"   Click="SetColor_Click" Tag="#FF8000" InputGestureText="Ctrl+Shift+8" Foreground="#FF8000"/>
+                                                <MenuItem Header="9:黄緑" Click="SetColor_Click" Tag="#80FF00" InputGestureText="Ctrl+Shift+9" Foreground="#80FF00"/>
+                                                <MenuItem Header="0:黒"   Click="SetColor_Click" Tag="#000000" InputGestureText="Ctrl+Shift+B" Foreground="Gray"/>
+                                            </MenuItem>
+
+                                            <Separator />
+                                            <!-- 区切り線 -->
+
+                                            <MenuItem Command="Cut" Header="切り取り" />
+                                            <MenuItem Command="Copy" Header="コピー" />
+                                            <MenuItem Command="Paste" Header="貼り付け" />
+                                        </ContextMenu>
+                                    </RichTextBox.ContextMenu>
+                                </RichTextBox>
                             </ad:LayoutDocument>
                         </ad:LayoutDocumentPane>
 
-                        <!-- 右：2タブ構成のパネル（×で閉じられ、メニューから復活可能） -->
                         <ad:LayoutAnchorablePane DockWidth="320">
-
-                            <!-- タブ1：表記フォーマット -->
-                            <ad:LayoutAnchorable x:Name="FormatPane"
-                                                 Title="表記フォーマット"
-                                                 CanHide="True"
-                                                 CanClose="True">
-                                <!-- 上下2分割（上：リスト、下：詳細） -->
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="2*" />
-                                        <RowDefinition Height="5" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-
-                                    <!-- 上：format_def.yaml の formats リスト -->
-                                    <ListView x:Name="FormatList"
-                                              Grid.Row="0"
-                                              ItemsSource="{Binding Formats}"
-                                              SelectedItem="{Binding SelectedFormat, Mode=TwoWay}">
-                                        <ListView.View>
-                                            <GridView>
-                                                <GridViewColumn Header="code" DisplayMemberBinding="{Binding code}" Width="50"/>
-                                                <GridViewColumn Header="id" DisplayMemberBinding="{Binding id}" Width="100"/>
-                                                <GridViewColumn Header="length" DisplayMemberBinding="{Binding length}" Width="60"/>
-                                                <GridViewColumn Header="placeholder" DisplayMemberBinding="{Binding placeholder}" Width="120"/>
-                                            </GridView>
-                                        </ListView.View>
-                                    </ListView>
-
-                                    <!-- 中央：上下のサイズを調整するスプリッタ -->
-                                    <GridSplitter Grid.Row="1"
-                                                  Height="5"
-                                                  HorizontalAlignment="Stretch"
-                                                  VerticalAlignment="Center"
-                                                  Background="LightGray" />
-
-                                    <!-- 下：選択中フォーマットの詳細表示 -->
-                                    <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="1" Padding="6">
-                                        <!-- 詳細表示は FormatList の SelectedItem にバインド -->
-                                        <Grid DataContext="{Binding ElementName=FormatList, Path=SelectedItem}">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="80"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="code:" FontWeight="Bold" Margin="0,0,4,2"/>
-                                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding code}"/>
-
-                                            <TextBlock Grid.Row="1" Grid.Column="0" Text="id:" FontWeight="Bold" Margin="0,2,4,2"/>
-                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding id}"/>
-
-                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="length:" FontWeight="Bold" Margin="0,2,4,2"/>
-                                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding length}"/>
-
-                                            <TextBlock Grid.Row="3" Grid.Column="0" Text="placeholder:" FontWeight="Bold" Margin="0,2,4,2"/>
-                                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding placeholder}"/>
-
-                                            <TextBlock Grid.Row="4" Grid.Column="0" Text="description:" FontWeight="Bold" Margin="0,2,4,0"/>
-                                            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding description}"/>
-                                        </Grid>
-                                    </Border>
-                                </Grid>
+                            <ad:LayoutAnchorable x:Name="FormatPane" Title="表記フォーマット" CanHide="True" CanClose="False">
+                                <!-- (既存のListView等のGrid中身) -->
                             </ad:LayoutAnchorable>
-
-                            <!-- タブ2：テーブルデータ（現時点ではプレースホルダ） -->
-                            <ad:LayoutAnchorable x:Name="TablePane"
-                                                 Title="テーブルデータ"
-                                                 CanHide="True"
-                                                 CanClose="True">
-                                <Grid>
-                                    <TextBlock Text="テーブルデータ（未実装）"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Foreground="Gray" />
-                                </Grid>
+                            <ad:LayoutAnchorable x:Name="TablePane" Title="テーブルデータ" CanHide="True" CanClose="False">
+                                <!-- (既存のTextBlock等の中身) -->
                             </ad:LayoutAnchorable>
-
                         </ad:LayoutAnchorablePane>
-
                     </ad:LayoutPanel>
                 </ad:LayoutRoot>
             </ad:DockingManager.Layout>
         </ad:DockingManager>
+
+        <!-- ステータスバーの追加 -->
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="StatusLineColumn" Text="行:0, 文字:0" Margin="5,0"/>
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>
