@@ -62,6 +62,9 @@
                                          Background="Black" 
                                          Foreground="#00FF00"
                                          
+                                         PreviewMouseLeftButtonDown="MainEditor_PreviewMouseLeftButtonDown"
+                                         PreviewMouseMove="MainEditor_PreviewMouseMove"
+                                         PreviewMouseLeftButtonUp="MainEditor_PreviewMouseLeftButtonUp"
                                          SelectionChanged="MainEditor_SelectionChanged">
                                     <RichTextBox.ContextMenu>
                                         <ContextMenu>

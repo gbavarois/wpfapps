@@ -98,23 +98,55 @@ namespace WpfApp1
             }
         }
 
-        private void MainEditor_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            // Ctrl と Shift が両方押されているか
-            var modifiers = Keyboard.Modifiers;
-            if ((modifiers & ModifierKeys.Control) != 0 && (modifiers & ModifierKeys.Shift) != 0)
-            {
-                // F1 (Key.F1) ～ F10 (Key.F10) かを判定
-                if (e.Key >= Key.F1 && e.Key <= Key.F10)
-                {
-                    // F1なら "0", F2なら "1" ... F10なら "9" として色を決定
-                    int index = e.Key - Key.F1;
-                    ApplyColor(GetColorCode(index.ToString()));
+        private bool _isRamMoving = false;
 
-                    e.Handled = true; // RichTextBox側の標準動作をさせない
+        // Ctrl + 左クリックでドラッグ開始
+        private void MainEditor_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                _isRamMoving = true;
+                MainEditor.CaretBrush = Brushes.Red; // ドラッグ中はカレットを赤くする
+                Mouse.OverrideCursor = Cursors.SizeAll; // カーソルを十字矢印に
+                MainEditor.CaptureMouse();
+                e.Handled = true; // テキスト選択を防ぐ
+            }
+        }
+
+        // マウス移動に合わせてカレットを飛ばす
+        private void MainEditor_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (_isRamMoving)
+            {
+                Point mousePos = e.GetPosition(MainEditor);
+                // マウス座標に一番近い「文字の隙間」を取得
+                TextPointer tp = MainEditor.GetPositionFromPoint(mousePos, snapToText: true);
+                if (tp != null)
+                {
+                    MainEditor.CaretPosition = tp; // カレットを移動
                 }
             }
         }
+
+        // マウスを離した瞬間にRAM座標を確定
+        private void MainEditor_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (_isRamMoving)
+            {
+                _isRamMoving = false;
+                MainEditor.CaretBrush = Brushes.Lime; // カレットを戻す
+                Mouse.OverrideCursor = null;
+                MainEditor.ReleaseMouseCapture();
+
+                // 現在のカレット位置から「行・桁」を取得
+                //GetCaretLineColumn(out int row, out int col);
+
+                // ここでRAM情報のデータ(Row, Column)を更新し、
+                // 背面(HighlightEditor)の特定の文字範囲を塗り直す処理を呼ぶ
+                //UpdateHighlight(row, col);
+            }
+        }
+
 
         // --- リッチテキストボックスのカーソル位置計算 ---
         private void MainEditor_SelectionChanged(object sender, RoutedEventArgs e)
