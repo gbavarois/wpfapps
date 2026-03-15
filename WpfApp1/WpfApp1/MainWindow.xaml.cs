@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.ViewModels;
 
 namespace WpfApp1
 {
@@ -20,9 +22,13 @@ namespace WpfApp1
         // 0～9用のコマンドを定義
         public static RoutedCommand ColorCommand = new RoutedCommand();
 
+        MainViewModel vm = new MainViewModel();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = vm;
 
             // Ctrl + 0 ～ 9 のキー入力をコマンドに結びつける
             for (int i = 0; i <= 9; i++)
@@ -30,6 +36,18 @@ namespace WpfApp1
                 Key key = (Key)Enum.Parse(typeof(Key), "D" + i);
                 CommandBindings.Add(new CommandBinding(ColorCommand, ColorCommand_Executed));
                 InputBindings.Add(new KeyBinding(ColorCommand, key, ModifierKeys.Control) { CommandParameter = i.ToString() });
+            }
+        }
+
+        private void LoadRamData_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new OpenFileDialog();
+
+            dlg.Filter = "Excel|*.xlsx";
+
+            if (dlg.ShowDialog() == true)
+            {
+                vm.LoadExcel(dlg.FileName);
             }
         }
 
