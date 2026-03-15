@@ -100,16 +100,41 @@ namespace WpfApp1
 
         private bool _isRamMoving = false;
 
+        // Ctrlキー押下時のカーソル変更(矢印にする)
+        private void MainEditor_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl) && !_isRamMoving)
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        // Ctrlキーを離した時にカーソルを戻す
+        private void MainEditor_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            if ((e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl) && !_isRamMoving)
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
+
+        // フォーカスが外れた時にカーソルが固まるのを防ぐ
+        private void MainEditor_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            _isRamMoving = false;
+            Mouse.OverrideCursor = null;
+        }
+
         // Ctrl + 左クリックでドラッグ開始
         private void MainEditor_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (Keyboard.Modifiers == ModifierKeys.Control)
             {
                 _isRamMoving = true;
-                MainEditor.CaretBrush = Brushes.Red; // ドラッグ中はカレットを赤くする
+                MainEditor.CaretBrush = Brushes.Red;    // ドラッグ中はカレットを赤くする
                 Mouse.OverrideCursor = Cursors.SizeAll; // カーソルを十字矢印に
                 MainEditor.CaptureMouse();
-                e.Handled = true; // テキスト選択を防ぐ
+                e.Handled = true;                       // テキスト選択を防ぐ
             }
         }
 
@@ -135,7 +160,8 @@ namespace WpfApp1
             {
                 _isRamMoving = false;
                 MainEditor.CaretBrush = Brushes.Lime; // カレットを戻す
-                Mouse.OverrideCursor = null;
+                // マウスアップ時にCtrlがまだ押されていれば「矢印」に、そうでなければ「I」に戻す
+                Mouse.OverrideCursor = Keyboard.Modifiers.HasFlag(ModifierKeys.Control) ? Cursors.Arrow : null;
                 MainEditor.ReleaseMouseCapture();
 
                 // 現在のカレット位置から「行・桁」を取得
@@ -189,5 +215,7 @@ namespace WpfApp1
                 StatusLineColumn.Text = $"行:{lineCount}, 文字:{columnCount}";
             }
         }
+
+       
     }
 }
