@@ -35,7 +35,14 @@
         <!-- メニューバー -->
         <Menu Grid.Row="0">
             <MenuItem Header="ファイル(_F)">
+                <MenuItem Header="新規作成(_N)" />
+                <MenuItem Header="開く(_O)" />
+                <MenuItem Header="上書き保存(_S)" />
+                <MenuItem Header="名前を付けて保存(_A)" />
+                <Separator />
+                <MenuItem Header="RAMデータ読込" />
             </MenuItem>
+            <MenuItem Header="編集(_E)" />
             <MenuItem Header="表示(_V)">
                 <!-- 右パネルの各タブを表示／非表示切り替え -->
                 <MenuItem Header="表記フォーマット パネル" Click="ShowFormatPane_Click" />
@@ -50,60 +57,113 @@
                     <ad:LayoutPanel Orientation="Horizontal">
                         <ad:LayoutDocumentPane>
                             <ad:LayoutDocument Title="エディタ" CanClose="False" CanFloat="False">
-                                <!-- SelectionChangedを追加 -->
-                                <RichTextBox x:Name="MainEditor"
+                                <!-- Gridで重ね合わせを実現 -->
+                                <Grid>
+                                    <!-- 背面：ハイライト表示用 (IsHitTestVisible=Falseで操作を無効化) -->
+                                    <RichTextBox x:Name="HighlightEditor"
                                          FontFamily="MS Gothic"
                                          FontSize="14"
                                          Block.LineHeight="1"
+                                         Padding="5"
+                                         BorderThickness="0"
+                                         Background="#2D2D2D" 
+                                         IsHitTestVisible="False"
+                                         VerticalScrollBarVisibility="Hidden"
+                                         HorizontalScrollBarVisibility="Hidden">
+                                        <FlowDocument>
+                                            <Paragraph x:Name="HighlightParagraph"/>
+                                        </FlowDocument>
+                                    </RichTextBox>
+
+                                    <!-- 前面：文字入力用 (背景を透過) -->
+                                    <RichTextBox x:Name="MainEditor"
+                                         FontFamily="MS Gothic"
+                                         FontSize="14"
+                                         Block.LineHeight="1"
+                                         Padding="5"
                                          AcceptsTab="True"
                                          AcceptsReturn="True"
                                          VerticalScrollBarVisibility="Auto"
                                          HorizontalScrollBarVisibility="Auto" 
-                                         Background="Black" 
+                                         Background="Transparent" 
                                          Foreground="#00FF00"
-                                         
+                                         CaretBrush="White"
+                     
                                          PreviewKeyDown="MainEditor_PreviewKeyDown"
                                          PreviewKeyUp="MainEditor_PreviewKeyUp"
                                          PreviewLostKeyboardFocus="MainEditor_LostKeyboardFocus"
                                          PreviewMouseLeftButtonDown="MainEditor_PreviewMouseLeftButtonDown"
                                          PreviewMouseMove="MainEditor_PreviewMouseMove"
                                          PreviewMouseLeftButtonUp="MainEditor_PreviewMouseLeftButtonUp"
-                                         
+                     
                                          SelectionChanged="MainEditor_SelectionChanged">
-                                    <RichTextBox.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Header="色">
-                                                <!-- 指定の10色をネストして配置 -->
-                                                <MenuItem Header="1:青"   Click="SetColor_Click" Tag="#4040FF" InputGestureText="Ctrl+Shift+1" Foreground="#4040FF"/>
-                                                <MenuItem Header="2:赤"   Click="SetColor_Click" Tag="#FF4040" InputGestureText="Ctrl+Shift+2" Foreground="#FF4040"/>
-                                                <MenuItem Header="3:紫"   Click="SetColor_Click" Tag="#FF00FF" InputGestureText="Ctrl+Shift+3" Foreground="#FF00FF"/>
-                                                <MenuItem Header="4:緑"   Click="SetColor_Click" Tag="#00FF00" InputGestureText="Ctrl+Shift+4" Foreground="#00FF00"/>
-                                                <MenuItem Header="6:黄"   Click="SetColor_Click" Tag="#FFFF00" InputGestureText="Ctrl+Shift+5" Foreground="#FFFF00"/>
-                                                <MenuItem Header="5:水色" Click="SetColor_Click" Tag="#00FFFF" InputGestureText="Ctrl+Shift+6" Foreground="#00FFFF"/>
-                                                <MenuItem Header="7:白"   Click="SetColor_Click" Tag="#FFFFFF" InputGestureText="Ctrl+Shift+7" Foreground="White" Background="Gray"/>
-                                                <MenuItem Header="8:橙"   Click="SetColor_Click" Tag="#FF8000" InputGestureText="Ctrl+Shift+8" Foreground="#FF8000"/>
-                                                <MenuItem Header="9:黄緑" Click="SetColor_Click" Tag="#80FF00" InputGestureText="Ctrl+Shift+9" Foreground="#80FF00"/>
-                                                <MenuItem Header="0:黒"   Click="SetColor_Click" Tag="#000000" InputGestureText="Ctrl+Shift+B" Foreground="Gray"/>
-                                            </MenuItem>
-
-                                            <Separator />
-                                            <!-- 区切り線 -->
-
-                                            <MenuItem Command="Cut" Header="切り取り" />
-                                            <MenuItem Command="Copy" Header="コピー" />
-                                            <MenuItem Command="Paste" Header="貼り付け" />
-                                        </ContextMenu>
-                                    </RichTextBox.ContextMenu>
-                                </RichTextBox>
+                                        <!-- ContextMenu はそのまま維持 -->
+                                        <RichTextBox.ContextMenu>
+                                            <ContextMenu>
+                                                <!-- (中身は省略) -->
+                                                <MenuItem Command="Cut" Header="切り取り" />
+                                                <MenuItem Command="Copy" Header="コピー" />
+                                                <MenuItem Command="Paste" Header="貼り付け" />
+                                            </ContextMenu>
+                                        </RichTextBox.ContextMenu>
+                                    </RichTextBox>
+                                </Grid>
                             </ad:LayoutDocument>
+
                         </ad:LayoutDocumentPane>
 
-                        <ad:LayoutAnchorablePane DockWidth="320">
+                        <!-- 右側：サイドパネル（上下2分割） -->
+                        <ad:LayoutAnchorablePane DockWidth="350">
                             <ad:LayoutAnchorable x:Name="FormatPane" Title="表記フォーマット" CanHide="True" CanClose="False">
                                 <!-- (既存のListView等のGrid中身) -->
                             </ad:LayoutAnchorable>
-                            <ad:LayoutAnchorable x:Name="TablePane" Title="テーブルデータ" CanHide="True" CanClose="False">
-                                <!-- (既存のTextBlock等の中身) -->
+                            <ad:LayoutAnchorable x:Name="RamDataPane" Title="RAMデータ管理" CanClose="False">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2*" />
+                                        <!-- 上：一覧 -->
+                                        <RowDefinition Height="Auto" />
+                                        <!-- 境界線 -->
+                                        <RowDefinition Height="1*" />
+                                        <!-- 下：詳細 -->
+                                    </Grid.RowDefinitions>
+
+                                    <!-- 上側：RAMデータ一覧 (DataGrid) -->
+                                    <GroupBox Header="データ一覧" Grid.Row="0" Margin="5">
+                                        <DataGrid x:Name="RamDataList" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="行" Binding="{Binding Row}" Width="40"/>
+                                                <DataGridTextColumn Header="桁" Binding="{Binding Column}" Width="40"/>
+                                                <DataGridTextColumn Header="アドレス" Binding="{Binding Address}" Width="*"/>
+                                                <DataGridTextColumn Header="形式" Binding="{Binding Format}" Width="60"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </GroupBox>
+
+                                    <!-- 分割用スプリッター（ユーザーがサイズ調整可能） -->
+                                    <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" Background="#DDD"/>
+
+                                    <!-- 下側：選択データの詳細 (表示専用) -->
+                                    <GroupBox Header="詳細情報" Grid.Row="2" Margin="5">
+                                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                            <StackPanel Margin="5">
+                                                <DockPanel Margin="0,2">
+                                                    <TextBlock Text="アドレス:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock x:Name="DetailAddress" Text="---"/>
+                                                </DockPanel>
+                                                <DockPanel Margin="0,2">
+                                                    <TextBlock Text="表示形式:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock x:Name="DetailFormat" Text="---"/>
+                                                </DockPanel>
+                                                <DockPanel Margin="0,2">
+                                                    <TextBlock Text="占有桁数:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock x:Name="DetailLength" Text="0"/>
+                                                </DockPanel>
+                                                <!-- 必要に応じて項目を追加 -->
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </GroupBox>
+                                </Grid>
                             </ad:LayoutAnchorable>
                         </ad:LayoutAnchorablePane>
                     </ad:LayoutPanel>

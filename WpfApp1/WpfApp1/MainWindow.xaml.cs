@@ -90,10 +90,10 @@ namespace WpfApp1
         // 「テーブルデータ パネル」を表示する
         private void ShowTablePane_Click(object sender, RoutedEventArgs e)
         {
-            if (TablePane != null)
+            if (RamDataPane != null)
             {
-                TablePane.IsVisible = true;
-                TablePane.IsVisible = true;
+                RamDataPane.IsVisible = true;
+                RamDataPane.IsVisible = true;
                 //TablePane.Show();
             }
         }
