@@ -6,7 +6,7 @@
         xmlns:ad="https://github.com/Dirkster99/AvalonDock"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="画面ファイルエディタ" Height="600" Width="1000">
+        Title="画面ファイルエディタ" Height="600" Width="1300">
 
         <Window.InputBindings>
             <KeyBinding Key="B" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="0" />
@@ -55,8 +55,69 @@
             <ad:DockingManager.Layout>
                 <ad:LayoutRoot>
                     <ad:LayoutPanel Orientation="Horizontal">
+                        <!-- 左側：サイドパネル（上下2分割） -->
+                        <ad:LayoutAnchorablePane DockWidth="350">
+                            <ad:LayoutAnchorable x:Name="RamDataPane" Title="RAMデータ管理" ContentId="RamDataPane" CanClose="False">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <!-- シート選択 -->
+                                        <RowDefinition Height="2*" />
+                                        <!-- 上：一覧 -->
+                                        <RowDefinition Height="Auto" />
+                                        <!-- 境界線 -->
+                                        <RowDefinition Height="1*" />
+                                        <!-- 下：詳細 -->
+                                    </Grid.RowDefinitions>
+
+                                    <!-- シート選択 (ComboBox) -->
+                                    <StackPanel Grid.Row="0" Margin="5" Orientation="Horizontal">
+                                        <TextBlock Text="対象シート:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                        <!-- ViewModelのSheetNamesプロパティと、選択中のSelectedSheetをバインド想定 -->
+                                        <ComboBox x:Name="SheetSelector" Width="150" ItemsSource="{Binding SheetNames}" SelectedItem="{Binding SelectedSheet}"/>
+                                    </StackPanel>
+                                    <!-- 上側：RAMデータ一覧 (DataGrid) -->
+                                    <GroupBox Header="データ一覧" Grid.Row="1" Margin="5">
+                                        <DataGrid x:Name="RamDataList" ItemsSource="{Binding SelectedSheetData}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="行" Binding="{Binding Row}" Width="40"/>
+                                                <DataGridTextColumn Header="桁" Binding="{Binding Column}" Width="40"/>
+                                                <DataGridTextColumn Header="アドレス" Binding="{Binding Address}" Width="*"/>
+                                                <DataGridTextColumn Header="形式" Binding="{Binding Format}" Width="60"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </GroupBox>
+
+                                    <!-- 分割用スプリッター（ユーザーがサイズ調整可能） -->
+                                    <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" Background="#DDD"/>
+
+                                    <!-- 下側：選択データの詳細 (表示専用) -->
+                                    <GroupBox Header="詳細情報" Grid.Row="3" Margin="5">
+                                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                            <StackPanel Margin="5">
+                                                <DockPanel Margin="0,2">
+                                                    <TextBlock Text="アドレス:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock x:Name="DetailAddress" Text="---"/>
+                                                </DockPanel>
+                                                <DockPanel Margin="0,2">
+                                                    <TextBlock Text="表示形式:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock x:Name="DetailFormat" Text="---"/>
+                                                </DockPanel>
+                                                <DockPanel Margin="0,2">
+                                                    <TextBlock Text="占有桁数:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock x:Name="DetailLength" Text="0"/>
+                                                </DockPanel>
+                                                <!-- 必要に応じて項目を追加 -->
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </GroupBox>
+                                </Grid>
+                            </ad:LayoutAnchorable>
+                        </ad:LayoutAnchorablePane>
+
+                        <!-- 中央：エディタ領域 -->
                         <ad:LayoutDocumentPane>
-                            <ad:LayoutDocument Title="エディタ" CanClose="False" CanFloat="False">
+                            <ad:LayoutDocument Title="エディタ" ContentId="Editor" CanClose="False" CanFloat="False">
                                 <!-- Gridで重ね合わせを実現 -->
                                 <Grid>
                                     <!-- 背面：ハイライト表示用 (IsHitTestVisible=Falseで操作を無効化) -->
@@ -114,63 +175,51 @@
 
                         <!-- 右側：サイドパネル（上下2分割） -->
                         <ad:LayoutAnchorablePane DockWidth="350">
-                            <ad:LayoutAnchorable x:Name="FormatPane" Title="表記フォーマット" CanHide="True" CanClose="False">
-                                <!-- (既存のListView等のGrid中身) -->
-                            </ad:LayoutAnchorable>
-                            <ad:LayoutAnchorable x:Name="RamDataPane" Title="RAMデータ管理" CanClose="False">
+                            <ad:LayoutAnchorable x:Name="FormatPane" Title="表記フォーマット" ContentId="FormatPane" CanHide="True" CanClose="False">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" /> <!-- シート選択 -->
-                                        <RowDefinition Height="2*" />   <!-- 上：一覧 -->
+                                        <RowDefinition Height="4*" />   <!-- 上：一覧 -->
                                         <RowDefinition Height="Auto" /> <!-- 境界線 -->
                                         <RowDefinition Height="1*" />   <!-- 下：詳細 -->
                                     </Grid.RowDefinitions>
 
-                                    <!-- シート選択 (ComboBox) -->
-                                    <StackPanel Grid.Row="0" Margin="5" Orientation="Horizontal">
-                                        <TextBlock Text="対象シート:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                                        <!-- ViewModelのSheetNamesプロパティと、選択中のSelectedSheetをバインド想定 -->
-                                        <ComboBox x:Name="SheetSelector" Width="150" 
-                                                  ItemsSource="{Binding SheetNames}" 
-                                                  SelectedItem="{Binding SelectedSheet}"/>
-                                    </StackPanel>
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
-                                    <GroupBox Header="データ一覧" Grid.Row="1" Margin="5">
-                                        <DataGrid x:Name="RamDataList" ItemsSource="{Binding SelectedSheetData}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                                    <GroupBox Header="データ一覧" Grid.Row="0" Margin="5">
+                                        <DataGrid x:Name="FormatList" ItemsSource="{Binding FormatList}" SelectedItem="{Binding SelectedFormat}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="行" Binding="{Binding Row}" Width="40"/>
-                                                <DataGridTextColumn Header="桁" Binding="{Binding Column}" Width="40"/>
-                                                <DataGridTextColumn Header="アドレス" Binding="{Binding Address}" Width="*"/>
-                                                <DataGridTextColumn Header="形式" Binding="{Binding Format}" Width="60"/>
+                                                <DataGridTextColumn Header="id" Binding="{Binding Id}" Width="40"/>
+                                                <DataGridTextColumn Header="code" Binding="{Binding Code}" Width="40"/>
+                                                <DataGridTextColumn Header="placeholder" Binding="{Binding Placeholder}" Width="*"/>
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </GroupBox>
 
                                     <!-- 分割用スプリッター（ユーザーがサイズ調整可能） -->
-                                    <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" Background="#DDD"/>
+                                    <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" Background="#DDD"/>
 
                                     <!-- 下側：選択データの詳細 (表示専用) -->
-                                    <GroupBox Header="詳細情報" Grid.Row="3" Margin="5">
+                                    <GroupBox Header="詳細情報" Grid.Row="2" Margin="5">
                                         <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                            <StackPanel Margin="5">
-                                                <DockPanel Margin="0,2">
-                                                    <TextBlock Text="アドレス:" Width="80" FontWeight="Bold"/>
-                                                    <TextBlock x:Name="DetailAddress" Text="---"/>
-                                                </DockPanel>
-                                                <DockPanel Margin="0,2">
-                                                    <TextBlock Text="表示形式:" Width="80" FontWeight="Bold"/>
-                                                    <TextBlock x:Name="DetailFormat" Text="---"/>
-                                                </DockPanel>
-                                                <DockPanel Margin="0,2">
-                                                    <TextBlock Text="占有桁数:" Width="80" FontWeight="Bold"/>
-                                                    <TextBlock x:Name="DetailLength" Text="0"/>
-                                                </DockPanel>
-                                                <!-- 必要に応じて項目を追加 -->
+                                            <StackPanel Margin="0,5">
+
+                                                <TextBlock FontWeight="Bold">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}{0} ({1}) ： {2}">
+                                                            <Binding Path="SelectedFormat.Id"/>
+                                                            <Binding Path="SelectedFormat.Code"/>
+                                                            <Binding Path="SelectedFormat.Placeholder"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+
+                                                <TextBlock Text="{Binding SelectedFormat.Description}" TextWrapping="Wrap" Margin="0,4,0,0"/>
+
                                             </StackPanel>
                                         </ScrollViewer>
                                     </GroupBox>
                                 </Grid>
                             </ad:LayoutAnchorable>
+                            
                         </ad:LayoutAnchorablePane>
                     </ad:LayoutPanel>
                 </ad:LayoutRoot>

@@ -1,4 +1,5 @@
-﻿using ExcelDataReader;
+﻿using ClosedXML.Excel;
+using ExcelDataReader;
 using System.Data;
 using System.IO;
 using WpfApp1.Models;
@@ -68,6 +69,27 @@ namespace WpfApp1.Services
             }
 
             return result;
+        }
+
+        public static List<FormatData> LoadFormats(string path)
+        {
+            var list = new List<FormatData>();
+
+            using var wb = new XLWorkbook(path);
+            var ws = wb.Worksheet("表記フォーマット");
+
+            foreach (var row in ws.RowsUsed().Skip(1))
+            {
+                list.Add(new FormatData
+                {
+                    Id = row.Cell("A").GetString(),
+                    Code = row.Cell("B").GetString(),
+                    Placeholder = row.Cell("C").GetString(),
+                    Description = row.Cell("D").GetString()
+                });
+            }
+
+            return list;
         }
     }
 }
