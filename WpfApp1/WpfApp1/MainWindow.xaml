@@ -6,7 +6,7 @@
         xmlns:ad="https://github.com/Dirkster99/AvalonDock"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="画面ファイルエディタ" Height="600" Width="1300" Loaded="Window_Loaded">
+        Title="画面ファイルエディタ" Height="800" Width="1600" Loaded="Window_Loaded">
 
         <Window.InputBindings>
             <KeyBinding Key="B" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="0" />
@@ -90,19 +90,29 @@
                                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                                             <StackPanel Margin="5">
                                                 <DockPanel Margin="0,2">
+                                                    <TextBlock Text="データ:" Width="80" FontWeight="Bold"/>
+                                                    <!-- RamCatalogから直接取得 -->
+                                                    <TextBlock Text="{Binding SelectedRamCatalog.Data}" />
+                                                </DockPanel>
+                                                <DockPanel Margin="0,2">
+                                                    <TextBlock Text="シンボル:" Width="80" FontWeight="Bold"/>
+                                                    <!-- RamCatalogから直接取得 -->
+                                                    <TextBlock Text="{Binding SelectedRamCatalog.Symbol}" />
+                                                </DockPanel>
+                                                <DockPanel Margin="0,2">
                                                     <TextBlock Text="アドレス:" Width="80" FontWeight="Bold"/>
                                                     <!-- RamCatalogから直接取得 -->
                                                     <TextBlock Text="{Binding SelectedRamCatalog.Address}" />
                                                 </DockPanel>
                                                 <DockPanel Margin="0,2">
-                                                    <TextBlock Text="表示形式:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock Text="単位:" Width="80" FontWeight="Bold"/>
                                                     <!-- リンク先のマスターデータ(FormatData)から取得 -->
-                                                    <TextBlock Text="{Binding SelectedFormatDetail.Id}" />
+                                                    <TextBlock Text="{Binding SelectedRamCatalog.Unit}" />
                                                 </DockPanel>
                                                 <DockPanel Margin="0,2">
-                                                    <TextBlock Text="占有桁数:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock Text="LSB:" Width="80" FontWeight="Bold"/>
                                                     <!-- リンク先のマスターデータ(FormatData)から取得 -->
-                                                    <TextBlock Text="{Binding SelectedFormatDetail.Length}" />
+                                                    <TextBlock Text="{Binding SelectedRamCatalog.LSB}" />
                                                 </DockPanel>
                                                 <DockPanel Margin="0,2">
                                                     <TextBlock Text="説明:" Width="80" FontWeight="Bold"/>
