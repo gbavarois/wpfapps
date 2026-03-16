@@ -10,9 +10,8 @@ namespace WpfApp1.Models
     {
         public int Row { get; set; }
         public int Column { get; set; }
-
+        public string Data { get; set; }
         public string Address { get; set; }
-
         public string Format { get; set; }
     }
 }

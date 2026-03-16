@@ -57,33 +57,27 @@
                     <ad:LayoutPanel Orientation="Horizontal">
                         <!-- 左側：サイドパネル（上下2分割） -->
                         <ad:LayoutAnchorablePane DockWidth="350">
-                            <ad:LayoutAnchorable x:Name="RamDataPane" Title="RAMデータ管理" ContentId="RamDataPane" CanClose="False">
+                            <ad:LayoutAnchorable x:Name="RamCatalogPane" Title="RAMデータ一覧" ContentId="RamCatalogPane" CanClose="False">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <!-- シート選択 -->
-                                        <RowDefinition Height="2*" />
-                                        <!-- 上：一覧 -->
-                                        <RowDefinition Height="Auto" />
-                                        <!-- 境界線 -->
-                                        <RowDefinition Height="1*" />
-                                        <!-- 下：詳細 -->
+                                        <RowDefinition Height="Auto" /> <!-- シート選択 -->
+                                        <RowDefinition Height="2*" />   <!-- 上：一覧 -->
+                                        <RowDefinition Height="Auto" /> <!-- 境界線 -->
+                                        <RowDefinition Height="1*" />   <!-- 下：詳細 -->
                                     </Grid.RowDefinitions>
 
                                     <!-- シート選択 (ComboBox) -->
                                     <StackPanel Grid.Row="0" Margin="5" Orientation="Horizontal">
-                                        <TextBlock Text="対象シート:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                        <TextBlock Text="ページ:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                                         <!-- ViewModelのSheetNamesプロパティと、選択中のSelectedSheetをバインド想定 -->
                                         <ComboBox x:Name="SheetSelector" Width="150" ItemsSource="{Binding SheetNames}" SelectedItem="{Binding SelectedSheet}"/>
                                     </StackPanel>
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
-                                    <GroupBox Header="データ一覧" Grid.Row="1" Margin="5">
-                                        <DataGrid x:Name="RamDataList" ItemsSource="{Binding SelectedSheetData}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                                    <GroupBox Header="RAMデータテーブル" Grid.Row="1" Margin="5">
+                                        <DataGrid x:Name="RamCatalogList" ItemsSource="{Binding SelectedSheetData}" SelectedItem="{Binding SelectedRamCatalog}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="行" Binding="{Binding Row}" Width="40"/>
-                                                <DataGridTextColumn Header="桁" Binding="{Binding Column}" Width="40"/>
-                                                <DataGridTextColumn Header="アドレス" Binding="{Binding Address}" Width="*"/>
-                                                <DataGridTextColumn Header="形式" Binding="{Binding Format}" Width="60"/>
+                                                <DataGridTextColumn Header="データ" Binding="{Binding Data}" Width="120"/>
+                                                <DataGridTextColumn Header="シンボル" Binding="{Binding Symbol}" Width="*"/>
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </GroupBox>
@@ -97,17 +91,59 @@
                                             <StackPanel Margin="5">
                                                 <DockPanel Margin="0,2">
                                                     <TextBlock Text="アドレス:" Width="80" FontWeight="Bold"/>
-                                                    <TextBlock x:Name="DetailAddress" Text="---"/>
+                                                    <!-- RamCatalogから直接取得 -->
+                                                    <TextBlock Text="{Binding SelectedRamCatalog.Address}" />
                                                 </DockPanel>
                                                 <DockPanel Margin="0,2">
                                                     <TextBlock Text="表示形式:" Width="80" FontWeight="Bold"/>
-                                                    <TextBlock x:Name="DetailFormat" Text="---"/>
+                                                    <!-- リンク先のマスターデータ(FormatData)から取得 -->
+                                                    <TextBlock Text="{Binding SelectedFormatDetail.Id}" />
                                                 </DockPanel>
                                                 <DockPanel Margin="0,2">
                                                     <TextBlock Text="占有桁数:" Width="80" FontWeight="Bold"/>
-                                                    <TextBlock x:Name="DetailLength" Text="0"/>
+                                                    <!-- リンク先のマスターデータ(FormatData)から取得 -->
+                                                    <TextBlock Text="{Binding SelectedFormatDetail.Length}" />
                                                 </DockPanel>
-                                                <!-- 必要に応じて項目を追加 -->
+                                                <DockPanel Margin="0,2">
+                                                    <TextBlock Text="説明:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock Text="{Binding SelectedRamCatalog.Note}" TextWrapping="Wrap"/>
+                                                </DockPanel>
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </GroupBox>
+                                </Grid>
+                            </ad:LayoutAnchorable>
+                            <ad:LayoutAnchorable x:Name="FormatPane" Title="表記フォーマット" ContentId="FormatPane" CanHide="True" CanClose="False">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="4*" />
+                                        <!-- 上：一覧 -->
+                                        <RowDefinition Height="Auto" />
+                                        <!-- 境界線 -->
+                                        <RowDefinition Height="1*" />
+                                        <!-- 下：詳細 -->
+                                    </Grid.RowDefinitions>
+
+                                    <!-- 上側：RAMデータ一覧 (DataGrid) -->
+                                    <GroupBox Header="データ一覧" Grid.Row="0" Margin="5">
+                                        <DataGrid x:Name="FormatList" ItemsSource="{Binding FormatList}" SelectedItem="{Binding SelectedFormat}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="id" Binding="{Binding Id}" Width="120"/>
+                                                <DataGridTextColumn Header="code" Binding="{Binding Code}" Width="40"/>
+                                                <DataGridTextColumn Header="length" Binding="{Binding Length}" Width="40"/>
+                                                <DataGridTextColumn Header="placeholder" Binding="{Binding Placeholder}" Width="*"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </GroupBox>
+
+                                    <!-- 分割用スプリッター（ユーザーがサイズ調整可能） -->
+                                    <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" Background="#DDD"/>
+
+                                    <!-- 下側：選択データの詳細 (表示専用) -->
+                                    <GroupBox Header="詳細情報" Grid.Row="2" Margin="5">
+                                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                            <StackPanel Margin="0,5">
+                                                <TextBlock Text="{Binding SelectedFormat.Description}" TextWrapping="Wrap" Margin="0,4,0,0"/>
                                             </StackPanel>
                                         </ScrollViewer>
                                     </GroupBox>
@@ -175,7 +211,7 @@
 
                         <!-- 右側：サイドパネル（上下2分割） -->
                         <ad:LayoutAnchorablePane DockWidth="350">
-                            <ad:LayoutAnchorable x:Name="FormatPane" Title="表記フォーマット" ContentId="FormatPane" CanHide="True" CanClose="False">
+                            <ad:LayoutAnchorable x:Name="RamDatePane" Title="RAMデータ" ContentId="RamDataPane" CanHide="True" CanClose="False">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="4*" />   <!-- 上：一覧 -->
@@ -185,11 +221,11 @@
 
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
                                     <GroupBox Header="データ一覧" Grid.Row="0" Margin="5">
-                                        <DataGrid x:Name="FormatList" ItemsSource="{Binding FormatList}" SelectedItem="{Binding SelectedFormat}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                                        <DataGrid x:Name="RamDataList" ItemsSource="{Binding RamdataList}" SelectedItem="{Binding SelectedRamdata}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="id" Binding="{Binding Id}" Width="40"/>
-                                                <DataGridTextColumn Header="code" Binding="{Binding Code}" Width="40"/>
-                                                <DataGridTextColumn Header="placeholder" Binding="{Binding Placeholder}" Width="*"/>
+                                                <DataGridTextColumn Header="行" Binding="{Binding Row}" Width="40"/>
+                                                <DataGridTextColumn Header="桁" Binding="{Binding Column}" Width="40"/>
+                                                <DataGridTextColumn Header="データ" Binding="{Binding Data}" Width="*"/>
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </GroupBox>
@@ -201,19 +237,7 @@
                                     <GroupBox Header="詳細情報" Grid.Row="2" Margin="5">
                                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                                             <StackPanel Margin="0,5">
-
-                                                <TextBlock FontWeight="Bold">
-                                                    <TextBlock.Text>
-                                                        <MultiBinding StringFormat="{}{0} ({1}) ： {2}">
-                                                            <Binding Path="SelectedFormat.Id"/>
-                                                            <Binding Path="SelectedFormat.Code"/>
-                                                            <Binding Path="SelectedFormat.Placeholder"/>
-                                                        </MultiBinding>
-                                                    </TextBlock.Text>
-                                                </TextBlock>
-
                                                 <TextBlock Text="{Binding SelectedFormat.Description}" TextWrapping="Wrap" Margin="0,4,0,0"/>
-
                                             </StackPanel>
                                         </ScrollViewer>
                                     </GroupBox>

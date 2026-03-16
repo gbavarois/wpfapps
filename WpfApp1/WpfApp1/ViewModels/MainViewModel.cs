@@ -14,6 +14,59 @@ namespace WpfApp1.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        Dictionary<string, List<RamCatalog>> allSheets = new();
+        public ObservableCollection<string> SheetNames { get; } = new();
+        public ObservableCollection<RamCatalog> SelectedSheetData { get; } = new();
+        
+        private string _selectedSheet;
+
+        public string SelectedSheet
+        {
+            get => _selectedSheet;
+            set
+            {
+                _selectedSheet = value;
+                OnPropertyChanged();
+                UpdateSheet();
+            }
+        }
+
+        private RamCatalog _selectedRamCatalog; // 型を RamCatalog に修正
+        public RamCatalog SelectedRamCatalog
+        {
+            get => _selectedRamCatalog;
+            set
+            {
+                _selectedRamCatalog = value;
+                OnPropertyChanged();
+                // 選択されたデータの Format をキーに、マスターから検索して更新
+                UpdateSelectedFormatDetail();
+            }
+        }
+
+        private FormatData _selectedFormatDetail;
+        public FormatData SelectedFormatDetail
+        {
+            get => _selectedFormatDetail;
+            set
+            {
+                _selectedFormatDetail = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private void UpdateSelectedFormatDetail()
+        {
+            if (_selectedRamCatalog == null || string.IsNullOrEmpty(_selectedRamCatalog.Format))
+            {
+                SelectedFormatDetail = null;
+                return;
+            }
+
+            // FormatList(マスター)の中から、Idが一致するものを探す
+            SelectedFormatDetail = FormatList.FirstOrDefault(f => f.Id == _selectedRamCatalog.Format);
+        }
+
         private FormatData _selectedFormat;
         public ObservableCollection<FormatData> FormatList { get; } = new();
         public FormatData SelectedFormat
@@ -26,23 +79,13 @@ namespace WpfApp1.ViewModels
             }
         }
 
-        public ObservableCollection<string> SheetNames { get; } = new();
-        public ObservableCollection<RamData> SelectedSheetData { get; } = new();
-        
-        public RamData SelectedRam { get; set; }
-
-        Dictionary<string, List<RamData>> allSheets = new();
-
-        string selectedSheet;
-
-        public string SelectedSheet
-        {
-            get => selectedSheet;
-            set
-            {
-                selectedSheet = value;
+        private RamData _selectedRamdata;
+        public ObservableCollection<RamData> RamdataList { get; } = new();
+        public RamData SelectedRamdata { 
+            get => _selectedRamdata; 
+            set{
+                _selectedRamdata = value;
                 OnPropertyChanged();
-                UpdateSheet();
             }
         }
 
@@ -50,9 +93,9 @@ namespace WpfApp1.ViewModels
         {
             SelectedSheetData.Clear();
 
-            if (selectedSheet == null) return;
+            if (_selectedSheet == null) return;
 
-            foreach (var d in allSheets[selectedSheet])
+            foreach (var d in allSheets[_selectedSheet])
                 SelectedSheetData.Add(d);
         }
 
