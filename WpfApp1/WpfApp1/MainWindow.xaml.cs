@@ -195,45 +195,180 @@ namespace WpfApp1
         // --- リッチテキストボックスのカーソル位置計算 ---
         private void MainEditor_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            // カーソルの現在位置を取得
             TextPointer caretPos = MainEditor.CaretPosition;
+            if (caretPos == null) return;
 
-            // 行（Line）の計算
+            // 1. 行（Line）の計算
             int lineCount = 0;
-            // 現在の行の先頭位置を取得
-            TextPointer lineStart = caretPos.GetLineStartPosition(0);
+            TextPointer currentLineStart = caretPos.GetLineStartPosition(0);
 
-            // ドキュメントの最初から、現在の行まで何回改行があるかカウント
-            TextPointer temp = lineStart;
-            while (temp != null && temp.CompareTo(MainEditor.Document.ContentStart) > 0)
+            if (currentLineStart != null)
             {
-                // 1行上に移動を試みる
-                TextPointer prevLine = temp.GetLineStartPosition(-1);
-                if (prevLine != null && prevLine.CompareTo(temp) < 0)
+                TextPointer runner = currentLineStart;
+                while (true)
                 {
-                    temp = prevLine;
-                    lineCount++;
-                }
-                else
-                {
-                    break;
+                    // 1行上の先頭を取得（-1を指定）
+                    TextPointer previousLineStart = runner.GetLineStartPosition(-1);
+
+                    // 上の行が存在し、かつ今の行より前にある場合のみカウントアップ
+                    if (previousLineStart != null && previousLineStart.CompareTo(runner) < 0)
+                    {
+                        lineCount++;
+                        runner = previousLineStart;
+                    }
+                    else
+                    {
+                        // これ以上上の行がない（ドキュメントの先頭）
+                        break;
+                    }
                 }
             }
 
-            // 文字（列）の計算：行の先頭からカーソル位置までの文字数
+            // 2. 桁（Column）の計算（全角2、半角1でカウント）
             int columnCount = 0;
-            if (lineStart != null)
+            if (currentLineStart != null)
             {
-                columnCount = lineStart.GetOffsetToPosition(caretPos) - 1;
+                // 現在の行の先頭からカーソルまでのテキストを取得
+                string textAtLine = new TextRange(currentLineStart, caretPos).Text;
+
+                // 改行コードを除去してカウント
+                foreach (char c in textAtLine)
+                {
+                    if (c == '\r' || c == '\n') continue;
+                    columnCount += GetWidth(c);
+                }
             }
 
-            // ステータスバーのテキストを更新（行、文字ともに0から開始）
             if (StatusLineColumn != null)
             {
-                StatusLineColumn.Text = $"行:{lineCount}, 文字:{columnCount}";
+                StatusLineColumn.Text = $"行:{lineCount}, 桁:{columnCount}";
             }
         }
 
-       
+        private string _lastText = string.Empty;
+
+        private void MainEditor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // 現在のテキストを取得（タグを除いた純粋な文字）
+            string currentText = new TextRange(MainEditor.Document.ContentStart, MainEditor.Document.ContentEnd).Text;
+
+            // 文字の中身が変わっていない（色指定などの書式変更だけ）なら何もしない
+            if (currentText == _lastText) return;
+
+            // 文字が変わった（入力された）場合は、即座に背景を更新
+            _lastText = currentText;
+            //UpdateHighlight();
+        }
+
+        private void UpdateHighlight()
+        {
+            // 1. TextPointerを使って「純粋なテキスト」を正確に取得
+            var start = MainEditor.Document.ContentStart;
+            var end = MainEditor.Document.ContentEnd;
+            string text = new TextRange(start, end).Text.Replace("\r\n", "\n");
+
+            HighlightParagraph.Inlines.Clear();
+
+            // 2. 表示を一致させるために「行の高さ」と「フォント」を強制
+            double lineHeight = 14.0; // XAMLと合わせる
+            HighlightParagraph.LineHeight = lineHeight;
+
+            foreach (var line in text.Split('\n'))
+            {
+                if (string.IsNullOrEmpty(line))
+                {
+                    // 空行も1行としてカウント（これがないと行が詰まる）
+                    HighlightParagraph.Inlines.Add(new LineBreak());
+                    continue;
+                }
+
+                foreach (char c in line)
+                {
+                    int width = GetWidth(c);
+
+                    // 3. 半角スペースで背景を塗る（特定のRAM位置なら色を変える条件分岐をここに入れる）
+                    Run r = new Run(new string(' ', width));
+                    r.Background = Brushes.Black;
+                    HighlightParagraph.Inlines.Add(r);
+                }
+                HighlightParagraph.Inlines.Add(new LineBreak());
+            }
+        }
+
+        private int GetWidth(char c)
+        {
+            // 半角カタカナの範囲 (U+FF61 ～ U+FF9F) は幅1として扱う
+            if (c >= '\uFF61' && c <= '\uFF9F')
+            {
+                return 1;
+            }
+
+            // それ以外の 0xFF より大きい文字（漢字・ひらがな等）は幅2
+            return c > 0xFF ? 2 : 1;
+        }
+
+        public void InitializeHugeGuideline()
+        {
+            const int maxRows = 300;
+            const int maxCols = 600;
+
+            // 1. 背面ドキュメントをクリア
+            HighlightEditor.Document.Blocks.Clear();
+
+            // 2. 段落の作成（余白と行間を固定）
+            Paragraph p = new Paragraph
+            {
+                Margin = new Thickness(0),
+                LineHeight = 14, // 前面のFontSizeに合わせて調整
+                TextAlignment = TextAlignment.Left
+            };
+
+            // 3. 1行分の「黒背景の半角スペース」を生成
+            // 毎回new stringすると重いので、共通の文字列を作成
+            string rowText = new string(' ', maxCols);
+
+            for (int i = 0; i < maxRows; i++)
+            {
+                Run r = new Run(rowText)
+                {
+                    Background = Brushes.Black,
+                    Foreground = Brushes.Transparent // 文字（スペース）は見えなくて良い
+                };
+                p.Inlines.Add(r);
+
+                // 改行を入れる（これが重要）
+                p.Inlines.Add(new LineBreak());
+            }
+
+            HighlightEditor.Document.Blocks.Add(p);
+
+            // 4. 折り返し防止のため、ドキュメント幅を十分大きく設定
+            // 600桁 * 1文字あたりの幅(約8~10px) + 余裕
+            HighlightEditor.Document.PageWidth = (maxCols * 12) + 200;
+            MainEditor.Document.PageWidth = HighlightEditor.Document.PageWidth;
+        }
+
+
+        private void SetValidationMode(bool isEnabled)
+        {
+            if (isEnabled)
+            {
+                // 検証モード：前面を半透明にして、背面の黒との重なりを見せる
+                MainEditor.Opacity = 0.6;
+                MainEditor.Background = new SolidColorBrush(Color.FromArgb(50, 0, 0, 255)); // 薄い青
+            }
+            else
+            {
+                // 通常モード：前面を完全に透過させ、入力に集中させる
+                MainEditor.Opacity = 1.0;
+                MainEditor.Background = Brushes.Transparent;
+            }
+        }
+
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            InitializeHugeGuideline();
+        }
     }
 }

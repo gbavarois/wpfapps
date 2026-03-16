@@ -6,7 +6,7 @@
         xmlns:ad="https://github.com/Dirkster99/AvalonDock"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="画面ファイルエディタ" Height="600" Width="1300">
+        Title="画面ファイルエディタ" Height="600" Width="1300" Loaded="Window_Loaded">
 
         <Window.InputBindings>
             <KeyBinding Key="B" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="0" />
@@ -158,31 +158,38 @@
                                 <Grid>
                                     <!-- 背面：ハイライト表示用 (IsHitTestVisible=Falseで操作を無効化) -->
                                     <RichTextBox x:Name="HighlightEditor"
+                                         TextOptions.TextFormattingMode="Display"
                                          FontFamily="MS Gothic"
                                          FontSize="14"
                                          Block.LineHeight="1"
-                                         Padding="5"
+                                         Padding="0"
                                          BorderThickness="0"
-                                         Background="#2D2D2D" 
+                                         Background="Black" 
                                          IsHitTestVisible="False"
                                          VerticalScrollBarVisibility="Hidden"
                                          HorizontalScrollBarVisibility="Hidden">
-                                        <FlowDocument>
+                                        <RichTextBox.Resources>
+                                            <Style TargetType="{x:Type Paragraph}">
+                                                <Setter Property="Margin" Value="0"/>
+                                                <Setter Property="LineHeight" Value="14"/>
+                                            </Style>
+                                        </RichTextBox.Resources>
+                                        <FlowDocument PageWidth="10000">
                                             <Paragraph x:Name="HighlightParagraph"/>
                                         </FlowDocument>
                                     </RichTextBox>
 
                                     <!-- 前面：文字入力用 (背景を透過) -->
                                     <RichTextBox x:Name="MainEditor"
+                                         TextOptions.TextFormattingMode="Display"
                                          FontFamily="MS Gothic"
                                          FontSize="14"
                                          Block.LineHeight="1"
-                                         Padding="5"
+                                         Padding="0"
                                          AcceptsTab="True"
                                          AcceptsReturn="True"
                                          VerticalScrollBarVisibility="Auto"
                                          HorizontalScrollBarVisibility="Auto" 
-                                         Background="Transparent" 
                                          Foreground="#00FF00"
                                          CaretBrush="White"
                      
@@ -193,11 +200,36 @@
                                          PreviewMouseMove="MainEditor_PreviewMouseMove"
                                          PreviewMouseLeftButtonUp="MainEditor_PreviewMouseLeftButtonUp"
                      
-                                         SelectionChanged="MainEditor_SelectionChanged">
-                                        <!-- ContextMenu はそのまま維持 -->
+                                         SelectionChanged="MainEditor_SelectionChanged"
+                                         TextChanged="MainEditor_TextChanged" Background="Black">
+                                        <RichTextBox.Resources>
+                                            <Style TargetType="{x:Type Paragraph}">
+                                                <Setter Property="Margin" Value="0"/>
+                                                <Setter Property="LineHeight" Value="14"/>
+                                            </Style>
+                                        </RichTextBox.Resources>
+                                        <FlowDocument PageWidth="10000">
+                                            <Paragraph x:Name="MainEditorParagraph"/>
+                                        </FlowDocument>
                                         <RichTextBox.ContextMenu>
                                             <ContextMenu>
-                                                <!-- (中身は省略) -->
+                                                <MenuItem Header="色">
+                                                    <!-- 指定の10色をネストして配置 -->
+                                                    <MenuItem Header="1:青"   Click="SetColor_Click" Tag="#4040FF" InputGestureText="Ctrl+Shift+1" Foreground="#4040FF"/>
+                                                    <MenuItem Header="2:赤"   Click="SetColor_Click" Tag="#FF4040" InputGestureText="Ctrl+Shift+2" Foreground="#FF4040"/>
+                                                    <MenuItem Header="3:紫"   Click="SetColor_Click" Tag="#FF00FF" InputGestureText="Ctrl+Shift+3" Foreground="#FF00FF"/>
+                                                    <MenuItem Header="4:緑"   Click="SetColor_Click" Tag="#00FF00" InputGestureText="Ctrl+Shift+4" Foreground="#00FF00"/>
+                                                    <MenuItem Header="6:黄"   Click="SetColor_Click" Tag="#FFFF00" InputGestureText="Ctrl+Shift+5" Foreground="#FFFF00"/>
+                                                    <MenuItem Header="5:水色" Click="SetColor_Click" Tag="#00FFFF" InputGestureText="Ctrl+Shift+6" Foreground="#00FFFF"/>
+                                                    <MenuItem Header="7:白"   Click="SetColor_Click" Tag="#FFFFFF" InputGestureText="Ctrl+Shift+7" Foreground="White" Background="Gray"/>
+                                                    <MenuItem Header="8:橙"   Click="SetColor_Click" Tag="#FF8000" InputGestureText="Ctrl+Shift+8" Foreground="#FF8000"/>
+                                                    <MenuItem Header="9:黄緑" Click="SetColor_Click" Tag="#80FF00" InputGestureText="Ctrl+Shift+9" Foreground="#80FF00"/>
+                                                    <MenuItem Header="0:黒"   Click="SetColor_Click" Tag="#000000" InputGestureText="Ctrl+Shift+B" Foreground="Gray"/>
+                                                </MenuItem>
+
+                                                <Separator />
+                                                <!-- 区切り線 -->
+
                                                 <MenuItem Command="Cut" Header="切り取り" />
                                                 <MenuItem Command="Copy" Header="コピー" />
                                                 <MenuItem Command="Paste" Header="貼り付け" />
