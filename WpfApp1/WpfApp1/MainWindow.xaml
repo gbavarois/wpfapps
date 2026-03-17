@@ -8,18 +8,23 @@
         mc:Ignorable="d"
         Title="画面ファイルエディタ" Height="800" Width="1600" Loaded="Window_Loaded">
 
-        <Window.InputBindings>
-            <KeyBinding Key="B" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="0" />
-            <KeyBinding Key="D1" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="1" />
-            <KeyBinding Key="D2" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="2" />
-            <KeyBinding Key="D3" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="3" />
-            <KeyBinding Key="D4" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="4" />
-            <KeyBinding Key="D5" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="5" />
-            <KeyBinding Key="D6" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="6" />
-            <KeyBinding Key="D7" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="7" />
-            <KeyBinding Key="D8" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="8" />
-            <KeyBinding Key="D9" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="9" />
-        </Window.InputBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="B" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="0" />
+        <KeyBinding Key="D1" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="1" />
+        <KeyBinding Key="D2" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="2" />
+        <KeyBinding Key="D3" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="3" />
+        <KeyBinding Key="D4" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="4" />
+        <KeyBinding Key="D5" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="5" />
+        <KeyBinding Key="D6" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="6" />
+        <KeyBinding Key="D7" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="7" />
+        <KeyBinding Key="D8" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="8" />
+        <KeyBinding Key="D9" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="9" />
+    </Window.InputBindings>
+    <Window.Resources>
+        <!-- Window内のすべてのDataGridに適用される -->
+        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#808080" />
+        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+    </Window.Resources>
 
     <Grid>
         <!-- 上：メニューバー、下：DockingManager 本体 -->
@@ -43,7 +48,7 @@
                 <MenuItem Header="RAMデータ読込" Click="LoadRamData_Click"/>
             </MenuItem>
             <MenuItem Header="編集(_E)">
-                <MenuItem Header="RAMを配置" Click="AddRamFromSelectedCatalog_Click"/>
+                <MenuItem Header="RAMデータを配置" Click="AddRamFromSelectedCatalog_Click"/>
             </MenuItem>
             <MenuItem Header="表示(_V)">
                 <!-- 右パネルの各タブを表示／非表示切り替え -->
@@ -81,7 +86,6 @@
                                                 <DataGridTextColumn Header="データ" Binding="{Binding Data}" Width="120"/>
                                                 <DataGridTextColumn Header="シンボル" Binding="{Binding Symbol}" Width="*"/>
                                             </DataGrid.Columns>
-                                            
                                         </DataGrid>
                                     </GroupBox>
 
@@ -195,6 +199,31 @@
                                         <FlowDocument PagePadding="0" PageWidth="10000">
                                             <Paragraph x:Name="MainEditorParagraph"/>
                                         </FlowDocument>
+                                        <RichTextBox.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="色">
+                                                    <!-- 指定の10色をネストして配置 -->
+                                                    <MenuItem Header="1:青"   Click="SetColor_Click" Tag="#4040FF" InputGestureText="Ctrl+Shift+1" Foreground="#4040FF"/>
+                                                    <MenuItem Header="2:赤"   Click="SetColor_Click" Tag="#FF4040" InputGestureText="Ctrl+Shift+2" Foreground="#FF4040"/>
+                                                    <MenuItem Header="3:紫"   Click="SetColor_Click" Tag="#FF00FF" InputGestureText="Ctrl+Shift+3" Foreground="#FF00FF"/>
+                                                    <MenuItem Header="4:緑"   Click="SetColor_Click" Tag="#00FF00" InputGestureText="Ctrl+Shift+4" Foreground="#00FF00"/>
+                                                    <MenuItem Header="6:黄"   Click="SetColor_Click" Tag="#FFFF00" InputGestureText="Ctrl+Shift+5" Foreground="#FFFF00"/>
+                                                    <MenuItem Header="5:水色" Click="SetColor_Click" Tag="#00FFFF" InputGestureText="Ctrl+Shift+6" Foreground="#00FFFF"/>
+                                                    <MenuItem Header="7:白"   Click="SetColor_Click" Tag="#FFFFFF" InputGestureText="Ctrl+Shift+7" Foreground="White" Background="Gray"/>
+                                                    <MenuItem Header="8:橙"   Click="SetColor_Click" Tag="#FF8000" InputGestureText="Ctrl+Shift+8" Foreground="#FF8000"/>
+                                                    <MenuItem Header="9:黄緑" Click="SetColor_Click" Tag="#80FF00" InputGestureText="Ctrl+Shift+9" Foreground="#80FF00"/>
+                                                    <MenuItem Header="0:黒"   Click="SetColor_Click" Tag="#000000" InputGestureText="Ctrl+Shift+B" Foreground="Gray"/>
+                                                </MenuItem>
+                                                <MenuItem Header="RAMデータを配置" Click="AddRamFromSelectedCatalog_Click"/>
+
+                                                <Separator />
+                                                <!-- 区切り線 -->
+
+                                                <MenuItem Command="Cut" Header="切り取り" />
+                                                <MenuItem Command="Copy" Header="コピー" />
+                                                <MenuItem Command="Paste" Header="貼り付け" />
+                                            </ContextMenu>
+                                        </RichTextBox.ContextMenu>
                                     </RichTextBox>
 
                                     <!-- RAM枠表示層（最前面） -->
