@@ -1,0 +1,47 @@
+TWO=xxxx.x PSW_L(O) = xxx.xkPa Tsw  = xxxx.x                         ｼｽ異[xxx-xx] 確定[xxx-xx|xx](xx)   
+TWI=xxxx.x PSW_E(I) = xxx.xkPa Ts_c = xxxx.x                         ﾊﾞｯｸｱｯﾌﾟ[b]  検出[xxx-xx|xx](xx)   
+TCJ=xxxx.x PSW_S(OP)= xxx.xkPa Ts_h = xxxx.x                                      停止[xxx-xx]ｶｳﾝﾄxx    
+TC1=xxxx.x                                                                        ｼｽ停[xxx-xx|xx]       
+TC2=xxxx.x                                                                        再起=xxxx             
+                                                                                  ｼｽ再=xxxx             
+[機種xx][UnitHP:xxxx][水熱交HP:xxxx.x]    流体[x,x,x]                                                   
+停止停止[通常][xxxxx][ｻｰﾓ:x]              ΔPfffff.ff                <ODU info>                         
+Rn   : xxxxxx  Wc:xxx.xx     目標Hz xx.xx 補Lfffff.ff                COMP:x                             
+MaxRn: xxxxxx  Wh:xxx.xx     bPump1 xx.xx 補Efffff.ff                DEF :x                             
+dRn  : xxxxxx  Qn:xxx.xx     bPump2 xx.xx L/mfffff.ff                                                   
+GA   : xxxxxx                        目標流量fffff.ff                                                   
+dTc  : xxxxxx                FLo  Bfffff.ff Cfffff.ff                                                   
+dE   : xxxxxx                α1  Bfffff.ff Cfffff.ff                                                   
+dRn_T:   xxxx                α2  Bfffff.ff Cfffff.ff                                                   
+KeepT:   xxxx                FL   Bfffff.ff Cfffff.ff                                                   
+Ini_T:   xxxx                ├ Minfffff.ff Sys CAPA                                                    
+                             └ Maxfffff.ff  fffff.ff                                                   
+       PMVL1 PMVL2                                                                                      
+目標  XxxxxxXxxxxx                                                                                      
+  実  XxxxxxXxxxxx                                                                                      
+                                                                                        ﾕﾆQc xxxxxxx    
+                                                                                        ｼｽQc xxxxxxx    
+                                                                                        EER     xxxx    
+                                                                                        Vdisp xxxxxx    
+                                                                                                        
+                                                                                                        
+                                   Fc` =xxxxxx Fc =xxxxxx 補c =xxxxxx 能冷[HH.H.M.L][xxxx%]             
+                                   Fh` =xxxxxx Fh =xxxxxx 補h =xxxxxx 能暖[HH.H.M.L][xxxx%]             
+                                   DFx%xxxxxx% FSGr数xxxx 増減[xxxxxx]                                  
+                                                                                                        
+                                                                                       選択ﾓｰﾄﾞ[xxxx]   
+                                                                                       ﾃﾞﾏﾝﾄﾞxx=xxxx%   
+                                                                                           降雪ﾌｧﾝ =b   
+                                                                                           夜間低騒=b   
+                                                                                                        
+                                                                                                        
+                                             SW04x SW101 102  103  104  105  106                        
+                                             SW05x  xxxx xxxx xxxx xxxx xxxx xx                         
+                                             SW06x CN30x  DN03 xx DN82 xx DN** xx DN** xx DN** xx       
+                                                   CN31x  DN** xx DN** xx DN** xx DN** xx DN** xx       
+                                                   CN32x  DN** xx DN** xx DN** xx DN** xx DN** xx       
+                                                   [xx][xx][xx][xxxxx] 室外 室内   ｼｽﾃﾑMax容量 xxxxxx   
+                                              起動後xxxx時xxxx分xxxx秒  xx xx.xxHP ﾕﾆｯﾄMax容量 xxxxxx   
+                                                         s=b I=xx 0=xx   x    xx台       sub-rxErr[xxxx]
+ﾕﾆ電xxxxxxxx ｼｽ電xxxxxxxx 積算xxxxxxxx 積総xxxxxxxx xx                               soft-sub[xxxx-xxxx]
+                                                                                    soft-main[xxxx-xxxx]
