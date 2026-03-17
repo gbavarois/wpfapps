@@ -260,40 +260,7 @@ namespace WpfApp1
             //UpdateHighlight();
         }
 
-        private void UpdateHighlight()
-        {
-            // 1. TextPointerを使って「純粋なテキスト」を正確に取得
-            var start = MainEditor.Document.ContentStart;
-            var end = MainEditor.Document.ContentEnd;
-            string text = new TextRange(start, end).Text.Replace("\r\n", "\n");
-
-            HighlightParagraph.Inlines.Clear();
-
-            // 2. 表示を一致させるために「行の高さ」と「フォント」を強制
-            double lineHeight = 14.0; // XAMLと合わせる
-            HighlightParagraph.LineHeight = lineHeight;
-
-            foreach (var line in text.Split('\n'))
-            {
-                if (string.IsNullOrEmpty(line))
-                {
-                    // 空行も1行としてカウント（これがないと行が詰まる）
-                    HighlightParagraph.Inlines.Add(new LineBreak());
-                    continue;
-                }
-
-                foreach (char c in line)
-                {
-                    int width = GetWidth(c);
-
-                    // 3. 半角スペースで背景を塗る（特定のRAM位置なら色を変える条件分岐をここに入れる）
-                    Run r = new Run(new string(' ', width));
-                    r.Background = Brushes.Black;
-                    HighlightParagraph.Inlines.Add(r);
-                }
-                HighlightParagraph.Inlines.Add(new LineBreak());
-            }
-        }
+        
 
         private int GetWidth(char c)
         {
@@ -307,46 +274,7 @@ namespace WpfApp1
             return c > 0xFF ? 2 : 1;
         }
 
-        public void InitializeHugeGuideline()
-        {
-            const int maxRows = 300;
-            const int maxCols = 600;
-
-            // 1. 背面ドキュメントをクリア
-            HighlightEditor.Document.Blocks.Clear();
-
-            // 2. 段落の作成（余白と行間を固定）
-            Paragraph p = new Paragraph
-            {
-                Margin = new Thickness(0),
-                LineHeight = 14, // 前面のFontSizeに合わせて調整
-                TextAlignment = TextAlignment.Left
-            };
-
-            // 3. 1行分の「黒背景の半角スペース」を生成
-            // 毎回new stringすると重いので、共通の文字列を作成
-            string rowText = new string(' ', maxCols);
-
-            for (int i = 0; i < maxRows; i++)
-            {
-                Run r = new Run(rowText)
-                {
-                    Background = Brushes.Black,
-                    Foreground = Brushes.Transparent // 文字（スペース）は見えなくて良い
-                };
-                p.Inlines.Add(r);
-
-                // 改行を入れる（これが重要）
-                p.Inlines.Add(new LineBreak());
-            }
-
-            HighlightEditor.Document.Blocks.Add(p);
-
-            // 4. 折り返し防止のため、ドキュメント幅を十分大きく設定
-            // 600桁 * 1文字あたりの幅(約8~10px) + 余裕
-            HighlightEditor.Document.PageWidth = (maxCols * 12) + 200;
-            MainEditor.Document.PageWidth = HighlightEditor.Document.PageWidth;
-        }
+        
 
 
         private void SetValidationMode(bool isEnabled)
@@ -368,7 +296,58 @@ namespace WpfApp1
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            InitializeHugeGuideline();
+            
+        }
+
+        // 基準となる定数
+        private const double CharWidth = 7.0;       // 半角1文字の幅
+        private const double LineHeightValue = 15.0; // 1行の高さ
+
+        // メニューの「RAM追加」などから呼ぶテスト用メソッド
+        private void AddTestRam_Click(object sender, RoutedEventArgs e)
+        {
+            // 例：現在のカーソル位置または指定位置に追加
+            int testRow = 2;
+            int testCol = 5;
+            int testLen = 8; // 8桁分
+
+            CreateRamVisual(testRow, testCol, testLen);
+        }
+
+        private void CreateRamVisual(int row, int col, int length)
+        {
+            System.Windows.Controls.Primitives.Thumb thumb = new System.Windows.Controls.Primitives.Thumb
+            {
+                Width = CharWidth * length,
+                Height = LineHeightValue,
+                Cursor = Cursors.SizeAll,
+                Template = CreateRamTemplate()
+            };
+
+            // ドラッグ移動（スナップ付き）
+            thumb.DragDelta += (s, e) =>
+            {
+                double left = Canvas.GetLeft(thumb) + e.HorizontalChange;
+                double top = Canvas.GetTop(thumb) + e.VerticalChange;
+
+                Canvas.SetLeft(thumb, Math.Max(0, Math.Round(left / CharWidth) * CharWidth));
+                Canvas.SetTop(thumb, Math.Max(0, Math.Round(top / LineHeightValue) * LineHeightValue));
+            };
+
+            // 座標設定
+            Canvas.SetLeft(thumb, col * CharWidth);
+            Canvas.SetTop(thumb, row * LineHeightValue);
+
+            RamCanvas.Children.Add(thumb);
+        }
+
+        private ControlTemplate CreateRamTemplate()
+        {
+            string xaml = @"
+        <ControlTemplate xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'>
+            <Border Background='#44FFFF00' />
+        </ControlTemplate>";
+            return (ControlTemplate)System.Windows.Markup.XamlReader.Parse(xaml);
         }
     }
 }
