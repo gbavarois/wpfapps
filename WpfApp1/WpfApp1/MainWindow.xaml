@@ -179,8 +179,7 @@
                                                  TextOptions.TextRenderingMode="ClearType"
                                                  FontFamily="MS Gothic"
                                                  FontSize="14"
-                                                 Foreground="#00FF00"
-                                                 Background="Black"
+                                                 Background="LightGray"
                                                  Padding="0"
                                                  BorderThickness="0"
                                                  AcceptsReturn="True"
@@ -192,9 +191,14 @@
                                             <Style TargetType="{x:Type Paragraph}">
                                                 <Setter Property="Margin" Value="0"/>
                                                 <!-- 行間を15pxに固定（14ptフォントに対して余裕を持たせる） -->
-                                                <Setter Property="LineHeight" Value="15"/>
+                                                <Setter Property="LineHeight" Value="14"/>
                                                 <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
                                             </Style>
+                                            <Style TargetType="{x:Type Run}">
+                                                <Setter Property="Background" Value="Black" />
+                                                <Setter Property="Foreground" Value="#00FF00" />
+                                            </Style>
+
                                         </RichTextBox.Resources>
                                         <FlowDocument PagePadding="0" PageWidth="10000">
                                             <Paragraph x:Name="MainEditorParagraph"/>
@@ -282,7 +286,14 @@
                                     <GroupBox Header="詳細情報" Grid.Row="2" Margin="5">
                                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                                             <StackPanel Margin="0,5">
-                                                <TextBlock Text="{Binding SelectedFormat.Description}" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                                                <DockPanel Margin="0,2">
+                                                    <TextBlock Text="データ:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock Text="{Binding SelectedRamdata.Data}" />
+                                                </DockPanel>
+                                                <DockPanel Margin="0,2">
+                                                    <TextBlock Text="変数名:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock Text="{Binding SelectedRamdata.Symbol}" />
+                                                </DockPanel>
                                             </StackPanel>
                                         </ScrollViewer>
                                     </GroupBox>

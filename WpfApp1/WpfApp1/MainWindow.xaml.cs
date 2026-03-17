@@ -306,7 +306,7 @@ namespace WpfApp1
 
         // 基準となる定数
         private const double CharWidth = 7.0;       // 半角1文字の幅
-        private const double LineHeightValue = 15.0; // 1行の高さ
+        private const double LineHeightValue = 14.0; // 1行の高さ
 
         // メニューの「RAM追加」などから呼ぶテスト用メソッド
         private void AddRamFromSelectedCatalog_Click(object sender, RoutedEventArgs e)
