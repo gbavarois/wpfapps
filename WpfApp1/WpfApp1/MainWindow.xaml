@@ -43,7 +43,7 @@
                 <MenuItem Header="RAMデータ読込" Click="LoadRamData_Click"/>
             </MenuItem>
             <MenuItem Header="編集(_E)">
-                <MenuItem Header="テストRAM追加" Click="AddTestRam_Click"/>
+                <MenuItem Header="RAMを配置" Click="AddRamFromSelectedCatalog_Click"/>
             </MenuItem>
             <MenuItem Header="表示(_V)">
                 <!-- 右パネルの各タブを表示／非表示切り替え -->
@@ -81,6 +81,7 @@
                                                 <DataGridTextColumn Header="データ" Binding="{Binding Data}" Width="120"/>
                                                 <DataGridTextColumn Header="シンボル" Binding="{Binding Symbol}" Width="*"/>
                                             </DataGrid.Columns>
+                                            
                                         </DataGrid>
                                     </GroupBox>
 
@@ -181,7 +182,8 @@
                                                  AcceptsReturn="True"
                                                  VerticalScrollBarVisibility="Auto"
                                                  HorizontalScrollBarVisibility="Auto"
-                                                 SelectionChanged="MainEditor_SelectionChanged">
+                                                 SelectionChanged="MainEditor_SelectionChanged"
+                                                 PreviewMouseDown="MainEditor_PreviewMouseDown">
                                         <RichTextBox.Resources>
                                             <Style TargetType="{x:Type Paragraph}">
                                                 <Setter Property="Margin" Value="0"/>
@@ -215,11 +217,31 @@
 
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
                                     <GroupBox Header="データ一覧" Grid.Row="0" Margin="5">
-                                        <DataGrid x:Name="RamDataList" ItemsSource="{Binding RamdataList}" SelectedItem="{Binding SelectedRamdata}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                                        <DataGrid x:Name="RamDataList"
+                                                  ItemsSource="{Binding RamdataList}"
+                                                  SelectedItem="{Binding SelectedRamdata}"
+                                                  AutoGenerateColumns="False"
+                                                  CanUserAddRows="False"
+                                                  SelectionMode="Single">
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="行" Binding="{Binding Row}" Width="40"/>
                                                 <DataGridTextColumn Header="桁" Binding="{Binding Column}" Width="40"/>
-                                                <DataGridTextColumn Header="データ" Binding="{Binding Data}" Width="*"/>
+                                                <DataGridTextColumn Header="データ" Binding="{Binding Data, Mode=OneWay}" Width="*"/>
+                                                <DataGridComboBoxColumn Header="Format" 
+                                                                        SelectedValueBinding="{Binding Format, UpdateSourceTrigger=PropertyChanged}"
+                                                                        SelectedValuePath="Id"
+                                                                        DisplayMemberPath="Id">
+                                                    <DataGridComboBoxColumn.ElementStyle>
+                                                        <Style TargetType="ComboBox">
+                                                            <Setter Property="ItemsSource" Value="{Binding DataContext.FormatList, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                                                        </Style>
+                                                    </DataGridComboBoxColumn.ElementStyle>
+                                                    <DataGridComboBoxColumn.EditingElementStyle>
+                                                        <Style TargetType="ComboBox">
+                                                            <Setter Property="ItemsSource" Value="{Binding DataContext.FormatList, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                                                        </Style>
+                                                    </DataGridComboBoxColumn.EditingElementStyle>
+                                                </DataGridComboBoxColumn>
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </GroupBox>

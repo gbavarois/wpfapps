@@ -86,6 +86,11 @@ namespace WpfApp1.ViewModels
             set{
                 _selectedRamdata = value;
                 OnPropertyChanged();
+                // 全データの選択フラグを更新
+                foreach (var item in RamdataList)
+                {
+                    item.IsSelected = (item == _selectedRamdata);
+                }
             }
         }
 
@@ -128,6 +133,21 @@ namespace WpfApp1.ViewModels
         void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public void ClearSelection()
+        {
+            SelectedRamdata = null; // Setter内のループで全IsSelectedがfalseになります
+        }
+
+        // 削除メソッド
+        public void RemoveSelectedRam()
+        {
+            if (SelectedRamdata != null)
+            {
+                RamdataList.Remove(SelectedRamdata);
+                ClearSelection();
+            }
         }
     }
 }

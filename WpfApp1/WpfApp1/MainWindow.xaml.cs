@@ -3,6 +3,7 @@ using System;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -10,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.Models;
 using WpfApp1.ViewModels;
 
 namespace WpfApp1
@@ -304,50 +306,253 @@ namespace WpfApp1
         private const double LineHeightValue = 15.0; // 1行の高さ
 
         // メニューの「RAM追加」などから呼ぶテスト用メソッド
-        private void AddTestRam_Click(object sender, RoutedEventArgs e)
+        private void AddRamFromSelectedCatalog_Click(object sender, RoutedEventArgs e)
         {
-            // 例：現在のカーソル位置または指定位置に追加
-            int testRow = 2;
-            int testCol = 5;
-            int testLen = 8; // 8桁分
+            // DataContextからMainViewModelを取得
+            var vm = this.DataContext as WpfApp1.ViewModels.MainViewModel;
+            if (vm == null || vm.SelectedRamCatalog == null)
+            {
+                MessageBox.Show("左パネルの『RAMデータ一覧』から配置したいデータを選択してください。");
+                return;
+            }
 
-            CreateRamVisual(testRow, testCol, testLen);
+            // 現在のテキストエディタのカーソル位置（行・桁）を取得
+            TextPointer tp = MainEditor.CaretPosition;
+
+            // 行の計算
+            int row = 0;
+            Paragraph currentPara = tp.Paragraph;
+            foreach (var block in MainEditor.Document.Blocks)
+            {
+                if (block == currentPara) break;
+                row++;
+            }
+
+            // 桁（列）の計算：段落の先頭からのオフセット
+            TextRange range = new TextRange(currentPara.ContentStart, tp);
+            int col = range.Text.Length;
+
+            // 1. 配置データの実体 (RamData) を作成
+            var newRam = new WpfApp1.Models.RamData
+            {
+                Catalog = vm.SelectedRamCatalog,     // マスター情報を紐付け
+                Format = vm.SelectedRamCatalog.Format, // 初期値はカタログからコピー
+                Row = row,
+                Column = col
+            };
+
+            // 2. ViewModelのリストに追加
+            // これにより右パネルの DataGrid (RamDataList) に一行追加される
+            vm.RamdataList.Add(newRam);
+
+            // 3. 配置したRAMのフォーマットから「桁数」を取得（なければデフォルト8）
+            int length = 8;
+            var formatInfo = vm.FormatList.FirstOrDefault(f => f.Id == newRam.Format);
+            if (formatInfo != null)
+            {
+                length = formatInfo.Length;
+            }
+
+            // 4. Canvas上に四角（ハイライト）を生成して紐付け
+            CreateRamVisual(newRam, length);
         }
 
-        private void CreateRamVisual(int row, int col, int length)
+        private void CreateRamVisual(RamData data, int length)
         {
-            System.Windows.Controls.Primitives.Thumb thumb = new System.Windows.Controls.Primitives.Thumb
+            // 四角の幅を、カタログに紐付くフォーマットの Length から計算
+
+            Thumb thumb = new Thumb
             {
                 Width = CharWidth * length,
                 Height = LineHeightValue,
-                Cursor = Cursors.SizeAll,
-                Template = CreateRamTemplate()
+                Template = CreateRamTemplate(),
+                DataContext = data, // データモデルを直接紐付ける
+                Tag = data
             };
 
-            // ドラッグ移動（スナップ付き）
-            thumb.DragDelta += (s, e) =>
+            var vm = (MainViewModel)this.DataContext;
+
+            // リストから自分が消されたら、Canvasからも消えるように監視
+            vm.RamdataList.CollectionChanged += (s, e) =>
             {
+                if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove ||
+                    e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
+                {
+                    if (!vm.RamdataList.Contains(data))
+                    {
+                        RamCanvas.Children.Remove(thumb);
+                    }
+                }
+            };
+
+            // --- 以前の PropertyChanged 監視 (Widthや位置の更新) ---
+            data.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(RamData.Format))
+                {
+                    var f = vm.FormatList.FirstOrDefault(x => x.Id == data.Format);
+                    if (f != null) thumb.Width = CharWidth * f.Length;
+                }
+                else if (e.PropertyName == nameof(RamData.Row) || e.PropertyName == nameof(RamData.Column))
+                {
+                    UpdateThumbPos(thumb, data);
+                }
+            };
+
+            // ドラッグ・クリックイベント（既存）
+            thumb.DragDelta += (s, e) => {
                 double left = Canvas.GetLeft(thumb) + e.HorizontalChange;
                 double top = Canvas.GetTop(thumb) + e.VerticalChange;
-
-                Canvas.SetLeft(thumb, Math.Max(0, Math.Round(left / CharWidth) * CharWidth));
-                Canvas.SetTop(thumb, Math.Max(0, Math.Round(top / LineHeightValue) * LineHeightValue));
+                data.Column = (int)Math.Max(0, Math.Round(left / CharWidth));
+                data.Row = (int)Math.Max(0, Math.Round(top / LineHeightValue));
+                UpdateThumbPos(thumb, data);
             };
 
-            // 座標設定
-            Canvas.SetLeft(thumb, col * CharWidth);
-            Canvas.SetTop(thumb, row * LineHeightValue);
+            thumb.PreviewMouseLeftButtonDown += (s, e) => {
+                vm.SelectedRamdata = data;
+            };
 
+            UpdateThumbPos(thumb, data);
             RamCanvas.Children.Add(thumb);
         }
-
+        private void UpdateThumbPos(Thumb t, RamData d)
+        {
+            Canvas.SetLeft(t, d.Column * CharWidth);
+            Canvas.SetTop(t, d.Row * LineHeightValue);
+        }
         private ControlTemplate CreateRamTemplate()
         {
-            string xaml = @"
-        <ControlTemplate xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'>
-            <Border Background='#44FFFF00' />
-        </ControlTemplate>";
-            return (ControlTemplate)System.Windows.Markup.XamlReader.Parse(xaml);
+            // 1. テンプレートの対象となる型を指定
+            ControlTemplate template = new ControlTemplate(typeof(Thumb));
+
+            // 2. Border要素を作成
+            FrameworkElementFactory borderFactory = new FrameworkElementFactory(typeof(Border));
+            borderFactory.Name = "brd";
+            borderFactory.SetValue(Border.BackgroundProperty, new SolidColorBrush(Color.FromArgb(0x44, 0xFF, 0xFF, 0x00))); // 黄色
+            borderFactory.SetValue(Border.BorderThicknessProperty, new Thickness(0));
+
+            // 3. DataTriggerを設定 (IsSelectedプロパティを監視)
+            DataTrigger trigger = new DataTrigger
+            {
+                Binding = new Binding("IsSelected"),
+                Value = true
+            };
+            // 選択されたら赤色にする
+            trigger.Setters.Add(new Setter(Border.BackgroundProperty, new SolidColorBrush(Color.FromArgb(0x66, 0xFF, 0x00, 0x00)), "brd"));
+
+            // 4. テンプレートに組み立てる
+            template.VisualTree = borderFactory;
+            template.Triggers.Add(trigger);
+
+            return template;
+        }
+
+        // テキスト領域の空白をクリックしたら選択解除
+        private void MainEditor_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // RAM枠（Thumb）以外の場所をクリックした場合
+            if (e.OriginalSource is not Border && e.OriginalSource is not System.Windows.Shapes.Shape)
+            {
+                var vm = (MainViewModel)this.DataContext;
+                vm.ClearSelection();
+            }
+        }
+
+        // DataGridの右クリックメニューからの削除
+        private void DeleteRam_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteActiveRam();
+        }
+
+
+        private void DeleteActiveRam()
+        {
+            var vm = (MainViewModel)this.DataContext;
+            var target = vm.SelectedRamdata;
+            if (target == null) return;
+
+            // Canvas上の対応するThumbを探して削除
+            Thumb thumbToDelete = FindThumbFor(target);
+            if (thumbToDelete != null)
+            {
+                RamCanvas.Children.Remove(thumbToDelete);
+            }
+
+            // リストから削除
+            vm.RemoveSelectedRam();
+        }
+        private Thumb FindThumbFor(RamData data)
+        {
+            foreach (var child in RamCanvas.Children)
+            {
+                if (child is Thumb t && t.Tag == data)
+                {
+                    return t;
+                }
+            }
+            return null;
+        }
+
+        private void AddRamFromCatalog_ContextMenu_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = (MainViewModel)this.DataContext;
+            if (vm.SelectedRamCatalog == null) return;
+
+            // 現在のテキストエディタのカーソル位置（行・桁）を取得
+            TextPointer tp = MainEditor.CaretPosition;
+
+            // 行の計算
+            int row = 0;
+            Paragraph currentPara = tp.Paragraph;
+            foreach (var block in MainEditor.Document.Blocks)
+            {
+                if (block == currentPara) break;
+                row++;
+            }
+
+            // 桁（列）の計算：段落の先頭からのオフセット
+            TextRange range = new TextRange(currentPara.ContentStart, tp);
+            int col = range.Text.Length;
+
+            // 配置実行
+            var newRam = new RamData
+            {
+                Catalog = vm.SelectedRamCatalog,
+                Format = vm.SelectedRamCatalog.Format,
+                Row = row,
+                Column = col
+            };
+
+            vm.RamdataList.Add(newRam);
+            int length = GetFormatLength(vm, newRam.Format);
+            CreateRamVisual(newRam, length);
+        }
+        private int GetFormatLength(WpfApp1.ViewModels.MainViewModel vm, string formatId)
+        {
+            // FormatList(マスター)の中から、Idが一致するものを探す
+            var formatInfo = vm.FormatList.FirstOrDefault(f => f.Id == formatId);
+
+            // 見つかればそのLength、見つからなければデフォルトで8桁とする
+            return formatInfo?.Length ?? 8;
+        }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            base.OnPreviewKeyDown(e);
+
+            // Deleteキーが押された時の処理
+            if (e.Key == Key.Delete)
+            {
+                // 何かRAMが選択されているか確認
+                var vm = (WpfApp1.ViewModels.MainViewModel)this.DataContext;
+                if (vm.SelectedRamdata != null)
+                {
+                    // 削除を実行
+                    DeleteActiveRam();
+                    // 他のコントロール（RichTextBoxの文字消去など）にイベントを流さない
+                    e.Handled = true;
+                }
+            }
         }
     }
 }
