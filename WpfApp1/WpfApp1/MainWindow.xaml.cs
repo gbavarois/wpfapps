@@ -32,6 +32,9 @@ namespace WpfApp1
 
             DataContext = vm;
 
+            // RichTextBox 内の ScrollViewer から発生する ScrollChanged イベントを捕捉する
+            MainEditor.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(MainEditor_ScrollChanged));
+
             // Ctrl + 0 ～ 9 のキー入力をコマンドに結びつける
             for (int i = 0; i <= 9; i++)
             {
@@ -428,7 +431,7 @@ namespace WpfApp1
             // 2. Border要素を作成
             FrameworkElementFactory borderFactory = new FrameworkElementFactory(typeof(Border));
             borderFactory.Name = "brd";
-            borderFactory.SetValue(Border.BackgroundProperty, new SolidColorBrush(Color.FromArgb(0x44, 0xFF, 0xFF, 0x00))); // 黄色
+            borderFactory.SetValue(Border.BackgroundProperty, new SolidColorBrush(Color.FromArgb(0x80, 0xFF, 0xFF, 0xFF)));
             borderFactory.SetValue(Border.BorderThicknessProperty, new Thickness(0));
 
             // 3. DataTriggerを設定 (IsSelectedプロパティを監視)
@@ -553,6 +556,17 @@ namespace WpfApp1
                     e.Handled = true;
                 }
             }
+        }
+        
+        private void MainEditor_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (RamCanvas == null) return;
+
+            // スクロールした分だけ、Canvasを逆方向にずらす
+            // これにより、Canvas上の四角がテキストと一緒に動いているように見えます
+            RamCanvas.RenderTransform = new TranslateTransform(
+                -e.HorizontalOffset,
+                -e.VerticalOffset);
         }
     }
 }
