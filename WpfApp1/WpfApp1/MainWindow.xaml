@@ -64,7 +64,7 @@
                     <ad:LayoutPanel Orientation="Horizontal">
                         <!-- 左側：サイドパネル（上下2分割） -->
                         <ad:LayoutAnchorablePane DockWidth="350">
-                            <ad:LayoutAnchorable x:Name="RamCatalogPane" Title="RAMデータ一覧" ContentId="RamCatalogPane" CanClose="False">
+                            <ad:LayoutAnchorable x:Name="RamCatalogPane" Title="変数一覧" ContentId="RamCatalogPane" CanClose="False">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" /> <!-- シート選択 -->
@@ -80,14 +80,14 @@
                                         <ComboBox x:Name="SheetSelector" Width="150" ItemsSource="{Binding SheetNames}" SelectedItem="{Binding SelectedSheet}"/>
                                     </StackPanel>
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
-                                    <GroupBox Header="RAMデータテーブル" Grid.Row="1" Margin="5">
+                                    <Border Grid.Row="1" Margin="2" BorderBrush="LightGray" BorderThickness="1">
                                         <DataGrid x:Name="RamCatalogList" ItemsSource="{Binding SelectedSheetData}" SelectedItem="{Binding SelectedRamCatalog}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="データ" Binding="{Binding Data}" Width="120"/>
+                                                <DataGridTextColumn Header="データ名" Binding="{Binding Data}" Width="120"/>
                                                 <DataGridTextColumn Header="シンボル" Binding="{Binding Symbol}" Width="*"/>
                                             </DataGrid.Columns>
                                         </DataGrid>
-                                    </GroupBox>
+                                    </Border>
 
                                     <!-- 分割用スプリッター（ユーザーがサイズ調整可能） -->
                                     <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" Background="#DDD"/>
@@ -97,7 +97,7 @@
                                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                                             <StackPanel Margin="5">
                                                 <DockPanel Margin="0,2">
-                                                    <TextBlock Text="データ:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock Text="データ名:" Width="80" FontWeight="Bold"/>
                                                     <!-- RamCatalogから直接取得 -->
                                                     <TextBlock Text="{Binding SelectedRamCatalog.Data}" />
                                                 </DockPanel>
@@ -133,16 +133,13 @@
                             <ad:LayoutAnchorable x:Name="FormatPane" Title="表記フォーマット" ContentId="FormatPane" CanHide="True" CanClose="False">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="4*" />
-                                        <!-- 上：一覧 -->
-                                        <RowDefinition Height="Auto" />
-                                        <!-- 境界線 -->
-                                        <RowDefinition Height="1*" />
-                                        <!-- 下：詳細 -->
+                                        <RowDefinition Height="4*" />   <!-- 上：一覧 -->
+                                        <RowDefinition Height="Auto" /> <!-- 境界線 -->
+                                        <RowDefinition Height="1*" />   <!-- 下：詳細 -->
                                     </Grid.RowDefinitions>
 
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
-                                    <GroupBox Header="データ一覧" Grid.Row="0" Margin="5">
+                                    <Border Grid.Row="0" Margin="5" BorderBrush="LightGray" BorderThickness="1">
                                         <DataGrid x:Name="FormatList" ItemsSource="{Binding FormatList}" SelectedItem="{Binding SelectedFormat}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="id" Binding="{Binding Id}" Width="120"/>
@@ -151,7 +148,7 @@
                                                 <DataGridTextColumn Header="placeholder" Binding="{Binding Placeholder}" Width="*"/>
                                             </DataGrid.Columns>
                                         </DataGrid>
-                                    </GroupBox>
+                                    </Border>
 
                                     <!-- 分割用スプリッター（ユーザーがサイズ調整可能） -->
                                     <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" Background="#DDD"/>
@@ -240,7 +237,7 @@
 
                         <!-- 右側：サイドパネル（上下2分割） -->
                         <ad:LayoutAnchorablePane DockWidth="350">
-                            <ad:LayoutAnchorable x:Name="RamDatePane" Title="RAMデータ" ContentId="RamDataPane" CanHide="True" CanClose="False">
+                            <ad:LayoutAnchorable x:Name="RamDatePane" Title="配置RAMデータ" ContentId="RamDataPane" CanHide="True" CanClose="False">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="4*" />   <!-- 上：一覧 -->
@@ -249,7 +246,7 @@
                                     </Grid.RowDefinitions>
 
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
-                                    <GroupBox Header="データ一覧" Grid.Row="0" Margin="5">
+                                    <Border Grid.Row="0" Margin="5" BorderBrush="LightGray" BorderThickness="1">
                                         <DataGrid x:Name="RamDataList"
                                                   ItemsSource="{Binding RamdataList}"
                                                   SelectedItem="{Binding SelectedRamdata}"
@@ -259,7 +256,7 @@
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="行" Binding="{Binding Row}" Width="40"/>
                                                 <DataGridTextColumn Header="桁" Binding="{Binding Column}" Width="40"/>
-                                                <DataGridTextColumn Header="データ" Binding="{Binding Data, Mode=OneWay}" Width="*"/>
+                                                <DataGridTextColumn Header="データ名" Binding="{Binding Data, Mode=OneWay}" Width="*"/>
                                                 <DataGridComboBoxColumn Header="Format" 
                                                                         SelectedValueBinding="{Binding Format, UpdateSourceTrigger=PropertyChanged}"
                                                                         SelectedValuePath="Id"
@@ -277,7 +274,7 @@
                                                 </DataGridComboBoxColumn>
                                             </DataGrid.Columns>
                                         </DataGrid>
-                                    </GroupBox>
+                                    </Border>
 
                                     <!-- 分割用スプリッター（ユーザーがサイズ調整可能） -->
                                     <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" Background="#DDD"/>
@@ -287,11 +284,11 @@
                                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                                             <StackPanel Margin="0,5">
                                                 <DockPanel Margin="0,2">
-                                                    <TextBlock Text="データ:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock Text="データ名:" Width="80" FontWeight="Bold"/>
                                                     <TextBlock Text="{Binding SelectedRamdata.Data}" />
                                                 </DockPanel>
                                                 <DockPanel Margin="0,2">
-                                                    <TextBlock Text="変数名:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock Text="シンボル:" Width="80" FontWeight="Bold"/>
                                                     <TextBlock Text="{Binding SelectedRamdata.Symbol}" />
                                                 </DockPanel>
                                             </StackPanel>
