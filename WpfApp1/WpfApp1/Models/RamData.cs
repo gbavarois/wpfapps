@@ -12,23 +12,99 @@ namespace WpfApp1.Models
     {
         private int _row;
         private int _column;
-        private string _format;
+        private string _formatId;
+        private FormatData _format;
+        private int _offset;
         private bool _isSelected;
+
+        public IEnumerable<FormatData> FormatSource { get; set; }
 
         // 元データのカタログ情報（単位やアドレスなどのマスター参照）
         public RamCatalog Catalog { get; set; }
 
-        public int Row { get => _row; set { _row = value; OnPropertyChanged(); } }
-        public int Column { get => _column; set { _column = value; OnPropertyChanged(); } }
+        public int Row
+        {
+            get => _row;
+            set { _row = value; OnPropertyChanged(); }
+        }
+        public int Column
+        {
+            get => _column;
+            set { _column = value; OnPropertyChanged(); }
+        }
+        public string FormatId
+        {
+            get => _formatId;
+            set
+            {
+                if (_formatId == value) return;
 
-        // 配置後に上書き（変更）可能なフォーマットID
-        public string Format { get => _format; set { _format = value; OnPropertyChanged(); } }
-        public bool IsSelected { get => _isSelected; set { _isSelected = value; OnPropertyChanged(); } }
+                _formatId = value;
+                OnPropertyChanged();
+
+                if (FormatSource != null)
+                {
+                    Format = FormatSource.FirstOrDefault(f => f.Id == _formatId);
+                }
+                else
+                {
+                    Format = null;
+                }
+
+                OnPropertyChanged(nameof(IsValid));
+            }
+        }
+        public FormatData Format
+        {
+            get => _format;
+            set
+            {
+                if (_format == value) return;
+
+                _format = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Length));
+                OnPropertyChanged(nameof(Placeholder));
+            }
+        }
+        public int Offset
+        {
+            get => _offset;
+            set
+            {
+                _offset = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(ComputedAddress));
+            }
+        }
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set { _isSelected = value; OnPropertyChanged(); }
+        }
 
         // 表示用のプロパティ（カタログから引っ張る）
         public string Symbol => Catalog?.Symbol;
-        public string Address => Catalog?.Address;
         public string Data => Catalog?.Data;
+        public string BaseAddress => Catalog?.Address;
+        public string ComputedAddress
+        {
+            get
+            {
+                if (int.TryParse(Catalog?.Address, out var baseAddr))
+                    return (baseAddr + Offset).ToString();
+                return Catalog?.Address;
+            }
+        }
+        public int Length => Format?.Length ?? 0;
+        public string Placeholder => Format?.Placeholder;
+        public bool IsValid => Catalog != null && Format != null;
+
+        public void ResolveFormat(IEnumerable<FormatData> formatList)
+        {
+            Format = formatList.FirstOrDefault(f => f.Id == FormatId);
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)

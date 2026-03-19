@@ -68,7 +68,7 @@ namespace WpfApp1.Services
                         Length = vLen,
                         Unit = vUnit,
                         LSB = vLsb,
-                        Format = vFmt,
+                        FormatId = vFmt,
                         Note = vNote,
                         Address = vAddress
                     });

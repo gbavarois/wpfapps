@@ -68,9 +68,9 @@
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" /> <!-- シート選択 -->
-                                        <RowDefinition Height="2*" />   <!-- 上：一覧 -->
+                                        <RowDefinition Height="*" />   <!-- 上：一覧 -->
                                         <RowDefinition Height="Auto" /> <!-- 境界線 -->
-                                        <RowDefinition Height="1*" />   <!-- 下：詳細 -->
+                                        <RowDefinition Height="180" />   <!-- 下：詳細 -->
                                     </Grid.RowDefinitions>
 
                                     <!-- シート選択 (ComboBox) -->
@@ -133,9 +133,9 @@
                             <ad:LayoutAnchorable x:Name="FormatPane" Title="表記フォーマット" ContentId="FormatPane" CanHide="True" CanClose="False">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="4*" />   <!-- 上：一覧 -->
+                                        <RowDefinition Height="*" />   <!-- 上：一覧 -->
                                         <RowDefinition Height="Auto" /> <!-- 境界線 -->
-                                        <RowDefinition Height="1*" />   <!-- 下：詳細 -->
+                                        <RowDefinition Height="100" />   <!-- 下：詳細 -->
                                     </Grid.RowDefinitions>
 
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
@@ -240,9 +240,9 @@
                             <ad:LayoutAnchorable x:Name="RamDatePane" Title="配置RAMデータ" ContentId="RamDataPane" CanHide="True" CanClose="False">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="4*" />   <!-- 上：一覧 -->
+                                        <RowDefinition Height="*" />   <!-- 上：一覧 -->
                                         <RowDefinition Height="Auto" /> <!-- 境界線 -->
-                                        <RowDefinition Height="1*" />   <!-- 下：詳細 -->
+                                        <RowDefinition Height="125" />   <!-- 下：詳細 -->
                                     </Grid.RowDefinitions>
 
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
@@ -254,16 +254,20 @@
                                                   CanUserAddRows="False"
                                                   SelectionMode="Single">
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="行" Binding="{Binding Row}" Width="40"/>
-                                                <DataGridTextColumn Header="桁" Binding="{Binding Column}" Width="40"/>
-                                                <DataGridTextColumn Header="データ名" Binding="{Binding Data, Mode=OneWay}" Width="*"/>
-                                                <DataGridComboBoxColumn Header="Format" 
-                                                                        SelectedValueBinding="{Binding Format, UpdateSourceTrigger=PropertyChanged}"
+                                                <DataGridTextColumn Header="行" Binding="{Binding Row}" Width="30"/>
+                                                <DataGridTextColumn Header="桁" Binding="{Binding Column}" Width="30"/>
+                                                <DataGridTextColumn Header="データ名" Binding="{Binding Data, Mode=OneWay}" IsReadOnly="True" Width="*"/>
+                                                <DataGridTextColumn Header="オフセット" Binding="{Binding Offset, Mode=TwoWay}" Width="55"/>
+                                                <DataGridComboBoxColumn Header="表記ID"
+                                                                        Width="80"
+                                                                        SelectedValueBinding="{Binding FormatId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                         SelectedValuePath="Id"
                                                                         DisplayMemberPath="Id">
                                                     <DataGridComboBoxColumn.ElementStyle>
                                                         <Style TargetType="ComboBox">
                                                             <Setter Property="ItemsSource" Value="{Binding DataContext.FormatList, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                                                            <Setter Property="IsHitTestVisible" Value="False"/>
+                                                            <Setter Property="Focusable" Value="False"/>
                                                         </Style>
                                                     </DataGridComboBoxColumn.ElementStyle>
                                                     <DataGridComboBoxColumn.EditingElementStyle>
@@ -271,6 +275,7 @@
                                                             <Setter Property="ItemsSource" Value="{Binding DataContext.FormatList, RelativeSource={RelativeSource AncestorType=Window}}"/>
                                                         </Style>
                                                     </DataGridComboBoxColumn.EditingElementStyle>
+
                                                 </DataGridComboBoxColumn>
                                             </DataGrid.Columns>
                                         </DataGrid>
@@ -282,15 +287,28 @@
                                     <!-- 下側：選択データの詳細 (表示専用) -->
                                     <GroupBox Header="詳細情報" Grid.Row="2" Margin="5">
                                         <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                            <StackPanel Margin="0,5">
+                                            <StackPanel Margin="5">
+
                                                 <DockPanel Margin="0,2">
-                                                    <TextBlock Text="データ名:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock Text="データ名:" Width="90" FontWeight="Bold"/>
                                                     <TextBlock Text="{Binding SelectedRamdata.Data}" />
                                                 </DockPanel>
+
                                                 <DockPanel Margin="0,2">
-                                                    <TextBlock Text="シンボル:" Width="80" FontWeight="Bold"/>
+                                                    <TextBlock Text="シンボル:" Width="90" FontWeight="Bold"/>
                                                     <TextBlock Text="{Binding SelectedRamdata.Symbol}" />
                                                 </DockPanel>
+
+                                                <DockPanel Margin="0,2">
+                                                    <TextBlock Text="アドレス:" Width="90" FontWeight="Bold"/>
+                                                    <TextBlock Text="{Binding SelectedRamdata.ComputedAddress}" />
+                                                </DockPanel>
+
+                                                <DockPanel Margin="0,2">
+                                                    <TextBlock Text="プレースホルダ:" Width="90" FontWeight="Bold"/>
+                                                    <TextBlock Text="{Binding SelectedRamdata.Placeholder}" />
+                                                </DockPanel>
+
                                             </StackPanel>
                                         </ScrollViewer>
                                     </GroupBox>

@@ -57,14 +57,14 @@ namespace WpfApp1.ViewModels
 
         private void UpdateSelectedFormatDetail()
         {
-            if (_selectedRamCatalog == null || string.IsNullOrEmpty(_selectedRamCatalog.Format))
+            if (_selectedRamCatalog == null || string.IsNullOrEmpty(_selectedRamCatalog.FormatId))
             {
                 SelectedFormatDetail = null;
                 return;
             }
 
             // FormatList(マスター)の中から、Idが一致するものを探す
-            SelectedFormatDetail = FormatList.FirstOrDefault(f => f.Id == _selectedRamCatalog.Format);
+            SelectedFormatDetail = FormatList.FirstOrDefault(f => f.Id == _selectedRamCatalog.FormatId);
         }
 
         private FormatData _selectedFormat;

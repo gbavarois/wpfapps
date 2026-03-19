@@ -121,82 +121,6 @@ namespace WpfApp1
             }
         }
 
-        private bool _isRamMoving = false;
-
-        // Ctrlキー押下時のカーソル変更(矢印にする)
-        private void MainEditor_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if ((e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl) && !_isRamMoving)
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
-        }
-
-        // Ctrlキーを離した時にカーソルを戻す
-        private void MainEditor_PreviewKeyUp(object sender, KeyEventArgs e)
-        {
-            if ((e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl) && !_isRamMoving)
-            {
-                Mouse.OverrideCursor = null;
-            }
-        }
-
-        // フォーカスが外れた時にカーソルが固まるのを防ぐ
-        private void MainEditor_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            _isRamMoving = false;
-            Mouse.OverrideCursor = null;
-        }
-
-        // Ctrl + 左クリックでドラッグ開始
-        private void MainEditor_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (Keyboard.Modifiers == ModifierKeys.Control)
-            {
-                _isRamMoving = true;
-                MainEditor.CaretBrush = Brushes.Red;    // ドラッグ中はカレットを赤くする
-                Mouse.OverrideCursor = Cursors.SizeAll; // カーソルを十字矢印に
-                MainEditor.CaptureMouse();
-                e.Handled = true;                       // テキスト選択を防ぐ
-            }
-        }
-
-        // マウス移動に合わせてカレットを飛ばす
-        private void MainEditor_PreviewMouseMove(object sender, MouseEventArgs e)
-        {
-            if (_isRamMoving)
-            {
-                Point mousePos = e.GetPosition(MainEditor);
-                // マウス座標に一番近い「文字の隙間」を取得
-                TextPointer tp = MainEditor.GetPositionFromPoint(mousePos, snapToText: true);
-                if (tp != null)
-                {
-                    MainEditor.CaretPosition = tp; // カレットを移動
-                }
-            }
-        }
-
-        // マウスを離した瞬間にRAM座標を確定
-        private void MainEditor_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (_isRamMoving)
-            {
-                _isRamMoving = false;
-                MainEditor.CaretBrush = Brushes.Lime; // カレットを戻す
-                // マウスアップ時にCtrlがまだ押されていれば「矢印」に、そうでなければ「I」に戻す
-                Mouse.OverrideCursor = Keyboard.Modifiers.HasFlag(ModifierKeys.Control) ? Cursors.Arrow : null;
-                MainEditor.ReleaseMouseCapture();
-
-                // 現在のカレット位置から「行・桁」を取得
-                //GetCaretLineColumn(out int row, out int col);
-
-                // ここでRAM情報のデータ(Row, Column)を更新し、
-                // 背面(HighlightEditor)の特定の文字範囲を塗り直す処理を呼ぶ
-                //UpdateHighlight(row, col);
-            }
-        }
-
-
         // --- リッチテキストボックスのカーソル位置計算 ---
         private void MainEditor_SelectionChanged(object sender, RoutedEventArgs e)
         {
@@ -250,23 +174,6 @@ namespace WpfApp1
             }
         }
 
-        private string _lastText = string.Empty;
-
-        private void MainEditor_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            // 現在のテキストを取得（タグを除いた純粋な文字）
-            string currentText = new TextRange(MainEditor.Document.ContentStart, MainEditor.Document.ContentEnd).Text;
-
-            // 文字の中身が変わっていない（色指定などの書式変更だけ）なら何もしない
-            if (currentText == _lastText) return;
-
-            // 文字が変わった（入力された）場合は、即座に背景を更新
-            _lastText = currentText;
-            //UpdateHighlight();
-        }
-
-        
-
         private int GetWidth(char c)
         {
             // 半角カタカナの範囲 (U+FF61 ～ U+FF9F) は幅1として扱う
@@ -278,26 +185,6 @@ namespace WpfApp1
             // それ以外の 0xFF より大きい文字（漢字・ひらがな等）は幅2
             return c > 0xFF ? 2 : 1;
         }
-
-        
-
-
-        private void SetValidationMode(bool isEnabled)
-        {
-            if (isEnabled)
-            {
-                // 検証モード：前面を半透明にして、背面の黒との重なりを見せる
-                MainEditor.Opacity = 0.6;
-                MainEditor.Background = new SolidColorBrush(Color.FromArgb(50, 0, 0, 255)); // 薄い青
-            }
-            else
-            {
-                // 通常モード：前面を完全に透過させ、入力に集中させる
-                MainEditor.Opacity = 1.0;
-                MainEditor.Background = Brushes.Transparent;
-            }
-        }
-
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -339,7 +226,8 @@ namespace WpfApp1
             var newRam = new WpfApp1.Models.RamData
             {
                 Catalog = vm.SelectedRamCatalog,     // マスター情報を紐付け
-                Format = vm.SelectedRamCatalog.Format, // 初期値はカタログからコピー
+                FormatSource = vm.FormatList,
+                FormatId = vm.SelectedRamCatalog.FormatId, // 初期値はカタログからコピー
                 Row = row,
                 Column = col
             };
@@ -350,7 +238,7 @@ namespace WpfApp1
 
             // 3. 配置したRAMのフォーマットから「桁数」を取得（なければデフォルト8）
             int length = 8;
-            var formatInfo = vm.FormatList.FirstOrDefault(f => f.Id == newRam.Format);
+            var formatInfo = newRam.Format;
             if (formatInfo != null)
             {
                 length = formatInfo.Length;
@@ -393,8 +281,7 @@ namespace WpfApp1
             {
                 if (e.PropertyName == nameof(RamData.Format))
                 {
-                    var f = vm.FormatList.FirstOrDefault(x => x.Id == data.Format);
-                    if (f != null) thumb.Width = CharWidth * f.Length;
+                    thumb.Width = CharWidth * data.Length;
                 }
                 else if (e.PropertyName == nameof(RamData.Row) || e.PropertyName == nameof(RamData.Column))
                 {
@@ -461,13 +348,6 @@ namespace WpfApp1
             }
         }
 
-        // DataGridの右クリックメニューからの削除
-        private void DeleteRam_Click(object sender, RoutedEventArgs e)
-        {
-            DeleteActiveRam();
-        }
-
-
         private void DeleteActiveRam()
         {
             var vm = (MainViewModel)this.DataContext;
@@ -496,40 +376,6 @@ namespace WpfApp1
             return null;
         }
 
-        private void AddRamFromCatalog_ContextMenu_Click(object sender, RoutedEventArgs e)
-        {
-            var vm = (MainViewModel)this.DataContext;
-            if (vm.SelectedRamCatalog == null) return;
-
-            // 現在のテキストエディタのカーソル位置（行・桁）を取得
-            TextPointer tp = MainEditor.CaretPosition;
-
-            // 行の計算
-            int row = 0;
-            Paragraph currentPara = tp.Paragraph;
-            foreach (var block in MainEditor.Document.Blocks)
-            {
-                if (block == currentPara) break;
-                row++;
-            }
-
-            // 桁（列）の計算：段落の先頭からのオフセット
-            TextRange range = new TextRange(currentPara.ContentStart, tp);
-            int col = range.Text.Length;
-
-            // 配置実行
-            var newRam = new RamData
-            {
-                Catalog = vm.SelectedRamCatalog,
-                Format = vm.SelectedRamCatalog.Format,
-                Row = row,
-                Column = col
-            };
-
-            vm.RamdataList.Add(newRam);
-            int length = GetFormatLength(vm, newRam.Format);
-            CreateRamVisual(newRam, length);
-        }
         private int GetFormatLength(WpfApp1.ViewModels.MainViewModel vm, string formatId)
         {
             // FormatList(マスター)の中から、Idが一致するものを探す
@@ -538,26 +384,7 @@ namespace WpfApp1
             // 見つかればそのLength、見つからなければデフォルトで8桁とする
             return formatInfo?.Length ?? 8;
         }
-
-        protected override void OnPreviewKeyDown(KeyEventArgs e)
-        {
-            base.OnPreviewKeyDown(e);
-
-            // Deleteキーが押された時の処理
-            if (e.Key == Key.Delete)
-            {
-                // 何かRAMが選択されているか確認
-                var vm = (WpfApp1.ViewModels.MainViewModel)this.DataContext;
-                if (vm.SelectedRamdata != null)
-                {
-                    // 削除を実行
-                    DeleteActiveRam();
-                    // 他のコントロール（RichTextBoxの文字消去など）にイベントを流さない
-                    e.Handled = true;
-                }
-            }
-        }
-        
+      
         private void MainEditor_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (RamCanvas == null) return;
