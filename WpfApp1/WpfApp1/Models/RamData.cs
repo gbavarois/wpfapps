@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using DocumentFormat.OpenXml.Spreadsheet;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -15,6 +17,7 @@ namespace WpfApp1.Models
         private string _formatId;
         private FormatData _format;
         private int _offset;
+        private string _symbol;
         private bool _isSelected;
 
         public IEnumerable<FormatData> FormatSource { get; set; }
@@ -77,6 +80,17 @@ namespace WpfApp1.Models
                 OnPropertyChanged(nameof(ComputedAddress));
             }
         }
+
+        public string Symbol
+        {
+            get => Catalog?.Symbol ?? _symbol ?? "(不明)";
+            set
+            {
+                _symbol = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool IsSelected
         {
             get => _isSelected;
@@ -84,8 +98,7 @@ namespace WpfApp1.Models
         }
 
         // 表示用のプロパティ（カタログから引っ張る）
-        public string Symbol => Catalog?.Symbol;
-        public string Data => Catalog?.Data;
+        public string Data => Catalog?.Data ?? "(不明)";
         public string BaseAddress => Catalog?.Address;
         public string ComputedAddress
         {
@@ -98,13 +111,27 @@ namespace WpfApp1.Models
         }
         public int Length => Format?.Length ?? 0;
         public string Placeholder => Format?.Placeholder;
-        public bool IsValid => Catalog != null && Format != null;
+        public bool IsValid =>  Catalog != null &&
+                                (FormatSource == null || Format != null);
 
         public void ResolveFormat(IEnumerable<FormatData> formatList)
         {
-            Format = formatList.FirstOrDefault(f => f.Id == FormatId);
+            //Format = formatList.FirstOrDefault(f => f.Id == FormatId);
+            Format = formatList.FirstOrDefault(f => string.Equals(f.Id?.Trim(), FormatId?.Trim(), StringComparison.OrdinalIgnoreCase));
+            OnPropertyChanged(nameof(Format));
+            OnPropertyChanged(nameof(IsValid));
+            OnPropertyChanged(nameof(Length));
+            OnPropertyChanged(nameof(Placeholder));
         }
 
+        public void NotifyCatalogChanged()
+        {
+            OnPropertyChanged(nameof(Catalog));
+            OnPropertyChanged(nameof(Symbol));
+            OnPropertyChanged(nameof(Data));
+            OnPropertyChanged(nameof(Address));
+            OnPropertyChanged(nameof(IsValid));
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)

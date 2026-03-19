@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -15,6 +16,7 @@ namespace WpfApp1.ViewModels
     public class MainViewModel : INotifyPropertyChanged
     {
         Dictionary<string, List<RamCatalog>> allSheets = new();
+        public List<RamCatalog> AllRamCatalogs { get; set; } = new();
         public ObservableCollection<string> SheetNames { get; } = new();
         public ObservableCollection<RamCatalog> SelectedSheetData { get; } = new();
         
@@ -111,7 +113,9 @@ namespace WpfApp1.ViewModels
             FormatList.Clear();
 
             allSheets = ExcelLoader.Load(path);
-            
+            AllRamCatalogs = allSheets.Values.SelectMany(x => x).ToList();
+            RelinkRamCatalogs();
+
             foreach (var name in allSheets.Keys)
                 SheetNames.Add(name);
 
@@ -149,5 +153,30 @@ namespace WpfApp1.ViewModels
                 ClearSelection();
             }
         }
+
+        public void RelinkRamCatalogs()
+        {
+            foreach (var ram in RamdataList)
+            {
+                if (ram.Catalog == null && !string.IsNullOrEmpty(ram.Symbol))
+                {
+                    ram.Catalog = AllRamCatalogs.FirstOrDefault(c => c.Symbol == ram.Symbol);
+                    ram.NotifyCatalogChanged();
+                }
+
+                // Formatも再解決（保険）
+                ram.ResolveFormat(FormatList);
+
+                // 🔥 ここ追加
+                Debug.WriteLine(
+                    $"Symbol={ram.Symbol}, " +
+                    $"FormatId={ram.FormatId}, " +
+                    $"Format={(ram.Format != null ? "OK" : "NULL")}, " +
+                    $"Catalog={(ram.Catalog != null ? "OK" : "NULL")}, " +
+                    $"IsValid={ram.IsValid}"
+                );
+            }
+        }
+
     }
 }

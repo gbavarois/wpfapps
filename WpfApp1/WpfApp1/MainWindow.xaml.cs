@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.Helpers;
 using WpfApp1.Models;
+using WpfApp1.Services;
 using WpfApp1.ViewModels;
 
 namespace WpfApp1
@@ -25,6 +28,8 @@ namespace WpfApp1
         public static RoutedCommand ColorCommand = new RoutedCommand();
 
         MainViewModel vm = new MainViewModel();
+
+        private string _currentFilePath = null;
 
         public MainWindow()
         {
@@ -62,7 +67,7 @@ namespace WpfApp1
             // 実行パラメータ（0～9）から色を決定
             string index = e.Parameter as string;
             // 先ほど作った共通メソッドを呼び出す（擬似的にMenuItemを偽装して再利用）
-            var dummy = new MenuItem { Tag = GetColorCode(index) };
+            var dummy = new MenuItem { Tag = ColorHelper.GetColorCode(index) };
             ApplyColor(dummy.Tag.ToString());
         }
 
@@ -80,22 +85,9 @@ namespace WpfApp1
             MainEditor.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, new SolidColorBrush(color));
         }
 
-        // 数字からカラーコードを引くヘルパー
-        private string GetColorCode(string index) => index switch
-        {
-            "0" => "#000000",
-            "1" => "#4040FF",
-            "2" => "#FF4040",
-            "3" => "#FF00FF",
-            "4" => "#00FF00",
-            "5" => "#00FFFF",
-            "6" => "#FFFF00",
-            "7" => "#FFFFFF",
-            "8" => "#FF8000",
-            "9" => "#80FF00",
-            _ => "#FFFFFF"
-        };
+        
 
+        
         // --- メニュー項目のクリック処理 ---
 
         // 「表記フォーマット パネル」を表示する
@@ -231,6 +223,7 @@ namespace WpfApp1
                 Row = row,
                 Column = col
             };
+            newRam.ResolveFormat(vm.FormatList);
 
             // 2. ViewModelのリストに追加
             // これにより右パネルの DataGrid (RamDataList) に一行追加される
@@ -281,7 +274,8 @@ namespace WpfApp1
             {
                 if (e.PropertyName == nameof(RamData.Format))
                 {
-                    thumb.Width = CharWidth * data.Length;
+                    int len = data.Format?.Length ?? 8;
+                    thumb.Width = CharWidth * len;
                 }
                 else if (e.PropertyName == nameof(RamData.Row) || e.PropertyName == nameof(RamData.Column))
                 {
@@ -395,5 +389,82 @@ namespace WpfApp1
                 -e.HorizontalOffset,
                 -e.VerticalOffset);
         }
+
+        private void NewFile_Click(object sender, RoutedEventArgs e)
+        {
+            MainEditor.Document = new FlowDocument();
+            _currentFilePath = null;
+        }
+
+        private void OpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                var vm = (MainViewModel)DataContext;
+                var service = new JsonEditorService();
+
+                var data = service.LoadFromJson(dialog.FileName);
+
+                // --- テキスト ---
+                service.RestoreText(MainEditor, data.Lines);
+
+                // --- 色 ---
+                service.ApplyColorInfo(MainEditor, data.Colors);
+
+                // --- RAM復元 ---
+                vm.RamdataList.Clear();
+
+                var restored = service.RestoreRamData(data.Rams, vm.AllRamCatalogs, vm.FormatList);
+                foreach (var ram in restored)
+                {
+                    vm.RamdataList.Add(ram);
+
+                    // Canvas復元
+                    int length = ram.Format?.Length ?? 8;
+                    CreateRamVisual(ram, length);
+                }
+                _currentFilePath = dialog.FileName;
+            }
+        }
+
+        private void SaveFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(_currentFilePath))
+            {
+                SaveAsFile_Click(sender, e);
+                return;
+            }
+
+            var service = new JsonEditorService();
+            var vm = (MainViewModel)DataContext;
+            var data = service.CreateSaveData(MainEditor, vm.RamdataList);
+
+            service.SaveToJson(data, _currentFilePath);
+        }
+
+        private void SaveAsFile_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new SaveFileDialog
+            {
+                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                var service = new JsonEditorService();
+                var vm = (MainViewModel)DataContext;
+                var data = service.CreateSaveData(MainEditor, vm.RamdataList);
+
+                service.SaveToJson(data, dialog.FileName);
+
+                _currentFilePath = dialog.FileName;
+            }
+        }
     }
+
 }

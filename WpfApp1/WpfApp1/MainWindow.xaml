@@ -40,10 +40,10 @@
         <!-- メニューバー -->
         <Menu Grid.Row="0">
             <MenuItem Header="ファイル(_F)">
-                <MenuItem Header="新規作成(_N)" />
-                <MenuItem Header="開く(_O)" />
-                <MenuItem Header="上書き保存(_S)" />
-                <MenuItem Header="名前を付けて保存(_A)" />
+                <MenuItem Header="新規作成(_N)" Click="NewFile_Click"/>
+                <MenuItem Header="開く(_O)" Click="OpenFile_Click"/>
+                <MenuItem Header="上書き保存(_S)" Click="SaveFile_Click"/>
+                <MenuItem Header="名前を付けて保存(_A)" Click="SaveAsFile_Click"/>
                 <Separator />
                 <MenuItem Header="RAMデータ読込" Click="LoadRamData_Click"/>
             </MenuItem>
@@ -256,7 +256,17 @@
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="行" Binding="{Binding Row}" Width="30"/>
                                                 <DataGridTextColumn Header="桁" Binding="{Binding Column}" Width="30"/>
-                                                <DataGridTextColumn Header="データ名" Binding="{Binding Data, Mode=OneWay}" IsReadOnly="True" Width="*"/>
+                                                <DataGridTextColumn Header="データ名" Binding="{Binding Data, Mode=OneWay}" IsReadOnly="True" Width="*">
+                                                    <DataGridTextColumn.ElementStyle>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsValid}" Value="False">
+                                                                    <Setter Property="Foreground" Value="Red"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </DataGridTextColumn.ElementStyle>
+                                                </DataGridTextColumn>
                                                 <DataGridTextColumn Header="オフセット" Binding="{Binding Offset, Mode=TwoWay}" Width="55"/>
                                                 <DataGridComboBoxColumn Header="表記ID"
                                                                         Width="80"
@@ -268,6 +278,11 @@
                                                             <Setter Property="ItemsSource" Value="{Binding DataContext.FormatList, RelativeSource={RelativeSource AncestorType=Window}}"/>
                                                             <Setter Property="IsHitTestVisible" Value="False"/>
                                                             <Setter Property="Focusable" Value="False"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsValid}" Value="False">
+                                                                    <Setter Property="Foreground" Value="Red"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
                                                         </Style>
                                                     </DataGridComboBoxColumn.ElementStyle>
                                                     <DataGridComboBoxColumn.EditingElementStyle>
