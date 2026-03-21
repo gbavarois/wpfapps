@@ -1,182 +1,104 @@
-﻿using ClosedXML.Excel;
-using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using DocumentFormat.OpenXml.Spreadsheet;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using WpfApp1.Models;
 using WpfApp1.Services;
 
 namespace WpfApp1.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public partial class MainViewModel : ObservableObject
     {
-        Dictionary<string, List<RamCatalog>> allSheets = new();
-        public List<RamCatalog> AllRamCatalogs { get; set; } = new();
-        public ObservableCollection<string> SheetNames { get; } = new();
-        public ObservableCollection<RamCatalog> SelectedSheetData { get; } = new();
-        
-        private string _selectedSheet;
+        private Dictionary<string, List<RamCatalog>> _allSheets = new();
 
-        public string SelectedSheet
-        {
-            get => _selectedSheet;
-            set
-            {
-                _selectedSheet = value;
-                OnPropertyChanged();
-                UpdateSheet();
-            }
-        }
+        [ObservableProperty] private ObservableCollection<string> _sheetNames = new();
+        [ObservableProperty] private ObservableCollection<RamCatalog> _selectedSheetData = new();
+        [ObservableProperty] private ObservableCollection<FormatData> _formatList = new();
+        [ObservableProperty] private ObservableCollection<RamData> _ramdataList = new();
 
-        private RamCatalog _selectedRamCatalog; // 型を RamCatalog に修正
-        public RamCatalog SelectedRamCatalog
-        {
-            get => _selectedRamCatalog;
-            set
-            {
-                _selectedRamCatalog = value;
-                OnPropertyChanged();
-                // 選択されたデータの Format をキーに、マスターから検索して更新
-                UpdateSelectedFormatDetail();
-            }
-        }
+        [ObservableProperty] private List<RamCatalog> _allRamCatalogs = new();
 
-        private FormatData _selectedFormatDetail;
-        public FormatData SelectedFormatDetail
-        {
-            get => _selectedFormatDetail;
-            set
-            {
-                _selectedFormatDetail = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private string? _selectedSheet;
+        [ObservableProperty] private RamCatalog? _selectedRamCatalog;
+        [ObservableProperty] private FormatData? _selectedFormat;
+        [ObservableProperty] private RamData? _selectedRamdata;
 
-        private void UpdateSelectedFormatDetail()
-        {
-            if (_selectedRamCatalog == null || string.IsNullOrEmpty(_selectedRamCatalog.FormatId))
-            {
-                SelectedFormatDetail = null;
-                return;
-            }
-
-            // FormatList(マスター)の中から、Idが一致するものを探す
-            SelectedFormatDetail = FormatList.FirstOrDefault(f => f.Id == _selectedRamCatalog.FormatId);
-        }
-
-        private FormatData _selectedFormat;
-        public ObservableCollection<FormatData> FormatList { get; } = new();
-        public FormatData SelectedFormat
-        {
-            get => _selectedFormat;
-            set
-            {
-                _selectedFormat = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private RamData _selectedRamdata;
-        public ObservableCollection<RamData> RamdataList { get; } = new();
-        public RamData SelectedRamdata { 
-            get => _selectedRamdata; 
-            set{
-                _selectedRamdata = value;
-                OnPropertyChanged();
-                // 全データの選択フラグを更新
-                foreach (var item in RamdataList)
-                {
-                    item.IsSelected = (item == _selectedRamdata);
-                }
-            }
-        }
-
-        void UpdateSheet()
+        // シート選択が変わったら自動でリスト更新
+        partial void OnSelectedSheetChanged(string? value)
         {
             SelectedSheetData.Clear();
-
-            if (_selectedSheet == null) return;
-
-            foreach (var d in allSheets[_selectedSheet])
-                SelectedSheetData.Add(d);
+            if (value != null && _allSheets.TryGetValue(value, out var data))
+            {
+                foreach (var d in data) SelectedSheetData.Add(d);
+            }
         }
 
-        public void LoadExcel(string path)
+        // --- コマンドの実装 ---
+
+        [RelayCommand]
+        private void LoadExcel(string path)
         {
+            _allSheets = ExcelLoader.Load(path);
             SheetNames.Clear();
-            SelectedSheetData.Clear();
+            foreach (var name in _allSheets.Keys) SheetNames.Add(name);
+
             FormatList.Clear();
-
-            allSheets = ExcelLoader.Load(path);
-            AllRamCatalogs = allSheets.Values.SelectMany(x => x).ToList();
-            RelinkRamCatalogs();
-
-            foreach (var name in allSheets.Keys)
-                SheetNames.Add(name);
-
-            if (SheetNames.Count > 0)
-                SelectedSheet = SheetNames[0];
-
             var formats = ExcelLoader.LoadFormats(path);
-            foreach (var f in formats)
-                FormatList.Add(f);
+            foreach (var f in formats) FormatList.Add(f);
 
-            if (SheetNames.Count > 0)
-                SelectedSheet = SheetNames[0];
-
+            if (SheetNames.Count > 0) SelectedSheet = SheetNames[0];
         }
 
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        void OnPropertyChanged([CallerMemberName] string name = null)
+        [RelayCommand]
+        private void AddRamFromCatalog()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            if (SelectedRamCatalog == null) return;
+
+            var newRam = new RamData
+            {
+                Catalog = SelectedRamCatalog,
+                FormatId = SelectedRamCatalog.FormatId,
+                // 初期座標などは必要に応じて
+                Row = 0,
+                Column = 0
+            };
+            newRam.ResolveReferences(FormatList, _allSheets.Values.SelectMany(x => x));
+            RamdataList.Add(newRam);
+            SelectedRamdata = newRam;
         }
 
-        public void ClearSelection()
-        {
-            SelectedRamdata = null; // Setter内のループで全IsSelectedがfalseになります
-        }
-
-        // 削除メソッド
-        public void RemoveSelectedRam()
+        [RelayCommand(CanExecute = nameof(CanRemove))]
+        private void RemoveRam()
         {
             if (SelectedRamdata != null)
             {
                 RamdataList.Remove(SelectedRamdata);
-                ClearSelection();
+                SelectedRamdata = null;
             }
         }
+        private bool CanRemove() => SelectedRamdata != null;
 
-        public void RelinkRamCatalogs()
+        [RelayCommand]
+        private void ClearSelection() => SelectedRamdata = null;
+
+        public EditorSaveData? LoadFromJson(string path)
         {
-            foreach (var ram in RamdataList)
+            var service = new JsonEditorService();
+            var saveData = service.LoadFromJson(path);
+
+            // RAMデータの復元（ここはViewModelの仕事）
+            var restoredRams = service.RestoreRamData(saveData.Rams, AllRamCatalogs, FormatList);
+
+            RamdataList.Clear();
+            foreach (var ram in restoredRams)
             {
-                if (ram.Catalog == null && !string.IsNullOrEmpty(ram.Symbol))
-                {
-                    ram.Catalog = AllRamCatalogs.FirstOrDefault(c => c.Symbol == ram.Symbol);
-                    ram.NotifyCatalogChanged();
-                }
-
-                // Formatも再解決（保険）
-                ram.ResolveFormat(FormatList);
-
-                // 🔥 ここ追加
-                Debug.WriteLine(
-                    $"Symbol={ram.Symbol}, " +
-                    $"FormatId={ram.FormatId}, " +
-                    $"Format={(ram.Format != null ? "OK" : "NULL")}, " +
-                    $"Catalog={(ram.Catalog != null ? "OK" : "NULL")}, " +
-                    $"IsValid={ram.IsValid}"
-                );
+                ram.ResolveReferences(FormatList, AllRamCatalogs);
+                RamdataList.Add(ram);
             }
-        }
 
+            return saveData; // View(RichTextBox)で使うためにデータを返す
+        }
     }
 }

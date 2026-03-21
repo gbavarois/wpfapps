@@ -1,140 +1,63 @@
-﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
-using DocumentFormat.OpenXml.Spreadsheet;
-using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WpfApp1.Models
 {
-    public class RamData : INotifyPropertyChanged
+    public partial class RamData : ObservableObject
     {
-        private int _row;
-        private int _column;
-        private string _formatId;
-        private FormatData _format;
-        private int _offset;
-        private string _symbol;
-        private bool _isSelected;
+        [ObservableProperty] private int _row;
+        [ObservableProperty] private int _column;
+        [ObservableProperty] private int _offset;
+        [ObservableProperty] private bool _isSelected;
 
-        public IEnumerable<FormatData> FormatSource { get; set; }
+        [ObservableProperty] private IEnumerable<FormatData>? _formatSource;
 
-        // 元データのカタログ情報（単位やアドレスなどのマスター参照）
-        public RamCatalog Catalog { get; set; }
+        // IDが変わったら、Format実体を解決する
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(Length), nameof(Placeholder), nameof(IsValid))]
+        private string _formatId = string.Empty;
 
-        public int Row
-        {
-            get => _row;
-            set { _row = value; OnPropertyChanged(); }
-        }
-        public int Column
-        {
-            get => _column;
-            set { _column = value; OnPropertyChanged(); }
-        }
-        public string FormatId
-        {
-            get => _formatId;
-            set
-            {
-                if (_formatId == value) return;
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(Length), nameof(Placeholder), nameof(IsValid))]
+        private FormatData? _format;
 
-                _formatId = value;
-                OnPropertyChanged();
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(Symbol), nameof(Data), nameof(ComputedAddress), nameof(IsValid))]
+        private RamCatalog? _catalog;
 
-                if (FormatSource != null)
-                {
-                    Format = FormatSource.FirstOrDefault(f => f.Id == _formatId);
-                }
-                else
-                {
-                    Format = null;
-                }
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(Data))] // Symbolが変わったらData（表示用）も通知
+        private string _symbol = string.Empty;
 
-                OnPropertyChanged(nameof(IsValid));
-            }
-        }
-        public FormatData Format
-        {
-            get => _format;
-            set
-            {
-                if (_format == value) return;
-
-                _format = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(Length));
-                OnPropertyChanged(nameof(Placeholder));
-            }
-        }
-        public int Offset
-        {
-            get => _offset;
-            set
-            {
-                _offset = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(ComputedAddress));
-            }
-        }
-
-        public string Symbol
-        {
-            get => Catalog?.Symbol ?? _symbol ?? "(不明)";
-            set
-            {
-                _symbol = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set { _isSelected = value; OnPropertyChanged(); }
-        }
-
-        // 表示用のプロパティ（カタログから引っ張る）
+        // 表示用計算プロパティ
+        
         public string Data => Catalog?.Data ?? "(不明)";
-        public string BaseAddress => Catalog?.Address;
+        public int Length => Format?.Length ?? 8;
+        public string Placeholder => Format?.Placeholder ?? "";
+
         public string ComputedAddress
         {
             get
             {
                 if (int.TryParse(Catalog?.Address, out var baseAddr))
                     return (baseAddr + Offset).ToString();
-                return Catalog?.Address;
+                return Catalog?.Address ?? "";
             }
         }
-        public int Length => Format?.Length ?? 0;
-        public string Placeholder => Format?.Placeholder;
-        public bool IsValid =>  Catalog != null &&
-                                (FormatSource == null || Format != null);
 
-        public void ResolveFormat(IEnumerable<FormatData> formatList)
+        public bool IsValid => Catalog != null && Format != null;
+
+        // FormatIdが変更されたときに呼ばれるフック（自動でFormat実体を探す）
+        public void ResolveReferences(IEnumerable<FormatData> formats, IEnumerable<RamCatalog> catalogs)
         {
-            //Format = formatList.FirstOrDefault(f => f.Id == FormatId);
-            Format = formatList.FirstOrDefault(f => string.Equals(f.Id?.Trim(), FormatId?.Trim(), StringComparison.OrdinalIgnoreCase));
-            OnPropertyChanged(nameof(Format));
-            OnPropertyChanged(nameof(IsValid));
-            OnPropertyChanged(nameof(Length));
-            OnPropertyChanged(nameof(Placeholder));
+            Format = formats.FirstOrDefault(f => f.Id?.Trim() == FormatId?.Trim());
+            if (Catalog == null)
+            {
+                Catalog = catalogs.FirstOrDefault(c => c.Symbol == Symbol);
+            }
         }
-
-        public void NotifyCatalogChanged()
-        {
-            OnPropertyChanged(nameof(Catalog));
-            OnPropertyChanged(nameof(Symbol));
-            OnPropertyChanged(nameof(Data));
-            OnPropertyChanged(nameof(Address));
-            OnPropertyChanged(nameof(IsValid));
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }
