@@ -8,7 +8,7 @@ namespace WpfApp1.Services
 {
     public static class ExcelLoader
     {
-        public static Dictionary<string, List<RamCatalog>> Load(string path)
+        public static Dictionary<string, List<RamCatalog>> LoadCatalogs(string path)
         {
             var result = new Dictionary<string, List<RamCatalog>>();
 

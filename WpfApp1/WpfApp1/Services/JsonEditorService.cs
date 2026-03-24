@@ -15,7 +15,7 @@ namespace WpfApp1.Services
     public class JsonEditorService
     {
         // 保存データ生成（RichText → DTO）
-        public EditorSaveData CreateSaveData(RichTextBox rtb, IEnumerable<RamData> ramList)
+        public EditorSaveData CreateSaveData(RichTextBox rtb, IEnumerable<RamLayout> ramList)
         {
             var data = new EditorSaveData();
 
@@ -224,17 +224,17 @@ namespace WpfApp1.Services
             return (Brush)new BrushConverter().ConvertFromString(color);
         }
 
-        public List<RamData> RestoreRamData(List<RamLayout> saved,
+        public List<RamLayout> RestoreRamData(List<RamLayout> saved,
                                             IEnumerable<RamCatalog> catalogList,
                                             IEnumerable<FormatData> formatList)
         {
-            var result = new List<RamData>();
+            var result = new List<RamLayout>();
 
             foreach (var s in saved)
             {
                 var catalog = catalogList.FirstOrDefault(c => c.Symbol == s.Symbol);
 
-                var ram = new RamData
+                var ram = new RamLayout
                 {
                     Catalog = catalog,              // nullの可能性あり
                     FormatSource = formatList,

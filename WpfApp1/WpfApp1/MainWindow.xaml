@@ -88,7 +88,7 @@
                                     </StackPanel>
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
                                     <Border Grid.Row="1" Margin="2" BorderBrush="LightGray" BorderThickness="1">
-                                        <DataGrid x:Name="RamCatalogList" ItemsSource="{Binding SelectedSheetData}" SelectedItem="{Binding SelectedRamCatalog}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                                        <DataGrid x:Name="RamCatalogList" ItemsSource="{Binding CurrentCatalogs}" SelectedItem="{Binding SelectedRamCatalog}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="データ名" Binding="{Binding Data}" Width="120"/>
                                                 <DataGridTextColumn Header="シンボル" Binding="{Binding Symbol}" Width="*"/>

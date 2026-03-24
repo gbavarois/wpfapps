@@ -9,19 +9,19 @@ using WpfApp1.Models;
 
 namespace WpfApp1.ViewModels
 {
-    public partial class EditorPageViewModel : ObservableObject
+    public partial class EditorDisplayViewModel : ObservableObject
     {
         private readonly MainViewModel _main;
 
-        [ObservableProperty] private string _pageName = "新規ページ";
+        [ObservableProperty] private string _displayNumber = "新規ディスプレイ";
 
-        // このページに配置されているRAMのリスト
+        // このディスプレイに配置されているRAMのリスト
         public ObservableCollection<RamItemViewModel> PlacedRams { get; } = new();
 
-        // このページで選択されているRAM
+        // このディスプレイで選択されているRAM
         [ObservableProperty] private RamItemViewModel? _selectedRam;
 
-        public EditorPageViewModel(MainViewModel main)
+        public EditorDisplayViewModel(MainViewModel main)
         {
             _main = main;
         }

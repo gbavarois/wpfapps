@@ -10,8 +10,8 @@ namespace WpfApp1.ViewModels
 {
     public partial class RamItemViewModel : ObservableObject
     {
-        private readonly RamLayout _model; // 保存対象のピュアなデータ
-        private readonly MainViewModel _main; // マスター参照用
+        private readonly RamLayout _model;      // 保存対象のピュアなデータ
+        private readonly MainViewModel _main;   // マスター参照用
 
         public RamItemViewModel(RamLayout model, MainViewModel main)
         {
@@ -52,7 +52,7 @@ namespace WpfApp1.ViewModels
 
         // --- 参照・計算プロパティ（Modelは持たず、ViewModelが解決する） ---
 
-        public RamCatalog? Catalog => _main.AllRamCatalogs.FirstOrDefault(c => c.Symbol == Symbol);
+        public RamCatalog? Catalog => _main.CurrentCatalogs.FirstOrDefault(c => c.Symbol == Symbol);
 
         public FormatData? Format => _main.FormatList.FirstOrDefault(f => f.Id == FormatId);
 
