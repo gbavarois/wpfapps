@@ -46,7 +46,7 @@ namespace WpfApp1
         // ドラッグ移動：ピクセル計算の結果をデータモデルに戻すだけ
         private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            if (sender is Thumb thumb && thumb.DataContext is RamLayout data)
+            if (sender is Thumb thumb && thumb.DataContext is RamItemViewModel data)
             {
                 // Canvas上での現在の位置を取得
                 var parent = VisualTreeHelper.GetParent(thumb) as ContentPresenter;
@@ -103,10 +103,10 @@ namespace WpfApp1
 
         private void Thumb_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (sender is Thumb thumb && thumb.DataContext is RamLayout data)
+            if (sender is Thumb thumb && thumb.DataContext is RamItemViewModel data)
             {
                 var vm = (MainViewModel)this.DataContext;
-                vm.SelectedRamdata = data;
+                vm.SelectedRamItem = data;
             }
         }
 

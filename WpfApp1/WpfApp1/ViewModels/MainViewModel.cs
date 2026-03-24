@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,7 +26,9 @@ namespace WpfApp1.ViewModels
 
 
 
-        [ObservableProperty] private ObservableCollection<RamLayout> _ramdataList = new();
+        [ObservableProperty] private ObservableCollection<RamLayout> _ramdataList = new();          // これを消す
+
+        [ObservableProperty] private ObservableCollection<RamItemViewModel> _ramItemVMList = new();
 
         // SelectedSheetNameが変更されたときに自動で呼ばれるメソッド（Toolkitの機能）
         partial void OnSelectedSheetChanged(string value)
@@ -48,7 +51,8 @@ namespace WpfApp1.ViewModels
 
 
         [ObservableProperty] private FormatData? _selectedFormat;
-        [ObservableProperty] private RamLayout? _selectedRamdata;
+        [ObservableProperty] private RamLayout? _selectedRamdata;               // これを消す
+        [ObservableProperty] private RamItemViewModel? _selectedRamItem;
 
         // シート選択が変わったら自動でリスト更新
         //partial void OnSelectedSheetChanged(string? value)
@@ -82,15 +86,20 @@ namespace WpfApp1.ViewModels
 
             var newRam = new RamLayout
             {
-                Catalog = SelectedRamCatalog,
+                //Catalog = SelectedRamCatalog,
                 FormatId = SelectedRamCatalog.FormatId,
                 // 初期座標などは必要に応じて
                 Row = 0,
                 Column = 0
             };
-         //   newRam.ResolveReferences(FormatList, _allSheets.Values.SelectMany(x => x));
-            RamdataList.Add(newRam);
-            SelectedRamdata = newRam;
+         
+            RamdataList.Add(newRam);        //　これを消す
+            SelectedRamdata = newRam;       //  これを消す
+
+            var vm = new RamItemViewModel(newRam, this);
+            RamItemVMList.Add(vm);
+            SelectedRamItem = vm; // これは一旦保留
+
         }
 
         [RelayCommand(CanExecute = nameof(CanRemove))]
@@ -118,7 +127,7 @@ namespace WpfApp1.ViewModels
             RamdataList.Clear();
             foreach (var ram in restoredRams)
             {
-                ram.ResolveReferences(FormatList, _currentCatalogs);
+                //ram.ResolveReferences(FormatList, _currentCatalogs);
                 RamdataList.Add(ram);
             }
 

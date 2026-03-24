@@ -235,7 +235,7 @@
                                     <!-- RAM枠表示層（最前面） -->
                                     <!-- Background="{x:Null}" でテキスト入力を邪魔しないようにする -->
                                     <!-- Canvas部分を以下に置き換え -->
-                                    <ItemsControl x:Name="MyItemsControl" ItemsSource="{Binding RamdataList}">
+                                    <ItemsControl x:Name="MyItemsControl" ItemsSource="{Binding RamItemVMList}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <!-- RenderTransform はコードビハインドから操作してもOK -->
@@ -301,9 +301,9 @@
 
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
                                     <Border Grid.Row="0" Margin="5" BorderBrush="LightGray" BorderThickness="1">
-                                        <DataGrid x:Name="RamDataList"
-                                                  ItemsSource="{Binding RamdataList}"
-                                                  SelectedItem="{Binding SelectedRamdata}"
+                                        <DataGrid x:Name="RamItemVMList"
+                                                  ItemsSource="{Binding RamItemVMList}"
+                                                  SelectedItem="{Binding SelectedRamItem}"
                                                   AutoGenerateColumns="False"
                                                   CanUserAddRows="False"
                                                   SelectionMode="Single">

@@ -20,7 +20,7 @@ namespace WpfApp1.ViewModels
         }
 
         // 保存データ（Model）をそのまま取得したい時用
-        public RamLayout GetModel() => _model;
+        public RamLayout Model => _model;
 
         // Modelの値をプロパティとして公開（変更されたらModelも書き換える）
         public int Row
@@ -42,8 +42,12 @@ namespace WpfApp1.ViewModels
             {
                 if (SetProperty(_model.FormatId, value, _model, (m, v) => m.FormatId = v))
                 {
+                    OnPropertyChanged();
+                    // FormatIdが変わると、以下のプロパティの結果も変わるため通知する
                     OnPropertyChanged(nameof(Format));
                     OnPropertyChanged(nameof(Length));
+                    OnPropertyChanged(nameof(Placeholder));
+                    OnPropertyChanged(nameof(IsValid));
                 }
             }
         }
@@ -52,9 +56,15 @@ namespace WpfApp1.ViewModels
 
         // --- 参照・計算プロパティ（Modelは持たず、ViewModelが解決する） ---
 
-        public RamCatalog? Catalog => _main.CurrentCatalogs.FirstOrDefault(c => c.Symbol == Symbol);
+        public RamCatalog? Catalog => _main.CurrentCatalogs.FirstOrDefault(c => c.Symbol == _model.Symbol);
 
         public FormatData? Format => _main.FormatList.FirstOrDefault(f => f.Id == FormatId);
+
+        public string Placeholder => Format?.Placeholder ?? string.Empty;
+
+        public bool IsValid => Catalog != null && Format != null;
+
+
 
         public string Data => Catalog?.Data ?? "(不明)";
 

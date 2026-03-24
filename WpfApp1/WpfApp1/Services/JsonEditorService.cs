@@ -43,7 +43,7 @@ namespace WpfApp1.Services
                 {
                     Row = ram.Row,
                     Column = ram.Column,
-                    Symbol = ram.Catalog?.Symbol,
+                    Symbol = ram.Symbol,
                     FormatId = ram.FormatId,
                     Offset = 0 // ← まだ未実装なら固定
                 });
@@ -236,8 +236,8 @@ namespace WpfApp1.Services
 
                 var ram = new RamLayout
                 {
-                    Catalog = catalog,              // nullの可能性あり
-                    FormatSource = formatList,
+                    //Catalog = catalog,              // nullの可能性あり
+                    //FormatSource = formatList,
                     FormatId = s.FormatId,
                     Row = s.Row,
                     Column = s.Column,
