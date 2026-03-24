@@ -10,6 +10,6 @@ namespace WpfApp1.Models
     {
         public List<string> Lines { get; set; } = new();
         public List<TextColorInfo> Colors { get; set; } = new();
-        public List<RamSaveData> Rams { get; set; } = new();
+        public List<RamLayout> Rams { get; set; } = new();
     }
 }

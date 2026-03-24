@@ -39,7 +39,7 @@ namespace WpfApp1.Services
             // --- RAMデータ ---
             foreach (var ram in ramList)
             {
-                data.Rams.Add(new RamSaveData
+                data.Rams.Add(new RamLayout
                 {
                     Row = ram.Row,
                     Column = ram.Column,
@@ -224,7 +224,7 @@ namespace WpfApp1.Services
             return (Brush)new BrushConverter().ConvertFromString(color);
         }
 
-        public List<RamData> RestoreRamData(List<RamSaveData> saved,
+        public List<RamData> RestoreRamData(List<RamLayout> saved,
                                             IEnumerable<RamCatalog> catalogList,
                                             IEnumerable<FormatData> formatList)
         {

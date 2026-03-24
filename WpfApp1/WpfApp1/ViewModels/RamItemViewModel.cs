@@ -10,17 +10,17 @@ namespace WpfApp1.ViewModels
 {
     public partial class RamItemViewModel : ObservableObject
     {
-        private readonly RamSaveData _model; // 保存対象のピュアなデータ
+        private readonly RamLayout _model; // 保存対象のピュアなデータ
         private readonly MainViewModel _main; // マスター参照用
 
-        public RamItemViewModel(RamSaveData model, MainViewModel main)
+        public RamItemViewModel(RamLayout model, MainViewModel main)
         {
             _model = model;
             _main = main;
         }
 
         // 保存データ（Model）をそのまま取得したい時用
-        public RamSaveData GetModel() => _model;
+        public RamLayout GetModel() => _model;
 
         // Modelの値をプロパティとして公開（変更されたらModelも書き換える）
         public int Row
