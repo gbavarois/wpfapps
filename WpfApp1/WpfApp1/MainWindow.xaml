@@ -360,22 +360,22 @@
 
                                                 <DockPanel Margin="0,2">
                                                     <TextBlock Text="データ名:" Width="90" FontWeight="Bold"/>
-                                                    <TextBlock Text="{Binding SelectedRamdata.Data}" />
+                                                    <TextBlock Text="{Binding SelectedRamItem.Data}" />
                                                 </DockPanel>
 
                                                 <DockPanel Margin="0,2">
                                                     <TextBlock Text="シンボル:" Width="90" FontWeight="Bold"/>
-                                                    <TextBlock Text="{Binding SelectedRamdata.Symbol}" />
+                                                    <TextBlock Text="{Binding SelectedRamItem.Symbol}" />
                                                 </DockPanel>
 
                                                 <DockPanel Margin="0,2">
                                                     <TextBlock Text="アドレス:" Width="90" FontWeight="Bold"/>
-                                                    <TextBlock Text="{Binding SelectedRamdata.ComputedAddress}" />
+                                                    <TextBlock Text="{Binding SelectedRamItem.ComputedAddress}" />
                                                 </DockPanel>
 
                                                 <DockPanel Margin="0,2">
                                                     <TextBlock Text="プレースホルダ:" Width="90" FontWeight="Bold"/>
-                                                    <TextBlock Text="{Binding SelectedRamdata.Placeholder}" />
+                                                    <TextBlock Text="{Binding SelectedRamItem.Placeholder}" />
                                                 </DockPanel>
 
                                             </StackPanel>

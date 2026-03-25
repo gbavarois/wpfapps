@@ -35,6 +35,14 @@ namespace WpfApp1.ViewModels
             set { if (SetProperty(_model.Column, value, _model, (m, v) => m.Column = v)) OnPropertyChanged(); }
         }
 
+        public int Offset
+        {
+            get => _model.Offset;
+            set { if (SetProperty(_model.Offset, value, _model, (m, v) => m.Offset = v)) OnPropertyChanged(); OnPropertyChanged(nameof(ComputedAddress)); }
+        }
+
+        public string Symbol => _model.Symbol;
+        
         public string FormatId
         {
             get => _model.FormatId;
@@ -52,7 +60,6 @@ namespace WpfApp1.ViewModels
             }
         }
 
-        public string Symbol => _model.Symbol;
 
         // --- 参照・計算プロパティ（Modelは持たず、ViewModelが解決する） ---
 

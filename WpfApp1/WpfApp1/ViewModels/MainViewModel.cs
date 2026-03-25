@@ -86,11 +86,11 @@ namespace WpfApp1.ViewModels
 
             var newRam = new RamLayout
             {
-                //Catalog = SelectedRamCatalog,
-                FormatId = SelectedRamCatalog.FormatId,
-                // 初期座標などは必要に応じて
                 Row = 0,
-                Column = 0
+                Column = 0,
+                Offset = 0,
+                Symbol = SelectedRamCatalog.Symbol,
+                FormatId = SelectedRamCatalog.FormatId,
             };
          
             RamdataList.Add(newRam);        //　これを消す
