@@ -45,6 +45,21 @@ namespace WpfApp1.ViewModels
             SelectedRam = vm;
         }
 
+        partial void OnSelectedRamChanged(RamItemViewModel? value)
+        {
+            // 全部解除
+            foreach (var ram in PlacedRams)
+            {
+                ram.IsSelected = false;
+            }
+
+            // 選択されたものだけON
+            if (value != null)
+            {
+                value.IsSelected = true;
+            }
+        }
+
         // 保存用データ（DTO）への変換
         public EditorSaveData CreateSaveData(System.Collections.Generic.List<string> lines, System.Collections.Generic.List<TextColorInfo> colors)
         {

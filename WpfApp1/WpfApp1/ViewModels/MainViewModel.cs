@@ -38,6 +38,23 @@ namespace WpfApp1.ViewModels
 
         [ObservableProperty] private ObservableCollection<RamItemViewModel> _ramItemVMList = new();
 
+        public MainViewModel()
+        {
+            AddTab();
+        }
+
+        [RelayCommand]
+        private void AddTab()
+        {
+            var tab = new EditorDisplayViewModel(this)
+            {
+                DisplayNumber = $"Disp{EditorTabs.Count}"
+            };
+
+            EditorTabs.Add(tab);
+            ActiveTab = tab;
+        }
+
         // SelectedSheetNameが変更されたときに自動で呼ばれるメソッド（Toolkitの機能）
         partial void OnSelectedSheetChanged(string value)
         {
@@ -98,23 +115,22 @@ namespace WpfApp1.ViewModels
         [RelayCommand]
         private void AddRamFromCatalog()
         {
-            if (SelectedRamCatalog == null) return;
+            if (SelectedRamCatalog == null || ActiveTab == null) return;
 
             var newRam = new RamLayout
             {
-                Row = 0,
-                Column = 0,
+                Row = CurrentRow,
+                Column = CurrentColumn,
                 Offset = 0,
                 Symbol = SelectedRamCatalog.Symbol,
                 FormatId = SelectedRamCatalog.FormatId,
             };
-         
-            //RamdataList.Add(newRam);        //　これを消す
-            //SelectedRamdata = newRam;       //  これを消す
 
             var vm = new RamItemViewModel(newRam, this);
-            //RamItemVMList.Add(vm);
-            SelectedRamItem = vm; // これは一旦保留
+
+            ActiveTab.PlacedRams.Add(vm);
+            ActiveTab.SelectedRam = vm;
+            //SelectedRamItem = vm; // これは一旦保留
 
         }
 

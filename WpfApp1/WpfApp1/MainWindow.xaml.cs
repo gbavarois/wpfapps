@@ -106,7 +106,7 @@ namespace WpfApp1
             if (sender is Thumb thumb && thumb.DataContext is RamItemViewModel data)
             {
                 var vm = (MainViewModel)this.DataContext;
-                vm.SelectedRamItem = data;
+                vm.ActiveTab.SelectedRam = data;
             }
         }
 
@@ -263,6 +263,10 @@ namespace WpfApp1
                     columnCount += GetWidth(c);
                 }
             }
+
+            var vm = (MainViewModel)DataContext;
+            vm.CurrentRow = lineCount;
+            vm.CurrentColumn = columnCount;
 
             if (StatusLineColumn != null)
             {

@@ -86,5 +86,8 @@ namespace WpfApp1.ViewModels
                 return Catalog?.Address ?? "";
             }
         }
+
+        [ObservableProperty]
+        private bool _isSelected;
     }
 }
