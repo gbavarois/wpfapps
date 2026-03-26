@@ -28,7 +28,7 @@ namespace WpfApp1.ViewModels
         [ObservableProperty] private ObservableCollection<FormatData> _formatList = new();
 
         // 開いている全タブのリスト
-        public ObservableCollection<EditorDisplayViewModel> EditorTabs { get; } = new();
+        [ObservableProperty] private ObservableCollection<EditorDisplayViewModel> _editorTabs = new();
 
         // 現在アクティブなタブ
         [ObservableProperty] private EditorDisplayViewModel? _activeTab;

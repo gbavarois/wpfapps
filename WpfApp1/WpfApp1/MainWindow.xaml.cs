@@ -92,12 +92,12 @@ namespace WpfApp1
         // スクロール同期（これはViewの仕事として残す）
         private void MainEditor_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            // ScrollChangedの中などの記述を修正
-            var canvas = MyItemsControl.Template.FindName("RamCanvas", MyItemsControl) as Canvas;
-            if (canvas != null)
-            {
-                canvas.RenderTransform = new TranslateTransform(-e.HorizontalOffset, -e.VerticalOffset);
-            }
+            //// ScrollChangedの中などの記述を修正
+            //var canvas = MyItemsControl.Template.FindName("RamCanvas", MyItemsControl) as Canvas;
+            //if (canvas != null)
+            //{
+            //    canvas.RenderTransform = new TranslateTransform(-e.HorizontalOffset, -e.VerticalOffset);
+            //}
 
         }
 
@@ -126,11 +126,11 @@ namespace WpfApp1
             }
         }
 
-        private void NewFile_Click(object sender, RoutedEventArgs e)
-        {
-            MainEditor.Document = new FlowDocument();
-            _currentFilePath = null;
-        }
+        //private void NewFile_Click(object sender, RoutedEventArgs e)
+        //{
+        //    MainEditor.Document = new FlowDocument();
+        //    _currentFilePath = null;
+        //}
 
         // JSON読み込みメニュー用
         private void OpenFile_Click(object sender, RoutedEventArgs e)
@@ -150,8 +150,8 @@ namespace WpfApp1
                 if (saveData != null)
                 {
                     var service = new JsonEditorService();
-                    service.RestoreText(MainEditor, saveData.Lines);
-                    service.ApplyColorInfo(MainEditor, saveData.Colors);
+                    //service.RestoreText(MainEditor, saveData.Lines);        // エラーを消すため暫定的にコメント化する
+                    //service.ApplyColorInfo(MainEditor, saveData.Colors);    // エラーを消すため暫定的にコメント化する
                 }
 
                 _currentFilePath = dialog.FileName;
@@ -159,35 +159,35 @@ namespace WpfApp1
         }
         private void SaveFile_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(_currentFilePath))
-            {
-                SaveAsFile_Click(sender, e);
-                return;
-            }
+            //    if (string.IsNullOrEmpty(_currentFilePath))
+            //    {
+            //        SaveAsFile_Click(sender, e);
+            //        return;
+            //    }
 
-            var service = new JsonEditorService();
-            var vm = (MainViewModel)DataContext;
-            var data = service.CreateSaveData(MainEditor, vm.RamdataList);
+            //    var service = new JsonEditorService();
+            //    var vm = (MainViewModel)DataContext;
+            //    var data = service.CreateSaveData(MainEditor, vm.RamdataList);
 
-            service.SaveToJson(data, _currentFilePath);
+            //    service.SaveToJson(data, _currentFilePath);
         }
         private void SaveAsFile_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new SaveFileDialog
-            {
-                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
-            };
+            //    var dialog = new SaveFileDialog
+            //    {
+            //        Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+            //    };
 
-            if (dialog.ShowDialog() == true)
-            {
-                var service = new JsonEditorService();
-                var vm = (MainViewModel)DataContext;
-                var data = service.CreateSaveData(MainEditor, vm.RamdataList);
+            //    if (dialog.ShowDialog() == true)
+            //    {
+            //        var service = new JsonEditorService();
+            //        var vm = (MainViewModel)DataContext;
+            //        var data = service.CreateSaveData(MainEditor, vm.RamdataList);
 
-                service.SaveToJson(data, dialog.FileName);
+            //        service.SaveToJson(data, dialog.FileName);
 
-                _currentFilePath = dialog.FileName;
-            }
+            //        _currentFilePath = dialog.FileName;
+            //    }
         }
 
         private void SetColor_Click(object sender, RoutedEventArgs e)
@@ -208,7 +208,10 @@ namespace WpfApp1
         // 実際の着色ロジック
         private void ApplyColorToSelection(string colorIndex)
         {
-            var range = MainEditor.Selection;
+            var rtb = FocusManager.GetFocusedElement(this) as RichTextBox;
+            if (rtb == null) return;
+
+            var range = rtb.Selection;
             if (!range.IsEmpty && !range.IsEmpty)
             {
                 // ColorHelperを使ってインデックスからブラシを取得
@@ -220,7 +223,9 @@ namespace WpfApp1
         // --- リッチテキストボックスのカーソル位置計算 ---
         private void MainEditor_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            TextPointer caretPos = MainEditor.CaretPosition;
+            if (sender is not RichTextBox rtb) return;
+
+            TextPointer caretPos = rtb.CaretPosition;
             if (caretPos == null) return;
 
             // 1. 行（Line）の計算

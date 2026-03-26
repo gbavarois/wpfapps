@@ -44,7 +44,7 @@
         <Menu Grid.Row="0">
             <MenuItem Header="ファイル(_F)">
                 <!-- MainViewModel に実装したコマンドを呼び出す -->
-                <MenuItem Header="新規作成(_N)" Click="NewFile_Click"/>
+                <MenuItem Header="新規作成(_N)" Command="{Binding AddTabCommand}"/>
                 <MenuItem Header="開く(_O)" Click="OpenFile_Click"/>
                 <MenuItem Header="上書き保存(_S)" Command="{Binding SaveFileCommand}"/>
                 <MenuItem Header="名前を付けて保存(_A)" Click="SaveAsFile_Click"/>
@@ -65,7 +65,131 @@
         </Menu>
 
         <!-- Docking 本体 -->
-        <ad:DockingManager Grid.Row="1" x:Name="dockingManager">
+        <ad:DockingManager Grid.Row="1" x:Name="dockingManager" DocumentsSource="{Binding EditorTabs}" ActiveContent="{Binding ActiveTab, Mode=TwoWay}">
+            <ad:DockingManager.DocumentHeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding DisplayNumber}" />
+                </DataTemplate>
+            </ad:DockingManager.DocumentHeaderTemplate>
+            <ad:DockingManager.LayoutItemContainerStyle>
+                <Style TargetType="ad:LayoutItem">
+                    <Setter Property="Title" Value="{Binding DisplayNumber}" />
+                </Style>
+            </ad:DockingManager.LayoutItemContainerStyle>
+            <ad:DockingManager.LayoutItemTemplate >
+                <DataTemplate>
+                    <!-- Gridで重ね合わせを実現 -->
+                    <Grid>
+                        <!-- テキスト入力層（背景を黒、文字を緑に固定） -->
+                        <RichTextBox x:Name="MainEditor"
+                         TextOptions.TextFormattingMode="Display"
+                         TextOptions.TextRenderingMode="ClearType"
+                         FontFamily="MS Gothic"
+                         FontSize="14"
+                         Background="LightGray"
+                         Padding="0"
+                         BorderThickness="0"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto"
+                         HorizontalScrollBarVisibility="Auto"
+                         SelectionChanged="MainEditor_SelectionChanged">
+                            <RichTextBox.Resources>
+                                <Style TargetType="{x:Type Paragraph}">
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="LineHeight" Value="14"/>
+                                    <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
+                                </Style>
+                                <Style TargetType="{x:Type Run}">
+                                    <Setter Property="Background" Value="Black" />
+                                    <Setter Property="Foreground" Value="#00FF00" />
+                                </Style>
+
+                            </RichTextBox.Resources>
+                            <FlowDocument PagePadding="0" PageWidth="10000">
+                                <Paragraph x:Name="MainEditorParagraph"/>
+                            </FlowDocument>
+                            <RichTextBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="色">
+                                        <!-- 指定の10色をネストして配置 -->
+                                        <MenuItem Header="1:青"   Click="SetColor_Click" Tag="1" InputGestureText="Ctrl+Shift+1" Foreground="#4040FF"/>
+                                        <MenuItem Header="2:赤"   Click="SetColor_Click" Tag="2" InputGestureText="Ctrl+Shift+2" Foreground="#FF4040" />
+                                        <MenuItem Header="3:紫"   Click="SetColor_Click" Tag="3" InputGestureText="Ctrl+Shift+3" Foreground="#FF00FF"/>
+                                        <MenuItem Header="4:緑"   Click="SetColor_Click" Tag="4" InputGestureText="Ctrl+Shift+4" Foreground="#00FF00"/>
+                                        <MenuItem Header="6:黄"   Click="SetColor_Click" Tag="5" InputGestureText="Ctrl+Shift+5" Foreground="#FFFF00"/>
+                                        <MenuItem Header="5:水色" Click="SetColor_Click" Tag="6" InputGestureText="Ctrl+Shift+6" Foreground="#00FFFF"/>
+                                        <MenuItem Header="7:白"   Click="SetColor_Click" Tag="7" InputGestureText="Ctrl+Shift+7" Foreground="White" Background="Gray"/>
+                                        <MenuItem Header="8:橙"   Click="SetColor_Click" Tag="8" InputGestureText="Ctrl+Shift+8" Foreground="#FF8000"/>
+                                        <MenuItem Header="9:黄緑" Click="SetColor_Click" Tag="9" InputGestureText="Ctrl+Shift+9" Foreground="#80FF00"/>
+                                        <MenuItem Header="0:黒"   Click="SetColor_Click" Tag="0" InputGestureText="Ctrl+Shift+B" Foreground="Gray"/>
+                                    </MenuItem>
+                                    <MenuItem Header="RAMデータを配置" />
+
+                                    <Separator />
+                                    <!-- 区切り線 -->
+
+                                    <MenuItem Command="Cut" Header="切り取り" />
+                                    <MenuItem Command="Copy" Header="コピー" />
+                                    <MenuItem Command="Paste" Header="貼り付け" />
+                                </ContextMenu>
+                            </RichTextBox.ContextMenu>
+                        </RichTextBox>
+
+                        <!-- RAM枠表示層（最前面） -->
+                        <!-- Background="{x:Null}" でテキスト入力を邪魔しないようにする -->
+                        <!-- Canvas部分を以下に置き換え -->
+                        <ItemsControl x:Name="MyItemsControl" ItemsSource="{Binding ActiveTab.PlacedRams}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <!-- RenderTransform はコードビハインドから操作してもOK -->
+                                    <Canvas x:Name="RamCanvas" Background="{x:Null}" IsHitTestVisible="True" Margin="4,0,0,0" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemContainerStyle>
+                                <Style TargetType="ContentPresenter">
+                                    <!-- 座標を RamData の Column/Row と直接つなぐ -->
+                                    <Setter Property="Canvas.Left" Value="{Binding Column, Converter={StaticResource CharToPosConverter}}" />
+                                    <Setter Property="Canvas.Top" Value="{Binding Row, Converter={StaticResource LineToPosConverter}}" />
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <!-- 従来の Thumb の設定をここに凝縮 -->
+                                    <Thumb Width="{Binding Length, Converter={StaticResource LenToWidthConverter}}" 
+                               Height="14" 
+                               DragDelta="Thumb_DragDelta"
+                               PreviewMouseLeftButtonDown="Thumb_MouseDown">
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Border x:Name="brd" Background="#80FFFFFF">
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup x:Name="SelectionStates">
+                                                            <VisualState x:Name="Selected">
+                                                                <Storyboard>
+                                                                    <ColorAnimation Storyboard.TargetName="brd" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#66FF0000" Duration="0"/>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Unselected"/>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter TargetName="brd" Property="Background" Value="#66FF0000"/>
+                                                    </DataTrigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                    </Grid>
+                </DataTemplate>
+            </ad:DockingManager.LayoutItemTemplate>
             <ad:DockingManager.Layout>
                 <ad:LayoutRoot>
                     <ad:LayoutPanel Orientation="Horizontal">
@@ -74,10 +198,14 @@
                             <ad:LayoutAnchorable x:Name="RamCatalogPane" Title="変数一覧" ContentId="RamCatalogPane" CanClose="False">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" /> <!-- シート選択 -->
-                                        <RowDefinition Height="*" />   <!-- 上：一覧 -->
-                                        <RowDefinition Height="Auto" /> <!-- 境界線 -->
-                                        <RowDefinition Height="180" />   <!-- 下：詳細 -->
+                                        <RowDefinition Height="Auto" />
+                                        <!-- シート選択 -->
+                                        <RowDefinition Height="*" />
+                                        <!-- 上：一覧 -->
+                                        <RowDefinition Height="Auto" />
+                                        <!-- 境界線 -->
+                                        <RowDefinition Height="180" />
+                                        <!-- 下：詳細 -->
                                     </Grid.RowDefinitions>
 
                                     <!-- シート選択 (ComboBox) -->
@@ -140,9 +268,12 @@
                             <ad:LayoutAnchorable x:Name="FormatPane" Title="表記フォーマット" ContentId="FormatPane" CanHide="True" CanClose="False">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />   <!-- 上：一覧 -->
-                                        <RowDefinition Height="Auto" /> <!-- 境界線 -->
-                                        <RowDefinition Height="100" />   <!-- 下：詳細 -->
+                                        <RowDefinition Height="*" />
+                                        <!-- 上：一覧 -->
+                                        <RowDefinition Height="Auto" />
+                                        <!-- 境界線 -->
+                                        <RowDefinition Height="100" />
+                                        <!-- 下：詳細 -->
                                     </Grid.RowDefinitions>
 
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
@@ -173,121 +304,11 @@
                         </ad:LayoutAnchorablePane>
 
                         <!-- 中央：エディタ領域 -->
-                        <ad:LayoutDocumentPane>
-                            <ad:LayoutDocument Title="エディタ" ContentId="Editor" CanClose="False" CanFloat="False">
-                                <!-- Gridで重ね合わせを実現 -->
-                                <Grid>
-                                    <!-- テキスト入力層（背景を黒、文字を緑に固定） -->
-                                    <RichTextBox x:Name="MainEditor"
-                                                 TextOptions.TextFormattingMode="Display"
-                                                 TextOptions.TextRenderingMode="ClearType"
-                                                 FontFamily="MS Gothic"
-                                                 FontSize="14"
-                                                 Background="LightGray"
-                                                 Padding="0"
-                                                 BorderThickness="0"
-                                                 AcceptsReturn="True"
-                                                 VerticalScrollBarVisibility="Auto"
-                                                 HorizontalScrollBarVisibility="Auto"
-                                                 SelectionChanged="MainEditor_SelectionChanged">
-                                        <RichTextBox.Resources>
-                                            <Style TargetType="{x:Type Paragraph}">
-                                                <Setter Property="Margin" Value="0"/>
-                                                <Setter Property="LineHeight" Value="14"/>
-                                                <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
-                                            </Style>
-                                            <Style TargetType="{x:Type Run}">
-                                                <Setter Property="Background" Value="Black" />
-                                                <Setter Property="Foreground" Value="#00FF00" />
-                                            </Style>
+                        <ad:LayoutDocumentPane />
 
-                                        </RichTextBox.Resources>
-                                        <FlowDocument PagePadding="0" PageWidth="10000">
-                                            <Paragraph x:Name="MainEditorParagraph"/>
-                                        </FlowDocument>
-                                        <RichTextBox.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Header="色">
-                                                    <!-- 指定の10色をネストして配置 -->
-                                                    <MenuItem Header="1:青"   Click="SetColor_Click" Tag="1" InputGestureText="Ctrl+Shift+1" Foreground="#4040FF"/>
-                                                    <MenuItem Header="2:赤"   Click="SetColor_Click" Tag="2" InputGestureText="Ctrl+Shift+2" Foreground="#FF4040" />
-                                                    <MenuItem Header="3:紫"   Click="SetColor_Click" Tag="3" InputGestureText="Ctrl+Shift+3" Foreground="#FF00FF"/>
-                                                    <MenuItem Header="4:緑"   Click="SetColor_Click" Tag="4" InputGestureText="Ctrl+Shift+4" Foreground="#00FF00"/>
-                                                    <MenuItem Header="6:黄"   Click="SetColor_Click" Tag="5" InputGestureText="Ctrl+Shift+5" Foreground="#FFFF00"/>
-                                                    <MenuItem Header="5:水色" Click="SetColor_Click" Tag="6" InputGestureText="Ctrl+Shift+6" Foreground="#00FFFF"/>
-                                                    <MenuItem Header="7:白"   Click="SetColor_Click" Tag="7" InputGestureText="Ctrl+Shift+7" Foreground="White" Background="Gray"/>
-                                                    <MenuItem Header="8:橙"   Click="SetColor_Click" Tag="8" InputGestureText="Ctrl+Shift+8" Foreground="#FF8000"/>
-                                                    <MenuItem Header="9:黄緑" Click="SetColor_Click" Tag="9" InputGestureText="Ctrl+Shift+9" Foreground="#80FF00"/>
-                                                    <MenuItem Header="0:黒"   Click="SetColor_Click" Tag="0" InputGestureText="Ctrl+Shift+B" Foreground="Gray"/>
-                                                </MenuItem>
-                                                <MenuItem Header="RAMデータを配置" />
+                        
 
-                                                <Separator />
-                                                <!-- 区切り線 -->
 
-                                                <MenuItem Command="Cut" Header="切り取り" />
-                                                <MenuItem Command="Copy" Header="コピー" />
-                                                <MenuItem Command="Paste" Header="貼り付け" />
-                                            </ContextMenu>
-                                        </RichTextBox.ContextMenu>
-                                    </RichTextBox>
-
-                                    <!-- RAM枠表示層（最前面） -->
-                                    <!-- Background="{x:Null}" でテキスト入力を邪魔しないようにする -->
-                                    <!-- Canvas部分を以下に置き換え -->
-                                    <ItemsControl x:Name="MyItemsControl" ItemsSource="{Binding ActiveTab.PlacedRams}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <!-- RenderTransform はコードビハインドから操作してもOK -->
-                                                <Canvas x:Name="RamCanvas" Background="{x:Null}" IsHitTestVisible="True" Margin="4,0,0,0" />
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-
-                                        <ItemsControl.ItemContainerStyle>
-                                            <Style TargetType="ContentPresenter">
-                                                <!-- 座標を RamData の Column/Row と直接つなぐ -->
-                                                <Setter Property="Canvas.Left" Value="{Binding Column, Converter={StaticResource CharToPosConverter}}" />
-                                                <Setter Property="Canvas.Top" Value="{Binding Row, Converter={StaticResource LineToPosConverter}}" />
-                                            </Style>
-                                        </ItemsControl.ItemContainerStyle>
-
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <!-- 従来の Thumb の設定をここに凝縮 -->
-                                                <Thumb Width="{Binding Length, Converter={StaticResource LenToWidthConverter}}" 
-                                                       Height="14" 
-                                                       DragDelta="Thumb_DragDelta"
-                                                       PreviewMouseLeftButtonDown="Thumb_MouseDown">
-                                                    <Thumb.Template>
-                                                        <ControlTemplate TargetType="Thumb">
-                                                            <Border x:Name="brd" Background="#80FFFFFF">
-                                                                <VisualStateManager.VisualStateGroups>
-                                                                    <VisualStateGroup x:Name="SelectionStates">
-                                                                        <VisualState x:Name="Selected">
-                                                                            <Storyboard>
-                                                                                <ColorAnimation Storyboard.TargetName="brd" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#66FF0000" Duration="0"/>
-                                                                            </Storyboard>
-                                                                        </VisualState>
-                                                                        <VisualState x:Name="Unselected"/>
-                                                                    </VisualStateGroup>
-                                                                </VisualStateManager.VisualStateGroups>
-                                                            </Border>
-                                                            <ControlTemplate.Triggers>
-                                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                                                    <Setter TargetName="brd" Property="Background" Value="#66FF0000"/>
-                                                                </DataTrigger>
-                                                            </ControlTemplate.Triggers>
-                                                        </ControlTemplate>
-                                                    </Thumb.Template>
-                                                </Thumb>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-
-                                </Grid>
-                            </ad:LayoutDocument>
-
-                        </ad:LayoutDocumentPane>
 
                         <!-- 右側：サイドパネル（上下2分割） -->
                         <ad:LayoutAnchorablePane DockWidth="350">
