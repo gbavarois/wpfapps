@@ -12,6 +12,9 @@ namespace WpfApp1.ViewModels
 {
     public partial class MainViewModel : ObservableObject
     {
+        [ObservableProperty] private int _currentRow;
+        [ObservableProperty] private int _currentColumn;
+
         private readonly RamTableMaster _model = new();
         // コンボボックス用のシート名リスト
         [ObservableProperty] private ObservableCollection<string> _sheetNames = new();
@@ -24,6 +27,11 @@ namespace WpfApp1.ViewModels
         // FormatData用の一覧
         [ObservableProperty] private ObservableCollection<FormatData> _formatList = new();
 
+        // 開いている全タブのリスト
+        public ObservableCollection<EditorDisplayViewModel> EditorTabs { get; } = new();
+
+        // 現在アクティブなタブ
+        [ObservableProperty] private EditorDisplayViewModel? _activeTab;
 
 
         [ObservableProperty] private ObservableCollection<RamLayout> _ramdataList = new();          // これを消す
@@ -66,6 +74,14 @@ namespace WpfApp1.ViewModels
         //}
 
         // --- コマンドの実装 ---
+        // 新規タブ追加コマンド
+        [RelayCommand]
+        private void AddNewTab()
+        {
+            var newTab = new EditorDisplayViewModel(this) { DisplayNumber = $"Display {EditorTabs.Count + 1}" };
+            EditorTabs.Add(newTab);
+            ActiveTab = newTab; // 追加したタブを選択状態にする
+        }
 
         [RelayCommand]
         private void LoadExcel(string path)
@@ -93,11 +109,11 @@ namespace WpfApp1.ViewModels
                 FormatId = SelectedRamCatalog.FormatId,
             };
          
-            RamdataList.Add(newRam);        //　これを消す
-            SelectedRamdata = newRam;       //  これを消す
+            //RamdataList.Add(newRam);        //　これを消す
+            //SelectedRamdata = newRam;       //  これを消す
 
             var vm = new RamItemViewModel(newRam, this);
-            RamItemVMList.Add(vm);
+            //RamItemVMList.Add(vm);
             SelectedRamItem = vm; // これは一旦保留
 
         }
