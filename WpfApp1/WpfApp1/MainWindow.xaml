@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ad="https://github.com/Dirkster99/AvalonDock"
         xmlns:local="clr-namespace:WpfApp1"
+        xmlns:vm="clr-namespace:WpfApp1.ViewModels" 
         mc:Ignorable="d"
         Title="画面ファイルエディタ" Height="800" Width="1600">
 
@@ -29,21 +30,21 @@
         <local:PosConverter x:Key="LineToPosConverter" Scale="14.0" />
         <local:PosConverter x:Key="LenToWidthConverter" Scale="7.0" />
 
-        <DataTemplate x:Key="EditorTemplate">
+        <DataTemplate x:Key="EditorTemplate" DataType="{x:Type vm:DisplayEditorViewModel}">
             <Grid>
                 <!-- テキスト入力層（背景を黒、文字を緑に固定） -->
                 <RichTextBox x:Name="MainEditor"
-                     TextOptions.TextFormattingMode="Display"
-                     TextOptions.TextRenderingMode="ClearType"
-                     FontFamily="MS Gothic"
-                     FontSize="14"
-                     Background="LightGray"
-                     Padding="0"
-                     BorderThickness="0"
-                     AcceptsReturn="True"
-                     VerticalScrollBarVisibility="Auto"
-                     HorizontalScrollBarVisibility="Auto"
-                     SelectionChanged="MainEditor_SelectionChanged">
+                             TextOptions.TextFormattingMode="Display"
+                             TextOptions.TextRenderingMode="ClearType"
+                             FontFamily="MS Gothic"
+                             FontSize="14"
+                             Background="LightGray"
+                             Padding="0"
+                             BorderThickness="0"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Auto"
+                             SelectionChanged="MainEditor_SelectionChanged">
                     <RichTextBox.Resources>
                         <Style TargetType="{x:Type Paragraph}">
                             <Setter Property="Margin" Value="0"/>
@@ -109,9 +110,9 @@
                         <DataTemplate>
                             <!-- 従来の Thumb の設定をここに凝縮 -->
                             <Thumb Width="{Binding Length, Converter={StaticResource LenToWidthConverter}}" 
-                           Height="14" 
-                           DragDelta="Thumb_DragDelta"
-                           PreviewMouseLeftButtonDown="Thumb_MouseDown">
+                                   Height="14" 
+                                   DragDelta="Thumb_DragDelta"
+                                   PreviewMouseLeftButtonDown="Thumb_MouseDown">
                                 <Thumb.Template>
                                     <ControlTemplate TargetType="Thumb">
                                         <Border x:Name="brd" Background="#80FFFFFF">
@@ -139,6 +140,7 @@
                 </ItemsControl>
             </Grid>
         </DataTemplate>
+
     </Window.Resources>
     
     
@@ -182,8 +184,11 @@
         <ad:DockingManager Grid.Row="1"
                            x:Name="dockingManager"
                            DocumentsSource="{Binding EditorTabs}"
-                           ActiveContent="{Binding ActiveTab, Mode=TwoWay}"
-                           LayoutItemTemplate="{StaticResource EditorTemplate}">
+                           ActiveContent="{Binding ActiveTab, Mode=TwoWay}">
+
+            <ad:DockingManager.Resources>
+            
+            </ad:DockingManager.Resources>
             
             <ad:DockingManager.DocumentHeaderTemplate>
                 <DataTemplate>

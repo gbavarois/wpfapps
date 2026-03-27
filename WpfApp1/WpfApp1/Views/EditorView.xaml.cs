@@ -18,9 +18,9 @@ namespace WpfApp1.Views
     /// <summary>
     /// UserControl1.xaml の相互作用ロジック
     /// </summary>
-    public partial class EditorDisplayView : UserControl
+    public partial class EditorView : UserControl
     {
-        public EditorDisplayView()
+        public EditorView()
         {
             InitializeComponent();
         }
