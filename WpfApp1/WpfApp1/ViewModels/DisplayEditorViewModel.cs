@@ -10,7 +10,7 @@ using WpfApp1.Models;
 
 namespace WpfApp1.ViewModels
 {
-    public partial class EditorDisplayViewModel : ObservableObject
+    public partial class DisplayEditorViewModel : ObservableObject
     {
         private readonly MainViewModel _main;
 
@@ -22,7 +22,7 @@ namespace WpfApp1.ViewModels
         // このディスプレイで選択されているRAM
         [ObservableProperty] private RamItemViewModel? _selectedRam;
 
-        public EditorDisplayViewModel(MainViewModel main)
+        public DisplayEditorViewModel(MainViewModel main)
         {
             _main = main;
         }

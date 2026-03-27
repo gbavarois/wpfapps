@@ -28,10 +28,10 @@ namespace WpfApp1.ViewModels
         [ObservableProperty] private ObservableCollection<FormatData> _formatList = new();
 
         // 開いている全タブのリスト
-        [ObservableProperty] private ObservableCollection<EditorDisplayViewModel> _editorTabs = new();
+        [ObservableProperty] private ObservableCollection<DisplayEditorViewModel> _editorTabs = new();
 
         // 現在アクティブなタブ
-        [ObservableProperty] private EditorDisplayViewModel? _activeTab;
+        [ObservableProperty] private DisplayEditorViewModel? _activeTab;
 
 
         [ObservableProperty] private ObservableCollection<RamLayout> _ramdataList = new();          // これを消す
@@ -46,7 +46,7 @@ namespace WpfApp1.ViewModels
         [RelayCommand]
         private void AddTab()
         {
-            var tab = new EditorDisplayViewModel(this)
+            var tab = new DisplayEditorViewModel(this)
             {
                 DisplayNumber = $"Disp{EditorTabs.Count}"
             };
@@ -95,7 +95,7 @@ namespace WpfApp1.ViewModels
         [RelayCommand]
         private void AddNewTab()
         {
-            var newTab = new EditorDisplayViewModel(this) { DisplayNumber = $"Display {EditorTabs.Count + 1}" };
+            var newTab = new DisplayEditorViewModel(this) { DisplayNumber = $"Display {EditorTabs.Count + 1}" };
             EditorTabs.Add(newTab);
             ActiveTab = newTab; // 追加したタブを選択状態にする
         }
