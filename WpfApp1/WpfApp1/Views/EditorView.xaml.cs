@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -12,6 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1;
+using WpfApp1.Helpers;
+using WpfApp1.ViewModels;
 
 namespace WpfApp1.Views
 {
@@ -20,9 +24,168 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class EditorView : UserControl
     {
+        private const double CharWidth = 7.0;
+        private const double LineHeightValue = 14.0;
+
         public EditorView()
         {
             InitializeComponent();
+        }
+
+        // Canvasをクリックした際に選択解除
+        private void MainEditor_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.OriginalSource is not Border && e.OriginalSource is not Shape)
+            {
+                (DataContext as MainViewModel)?.ClearSelectionCommand.Execute(null);
+            }
+        }
+
+        // スクロール同期（これはViewの仕事として残す）
+        private void MainEditor_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            var rtb = sender as RichTextBox;
+            if (rtb == null) return;
+
+            // 1. RichTextBox と同じ階層（Grid）にある ItemsControl を探す
+            // 親の Grid を取得
+            var parentGrid = rtb.Parent as Grid;
+            if (parentGrid == null) return;
+
+            // 2. Grid の子要素から ItemsControl (MyItemsControl) を探す
+            var itemsControl = parentGrid.Children.OfType<ItemsControl>().FirstOrDefault(x => x.Name == "MyItemsControl");
+            if (itemsControl == null) return;
+
+            // 3. ItemsControl の中にある Canvas (RamCanvas) を探す
+            // ItemsControl がロード完了していないと Template.FindName は null になるので注意
+            if (itemsControl.Template != null)
+            {
+                var canvas = itemsControl.Template.FindName("RamCanvas", itemsControl) as Canvas;
+                if (canvas != null)
+                {
+                    // スクロール量を Canvas のズレとして適用（同期）
+                    canvas.RenderTransform = new TranslateTransform(-e.HorizontalOffset, -e.VerticalOffset);
+                }
+            }
+        }
+
+        // --- リッチテキストボックスのカーソル位置計算 ---
+        private void MainEditor_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender is not RichTextBox rtb) return;
+
+            TextPointer caretPos = rtb.CaretPosition;
+            if (caretPos == null) return;
+
+            // 1. 行（Line）の計算
+            int lineCount = 0;
+            TextPointer currentLineStart = caretPos.GetLineStartPosition(0);
+
+            if (currentLineStart != null)
+            {
+                TextPointer runner = currentLineStart;
+                while (true)
+                {
+                    // 1行上の先頭を取得（-1を指定）
+                    TextPointer previousLineStart = runner.GetLineStartPosition(-1);
+
+                    // 上の行が存在し、かつ今の行より前にある場合のみカウントアップ
+                    if (previousLineStart != null && previousLineStart.CompareTo(runner) < 0)
+                    {
+                        lineCount++;
+                        runner = previousLineStart;
+                    }
+                    else
+                    {
+                        // これ以上上の行がない（ドキュメントの先頭）
+                        break;
+                    }
+                }
+            }
+
+            // 2. 桁（Column）の計算（全角2、半角1でカウント）
+            int columnCount = 0;
+            if (currentLineStart != null)
+            {
+                // 現在の行の先頭からカーソルまでのテキストを取得
+                string textAtLine = new TextRange(currentLineStart, caretPos).Text;
+
+                // 改行コードを除去してカウント
+                foreach (char c in textAtLine)
+                {
+                    if (c == '\r' || c == '\n') continue;
+                    columnCount += GetWidth(c);
+                }
+            }
+
+            var vm = (MainViewModel)DataContext;
+            vm.CurrentRow = lineCount;
+            vm.CurrentColumn = columnCount;
+
+            //if (StatusLineColumn != null)
+            //{
+            //    StatusLineColumn.Text = $"行:{lineCount}, 桁:{columnCount}";
+            //}
+        }
+
+        private int GetWidth(char c)
+        {
+            // 半角カタカナの範囲 (U+FF61 ～ U+FF9F) は幅1として扱う
+            if (c >= '\uFF61' && c <= '\uFF9F')
+            {
+                return 1;
+            }
+
+            // それ以外の 0xFF より大きい文字（漢字・ひらがな等）は幅2
+            return c > 0xFF ? 2 : 1;
+        }
+
+        private void SetColor_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem menuItem && menuItem.Tag is string colorIndex)
+            {
+                ApplyColorToSelection(colorIndex);
+            }
+        }
+
+        // ドラッグ移動：ピクセル計算の結果をデータモデルに戻すだけ
+        private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            if (sender is Thumb thumb && thumb.DataContext is RamItemViewModel data)
+            {
+                // Canvas上での現在の位置を取得
+                var parent = VisualTreeHelper.GetParent(thumb) as ContentPresenter;
+                double left = Canvas.GetLeft(parent) + e.HorizontalChange;
+                double top = Canvas.GetTop(parent) + e.VerticalChange;
+
+                // 文字単位の座標にスナップしてデータを更新
+                data.Column = (int)Math.Max(0, Math.Round(left / CharWidth));
+                data.Row = (int)Math.Max(0, Math.Round(top / LineHeightValue));
+            }
+        }
+
+        private void Thumb_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Thumb thumb && thumb.DataContext is RamItemViewModel data)
+            {
+                var vm = (MainViewModel)this.DataContext;
+                vm.ActiveTab.SelectedRam = data;
+            }
+        }
+
+        // 実際の着色ロジック
+        public void ApplyColorToSelection(string colorIndex)
+        {
+            var rtb = FocusManager.GetFocusedElement(this) as RichTextBox;
+            if (rtb == null) return;
+
+            var range = rtb.Selection;
+            if (!range.IsEmpty && !range.IsEmpty)
+            {
+                // ColorHelperを使ってインデックスからブラシを取得
+                var brush = ColorHelper.GetBrushFromIndex(colorIndex);
+                range.ApplyPropertyValue(TextElement.ForegroundProperty, brush);
+            }
         }
     }
 }

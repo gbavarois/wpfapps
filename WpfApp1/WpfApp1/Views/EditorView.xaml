@@ -3,30 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WpfApp1.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:local="clr-namespace:WpfApp1">
 
     <UserControl.Resources>
         <local:PosConverter x:Key="CharToPosConverter" Scale="7.0" />
         <local:PosConverter x:Key="LineToPosConverter" Scale="14.0" />
         <local:PosConverter x:Key="LenToWidthConverter" Scale="7.0" />
     </UserControl.Resources>
-    
+
     <Grid>
         <!-- テキスト入力層（背景を黒、文字を緑に固定） -->
         <RichTextBox x:Name="MainEditor"
-             TextOptions.TextFormattingMode="Display"
-             TextOptions.TextRenderingMode="ClearType"
-             FontFamily="MS Gothic"
-             FontSize="14"
-             Background="LightGray"
-             Padding="0"
-             BorderThickness="0"
-             AcceptsReturn="True"
-             VerticalScrollBarVisibility="Auto"
-             HorizontalScrollBarVisibility="Auto">
-            <!--SelectionChanged="MainEditor_SelectionChanged"-->
+                 TextOptions.TextFormattingMode="Display"
+                 TextOptions.TextRenderingMode="ClearType"
+                 FontFamily="MS Gothic"
+                 FontSize="14"
+                 Background="LightGray"
+                 Padding="0"
+                 BorderThickness="0"
+                 AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Auto"
+                 HorizontalScrollBarVisibility="Auto"
+                 SelectionChanged="MainEditor_SelectionChanged"
+                 ScrollViewer.ScrollChanged="MainEditor_ScrollChanged">
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="0"/>
@@ -46,7 +45,7 @@
                 <ContextMenu>
                     <MenuItem Header="色">
                         <!-- 指定の10色をネストして配置 -->
-                        <!--MenuItem Header="1:青"   Click="SetColor_Click" Tag="1" InputGestureText="Ctrl+Shift+1" Foreground="#4040FF"/>
+                        <MenuItem Header="1:青"   Click="SetColor_Click" Tag="1" InputGestureText="Ctrl+Shift+1" Foreground="#4040FF"/>
                         <MenuItem Header="2:赤"   Click="SetColor_Click" Tag="2" InputGestureText="Ctrl+Shift+2" Foreground="#FF4040" />
                         <MenuItem Header="3:紫"   Click="SetColor_Click" Tag="3" InputGestureText="Ctrl+Shift+3" Foreground="#FF00FF"/>
                         <MenuItem Header="4:緑"   Click="SetColor_Click" Tag="4" InputGestureText="Ctrl+Shift+4" Foreground="#00FF00"/>
@@ -55,7 +54,7 @@
                         <MenuItem Header="7:白"   Click="SetColor_Click" Tag="7" InputGestureText="Ctrl+Shift+7" Foreground="White" Background="Gray"/>
                         <MenuItem Header="8:橙"   Click="SetColor_Click" Tag="8" InputGestureText="Ctrl+Shift+8" Foreground="#FF8000"/>
                         <MenuItem Header="9:黄緑" Click="SetColor_Click" Tag="9" InputGestureText="Ctrl+Shift+9" Foreground="#80FF00"/>
-                        <MenuItem Header="0:黒"   Click="SetColor_Click" Tag="0" InputGestureText="Ctrl+Shift+B" Foreground="Gray"/-->
+                        <MenuItem Header="0:黒"   Click="SetColor_Click" Tag="0" InputGestureText="Ctrl+Shift+B" Foreground="Gray"/>
                     </MenuItem>
                     <MenuItem Header="RAMデータを配置" />
 
@@ -92,9 +91,9 @@
                 <DataTemplate>
                     <!-- 従来の Thumb の設定をここに凝縮 -->
                     <Thumb Width="{Binding Length, Converter={StaticResource LenToWidthConverter}}" 
-                   Height="14" 
-                   DragDelta="Thumb_DragDelta"
-                   PreviewMouseLeftButtonDown="Thumb_MouseDown">
+                       Height="14" 
+                       DragDelta="Thumb_DragDelta"
+                       PreviewMouseLeftButtonDown="Thumb_MouseDown">
                         <Thumb.Template>
                             <ControlTemplate TargetType="Thumb">
                                 <Border x:Name="brd" Background="#80FFFFFF">
@@ -120,5 +119,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-</Grid>
+    </Grid>
 </UserControl>

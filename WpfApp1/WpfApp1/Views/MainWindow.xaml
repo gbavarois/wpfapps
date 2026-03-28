@@ -1,25 +1,26 @@
-﻿<Window x:Class="WpfApp1.MainWindow"
+﻿<Window x:Class="WpfApp1.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ad="https://github.com/Dirkster99/AvalonDock"
         xmlns:local="clr-namespace:WpfApp1"
+        xmlns:views="clr-namespace:WpfApp1.Views"
         xmlns:vm="clr-namespace:WpfApp1.ViewModels" 
         mc:Ignorable="d"
         Title="画面ファイルエディタ" Height="800" Width="1600">
 
     <Window.InputBindings>
-        <KeyBinding Key="B" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="0" />
-        <KeyBinding Key="D1" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="1" />
-        <KeyBinding Key="D2" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="2" />
-        <KeyBinding Key="D3" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="3" />
-        <KeyBinding Key="D4" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="4" />
-        <KeyBinding Key="D5" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="5" />
-        <KeyBinding Key="D6" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="6" />
-        <KeyBinding Key="D7" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="7" />
-        <KeyBinding Key="D8" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="8" />
-        <KeyBinding Key="D9" Modifiers="Control+Shift" Command="{x:Static local:MainWindow.ColorCommand}" CommandParameter="9" />
+        <KeyBinding Key="B" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="0" />
+        <KeyBinding Key="D1" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="1" />
+        <KeyBinding Key="D2" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="2" />
+        <KeyBinding Key="D3" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="3" />
+        <KeyBinding Key="D4" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="4" />
+        <KeyBinding Key="D5" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="5" />
+        <KeyBinding Key="D6" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="6" />
+        <KeyBinding Key="D7" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="7" />
+        <KeyBinding Key="D8" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="8" />
+        <KeyBinding Key="D9" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="9" />
     </Window.InputBindings>
     <Window.Resources>
         <!-- Window内のすべてのDataGridに適用される -->
@@ -66,8 +67,9 @@
             </MenuItem>
             <MenuItem Header="表示(_V)">
                 <!-- 右パネルの各タブを表示／非表示切り替え -->
-                <MenuItem Header="表記フォーマット パネル" Click="ShowFormatPane_Click" />
-                <MenuItem Header="テーブルデータ パネル" Click="ShowTablePane_Click" />
+                <MenuItem Header="変数一覧" Click="ShowRamCatalogPane_Click" />
+                <MenuItem Header="表記フォーマット" Click="ShowFormatPane_Click" />
+                <MenuItem Header="配置RAMデータ" Click="ShowRamDatePanePane_Click" />
             </MenuItem>
         </Menu>
 
@@ -79,114 +81,7 @@
 
             <ad:DockingManager.Resources>
                 <DataTemplate DataType="{x:Type vm:DisplayEditorViewModel}">
-                    <Grid>
-                        <!-- テキスト入力層（背景を黒、文字を緑に固定） -->
-                        <RichTextBox x:Name="MainEditor"
-                                     TextOptions.TextFormattingMode="Display"
-                                     TextOptions.TextRenderingMode="ClearType"
-                                     FontFamily="MS Gothic"
-                                     FontSize="14"
-                                     Background="LightGray"
-                                     Padding="0"
-                                     BorderThickness="0"
-                                     AcceptsReturn="True"
-                                     VerticalScrollBarVisibility="Auto"
-                                     HorizontalScrollBarVisibility="Auto"
-                                     SelectionChanged="MainEditor_SelectionChanged">
-                            <RichTextBox.Resources>
-                                <Style TargetType="{x:Type Paragraph}">
-                                    <Setter Property="Margin" Value="0"/>
-                                    <Setter Property="LineHeight" Value="14"/>
-                                    <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
-                                </Style>
-                                <Style TargetType="{x:Type Run}">
-                                    <Setter Property="Background" Value="Black" />
-                                    <Setter Property="Foreground" Value="#00FF00" />
-                                </Style>
-
-                            </RichTextBox.Resources>
-                            <FlowDocument PagePadding="0" PageWidth="10000">
-                                <Paragraph x:Name="MainEditorParagraph"/>
-                            </FlowDocument>
-                            <RichTextBox.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="色">
-                                        <!-- 指定の10色をネストして配置 -->
-                                        <MenuItem Header="1:青"   Click="SetColor_Click" Tag="1" InputGestureText="Ctrl+Shift+1" Foreground="#4040FF"/>
-                                        <MenuItem Header="2:赤"   Click="SetColor_Click" Tag="2" InputGestureText="Ctrl+Shift+2" Foreground="#FF4040" />
-                                        <MenuItem Header="3:紫"   Click="SetColor_Click" Tag="3" InputGestureText="Ctrl+Shift+3" Foreground="#FF00FF"/>
-                                        <MenuItem Header="4:緑"   Click="SetColor_Click" Tag="4" InputGestureText="Ctrl+Shift+4" Foreground="#00FF00"/>
-                                        <MenuItem Header="6:黄"   Click="SetColor_Click" Tag="5" InputGestureText="Ctrl+Shift+5" Foreground="#FFFF00"/>
-                                        <MenuItem Header="5:水色" Click="SetColor_Click" Tag="6" InputGestureText="Ctrl+Shift+6" Foreground="#00FFFF"/>
-                                        <MenuItem Header="7:白"   Click="SetColor_Click" Tag="7" InputGestureText="Ctrl+Shift+7" Foreground="White" Background="Gray"/>
-                                        <MenuItem Header="8:橙"   Click="SetColor_Click" Tag="8" InputGestureText="Ctrl+Shift+8" Foreground="#FF8000"/>
-                                        <MenuItem Header="9:黄緑" Click="SetColor_Click" Tag="9" InputGestureText="Ctrl+Shift+9" Foreground="#80FF00"/>
-                                        <MenuItem Header="0:黒"   Click="SetColor_Click" Tag="0" InputGestureText="Ctrl+Shift+B" Foreground="Gray"/>
-                                    </MenuItem>
-                                    <MenuItem Header="RAMデータを配置" />
-
-                                    <Separator />
-                                    <!-- 区切り線 -->
-
-                                    <MenuItem Command="Cut" Header="切り取り" />
-                                    <MenuItem Command="Copy" Header="コピー" />
-                                    <MenuItem Command="Paste" Header="貼り付け" />
-                                </ContextMenu>
-                            </RichTextBox.ContextMenu>
-                        </RichTextBox>
-
-                        <!-- RAM枠表示層（最前面） -->
-                        <!-- Background="{x:Null}" でテキスト入力を邪魔しないようにする -->
-                        <!-- Canvas部分を以下に置き換え -->
-                        <ItemsControl x:Name="MyItemsControl" ItemsSource="{Binding PlacedRams}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <!-- RenderTransform はコードビハインドから操作してもOK -->
-                                    <Canvas x:Name="RamCanvas" Background="{x:Null}" IsHitTestVisible="True" Margin="4,0,0,0" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-
-                            <ItemsControl.ItemContainerStyle>
-                                <Style TargetType="ContentPresenter">
-                                    <!-- 座標を RamData の Column/Row と直接つなぐ -->
-                                    <Setter Property="Canvas.Left" Value="{Binding Column, Converter={StaticResource CharToPosConverter}}" />
-                                    <Setter Property="Canvas.Top" Value="{Binding Row, Converter={StaticResource LineToPosConverter}}" />
-                                </Style>
-                            </ItemsControl.ItemContainerStyle>
-
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <!-- 従来の Thumb の設定をここに凝縮 -->
-                                    <Thumb Width="{Binding Length, Converter={StaticResource LenToWidthConverter}}" 
-                                           Height="14" 
-                                           DragDelta="Thumb_DragDelta"
-                                           PreviewMouseLeftButtonDown="Thumb_MouseDown">
-                                        <Thumb.Template>
-                                            <ControlTemplate TargetType="Thumb">
-                                                <Border x:Name="brd" Background="#80FFFFFF">
-                                                    <VisualStateManager.VisualStateGroups>
-                                                        <VisualStateGroup x:Name="SelectionStates">
-                                                            <VisualState x:Name="Selected">
-                                                                <Storyboard>
-                                                                    <ColorAnimation Storyboard.TargetName="brd" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#66FF0000" Duration="0"/>
-                                                                </Storyboard>
-                                                            </VisualState>
-                                                            <VisualState x:Name="Unselected"/>
-                                                        </VisualStateGroup>
-                                                    </VisualStateManager.VisualStateGroups>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                                        <Setter TargetName="brd" Property="Background" Value="#66FF0000"/>
-                                                    </DataTrigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Thumb.Template>
-                                    </Thumb>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </Grid>
+                    <views:EditorView />
                 </DataTemplate>
             </ad:DockingManager.Resources>
             
@@ -201,8 +96,6 @@
                     <Setter Property="Title" Value="{Binding Model.DisplayNumber}" />
                 </Style>
             </ad:DockingManager.LayoutItemContainerStyle>
-
-           
             
             <ad:DockingManager.Layout>
                 <ad:LayoutRoot>
