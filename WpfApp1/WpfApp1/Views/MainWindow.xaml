@@ -75,28 +75,29 @@
 
         <!-- Docking 本体 -->
         <ad:DockingManager Grid.Row="1"
-                           x:Name="dockingManager"
+                           x:Name="dockingManager" 
                            DocumentsSource="{Binding EditorTabs}"
-                           ActiveContent="{Binding ActiveTab, Mode=TwoWay}">
+                           ActiveContent="{Binding ActiveTab, Mode=TwoWay}"
+                           Validation.ErrorTemplate="{x:Null}">
 
             <ad:DockingManager.Resources>
                 <DataTemplate DataType="{x:Type vm:DisplayEditorViewModel}">
                     <views:EditorView />
                 </DataTemplate>
             </ad:DockingManager.Resources>
-            
+
             <!--ad:DockingManager.DocumentHeaderTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Model.DisplayNumber}" />
                 </DataTemplate>
             </ad:DockingManager.DocumentHeaderTemplate-->
-            
+
             <ad:DockingManager.LayoutItemContainerStyle>
                 <Style TargetType="ad:LayoutItem">
                     <Setter Property="Title" Value="{Binding Model.DisplayNumber}" />
                 </Style>
             </ad:DockingManager.LayoutItemContainerStyle>
-            
+
             <ad:DockingManager.Layout>
                 <ad:LayoutRoot>
                     <ad:LayoutPanel Orientation="Horizontal">
