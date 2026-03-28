@@ -318,7 +318,10 @@
         <StatusBar Grid.Row="2">
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Name="StatusLineColumn" Text="行:0, 文字:0" Margin="5,0"/>
+                    <TextBlock Text="行:" />
+                    <TextBlock Text="{Binding ActiveTab.CurrentRow}" Margin="0,0,10,0"/>
+                    <TextBlock Text="桁:" />
+                    <TextBlock Text="{Binding ActiveTab.CurrentColumn}" />
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

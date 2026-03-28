@@ -118,16 +118,13 @@ namespace WpfApp1.Views
                 }
             }
 
-            var vm = (MainViewModel)DataContext;
-            vm.CurrentRow = lineCount;
-            vm.CurrentColumn = columnCount;
-
-            //if (StatusLineColumn != null)
-            //{
-            //    StatusLineColumn.Text = $"行:{lineCount}, 桁:{columnCount}";
-            //}
+            if (this.DataContext is DisplayEditorViewModel tabVM)
+            {
+                tabVM.CurrentRow = lineCount;
+                tabVM.CurrentColumn = columnCount;
+            }
         }
-
+        
         private int GetWidth(char c)
         {
             // 半角カタカナの範囲 (U+FF61 ～ U+FF9F) は幅1として扱う
@@ -168,15 +165,19 @@ namespace WpfApp1.Views
         {
             if (sender is Thumb thumb && thumb.DataContext is RamItemViewModel data)
             {
-                var vm = (MainViewModel)this.DataContext;
-                vm.ActiveTab.SelectedRam = data;
+                // 2. この EditorView 自身の DataContext (DisplayEditorViewModel) を取得
+                if (this.DataContext is DisplayEditorViewModel tabVM)
+                {
+                    // 3. そのタブ内での「選択されたRAM」を更新する
+                    tabVM.SelectedRam = data;
+                }
             }
         }
 
         // 実際の着色ロジック
         public void ApplyColorToSelection(string colorIndex)
         {
-            var rtb = FocusManager.GetFocusedElement(this) as RichTextBox;
+            var rtb = this.MainEditor;
             if (rtb == null) return;
 
             var range = rtb.Selection;

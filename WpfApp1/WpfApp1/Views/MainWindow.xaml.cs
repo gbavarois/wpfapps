@@ -176,19 +176,37 @@ namespace WpfApp1.Views
 
                 // 3. レイアウトアイテム（枠組み）を取得
                 var layoutItem = dockingManager.GetLayoutItemFromModel(activeLayoutDocument);
-
-                // 4. ContentPresenterの中身から EditorView を取り出す
-                if (layoutItem?.View is ContentPresenter cp && cp.Content is EditorView editorView)
+                if (layoutItem?.View is ContentPresenter cp)
                 {
-                    // 5. EditorView の色変更メソッドを呼ぶ
-                    editorView.ApplyColorToSelection(index);
+                    // 4. 【ここが重要】ContentPresenter の「視覚的な子要素」から EditorView を探す
+                    // cp.Content は ViewModel を指しているため、実体（EditorView）を VisualTree から掘り起こす
+                    var editorView = GetVisualChild<EditorView>(cp);
+
+                    if (editorView != null)
+                    {
+                        // 5. EditorView の色変更メソッドを呼ぶ
+                        editorView.ApplyColorToSelection(index);
+                    }
                 }
             }
         }
 
-        
+        private T? GetVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            if (parent == null) return null;
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T t) return t;
+                var result = GetVisualChild<T>(child);
+                if (result != null) return result;
+            }
+            return null;
+        }
 
-        
+
+
+
 
     }
 

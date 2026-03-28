@@ -14,6 +14,9 @@ namespace WpfApp1.ViewModels
     {
         private readonly MainViewModel _main;
 
+        [ObservableProperty] private int _currentRow;
+        [ObservableProperty] private int _currentColumn;
+
         [ObservableProperty] private string _displayNumber = "新規ディスプレイ";
 
         // このディスプレイに配置されているRAMのリスト

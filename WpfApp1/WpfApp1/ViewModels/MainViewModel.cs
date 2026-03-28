@@ -12,9 +12,6 @@ namespace WpfApp1.ViewModels
 {
     public partial class MainViewModel : ObservableObject
     {
-        [ObservableProperty] private int _currentRow;
-        [ObservableProperty] private int _currentColumn;
-
         private readonly RamTableMaster _model = new();
         // コンボボックス用のシート名リスト
         [ObservableProperty] private ObservableCollection<string> _sheetNames = new();
@@ -119,8 +116,8 @@ namespace WpfApp1.ViewModels
 
             var newRam = new RamLayout
             {
-                Row = CurrentRow,
-                Column = CurrentColumn,
+                Row = ActiveTab.CurrentRow,
+                Column = ActiveTab.CurrentColumn,
                 Offset = 0,
                 Symbol = SelectedRamCatalog.Symbol,
                 FormatId = SelectedRamCatalog.FormatId,
