@@ -17,7 +17,7 @@ namespace WpfApp1.ViewModels
         [ObservableProperty] private int _currentRow;
         [ObservableProperty] private int _currentColumn;
 
-        [ObservableProperty] private string _displayNumber = "新規ディスプレイ";
+        [ObservableProperty] private string _displayName = "新規ディスプレイ";
 
         // このディスプレイに配置されているRAMのリスト
         public ObservableCollection<RamItemViewModel> PlacedRams { get; } = new();
@@ -29,6 +29,8 @@ namespace WpfApp1.ViewModels
         {
             _main = main;
         }
+
+        public EditorData? RestoreData { get; set; }
 
         [RelayCommand]
         public void AddRam(RamCatalog sourceCatalog)

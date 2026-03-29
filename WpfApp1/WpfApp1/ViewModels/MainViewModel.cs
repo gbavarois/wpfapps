@@ -23,17 +23,14 @@ namespace WpfApp1.ViewModels
         [ObservableProperty] private RamCatalog? _selectedRamCatalog;
         // FormatData用の一覧
         [ObservableProperty] private ObservableCollection<FormatData> _formatList = new();
-
         // 開いている全タブのリスト
         [ObservableProperty] private ObservableCollection<DisplayEditorViewModel> _editorTabs = new();
-
         // 現在アクティブなタブ
         [ObservableProperty] private DisplayEditorViewModel? _activeTab;
 
-
-        [ObservableProperty] private ObservableCollection<RamLayout> _ramdataList = new();          // これを消す
-
         [ObservableProperty] private ObservableCollection<RamItemViewModel> _ramItemVMList = new();
+
+        [ObservableProperty] private FormatData? _selectedFormat;
 
         public MainViewModel()
         {
@@ -45,7 +42,7 @@ namespace WpfApp1.ViewModels
         {
             var tab = new DisplayEditorViewModel(this)
             {
-                DisplayNumber = $"Disp{EditorTabs.Count}"
+                DisplayName = $"Disp{EditorTabs.Count}"
             };
 
             EditorTabs.Add(tab);
@@ -58,6 +55,7 @@ namespace WpfApp1.ViewModels
             var data = _model.GetCatalogsBySheet(value);
             CurrentCatalogs.Clear();
             foreach (var item in data) CurrentCatalogs.Add(item);
+            RefreshAllPlacedRams();
         }
 
 
@@ -66,15 +64,14 @@ namespace WpfApp1.ViewModels
 
 
         //[ObservableProperty] private ObservableCollection<RamCatalog> _selectedSheetData = new();
-        
+
 
         //[ObservableProperty] private List<RamCatalog> _allRamCatalogs = new();
 
 
 
-        [ObservableProperty] private FormatData? _selectedFormat;
-        [ObservableProperty] private RamLayout? _selectedRamdata;               // これを消す
-        [ObservableProperty] private RamItemViewModel? _selectedRamItem;
+        //[ObservableProperty] private RamLayout? _selectedRamdata;               // これを消す
+        //[ObservableProperty] private RamItemViewModel? _selectedRamItem;
 
         // シート選択が変わったら自動でリスト更新
         //partial void OnSelectedSheetChanged(string? value)
@@ -88,14 +85,14 @@ namespace WpfApp1.ViewModels
         //}
 
         // --- コマンドの実装 ---
-        // 新規タブ追加コマンド
-        [RelayCommand]
-        private void AddNewTab()
-        {
-            var newTab = new DisplayEditorViewModel(this) { DisplayNumber = $"Display {EditorTabs.Count + 1}" };
-            EditorTabs.Add(newTab);
-            ActiveTab = newTab; // 追加したタブを選択状態にする
-        }
+        //// 新規タブ追加コマンド
+        //[RelayCommand]
+        //private void AddNewTab()
+        //{
+        //    var newTab = new DisplayEditorViewModel(this) { DisplayNumber = $"Display {EditorTabs.Count + 1}" };
+        //    EditorTabs.Add(newTab);
+        //    ActiveTab = newTab; // 追加したタブを選択状態にする
+        //}
 
         [RelayCommand]
         private void LoadExcel(string path)
@@ -107,6 +104,7 @@ namespace WpfApp1.ViewModels
 
             // ロードしたFormatDataを表示用リストにセット ---
             FormatList = new ObservableCollection<FormatData>(_model.Formats);
+            RefreshAllPlacedRams();
         }
 
         [RelayCommand]
@@ -127,22 +125,37 @@ namespace WpfApp1.ViewModels
 
             ActiveTab.PlacedRams.Add(vm);
             ActiveTab.SelectedRam = vm;
-            //SelectedRamItem = vm; // これは一旦保留
 
         }
 
         [RelayCommand(CanExecute = nameof(CanRemove))]
         private void RemoveRam()
         {
-            if (SelectedRamdata != null)
+            if (ActiveTab.SelectedRam != null)
             {
-                RamdataList.Remove(SelectedRamdata);
-                SelectedRamdata = null;
+                ActiveTab.PlacedRams.Remove(ActiveTab.SelectedRam);
+                ActiveTab.SelectedRam = null;
             }
         }
-        private bool CanRemove() => SelectedRamdata != null;
+        private bool CanRemove() => ActiveTab.SelectedRam != null;
 
         [RelayCommand]
-        private void ClearSelection() => SelectedRamdata = null;
+        private void ClearSelection() => ActiveTab.SelectedRam = null;
+
+        public void RefreshAllPlacedRams()
+        {
+            foreach (var tab in EditorTabs)
+            {
+                foreach (var ram in tab.PlacedRams)
+                {
+                    ram.RefreshCatalogInfo();
+                }
+            }
+        }
+
+        public RamCatalog? GetCatalogFromAllSheets(string symbol)
+        {
+            return _model.FindCatalogBySymbol(symbol);
+        }
     }
 }

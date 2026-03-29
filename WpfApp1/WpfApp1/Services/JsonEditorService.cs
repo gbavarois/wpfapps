@@ -1,9 +1,11 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -77,11 +79,19 @@ namespace WpfApp1.Services
         public void RestoreText(RichTextBox rtb, List<string> lines)
         {
             var doc = new FlowDocument();
+            doc.PagePadding = rtb.Document.PagePadding;
+            doc.PageWidth = rtb.Document.PageWidth;
+            doc.ColumnWidth = rtb.Document.ColumnWidth;
 
+            var paraStyle = rtb.FindResource(typeof(Paragraph)) as Style;
             foreach (var line in lines)
             {
                 var para = new Paragraph();
-
+                // スタイルを適用
+                if (paraStyle != null)
+                {
+                    para.Style = paraStyle;
+                }
                 // 1行は1RunでOK（後で色分割される）
                 para.Inlines.Add(new Run(line));
 
@@ -94,7 +104,20 @@ namespace WpfApp1.Services
         // 色復元
         public void RestoreColors(RichTextBox rtb, List<TextColorInfo> colors)
         {
-            ApplyColorInfo(rtb, colors);
+            foreach (var info in colors)
+            {
+                var start = GetTextPointerAt(rtb, info.Row, info.Column);
+                var end = GetTextPointerAt(rtb, info.Row, info.Column + info.Length);
+
+                if (start != null && end != null)
+                {
+                    var range = new TextRange(start, end);
+                    range.ApplyPropertyValue(
+                        TextElement.ForegroundProperty,
+                        new BrushConverter().ConvertFromString(ColorHelper.GetColorCode(info.ColorIndex))
+                    );
+                }
+            }
         }
 
         // 内部：色情報抽出
@@ -116,18 +139,13 @@ namespace WpfApp1.Services
                         if (string.IsNullOrEmpty(text)) continue;
 
                         string colorIndex = ColorHelper.GetColorIndex(run.Foreground);
-
-                        // デフォルト（4）は保存しない
-                        if (colorIndex != ColorHelper.DefaultColorIndex)
+                        result.Add(new TextColorInfo
                         {
-                            result.Add(new TextColorInfo
-                            {
-                                Row = row,
-                                Column = col,
-                                Length = text.Length,
-                                ColorIndex = colorIndex
-                            });
-                        }
+                            Row = row,
+                            Column = col,
+                            Length = text.Length,
+                            ColorIndex = colorIndex
+                        });
                         col += text.Length;
                     }
                 }
@@ -194,26 +212,6 @@ namespace WpfApp1.Services
             }
             return "#000000";
         }
-
-        public void ApplyColorInfo(RichTextBox rtb, List<TextColorInfo> list)
-        {
-            foreach (var info in list)
-            {
-                var start = GetTextPointerAt(rtb, info.Row, info.Column);
-                var end = GetTextPointerAt(rtb, info.Row, info.Column + info.Length);
-
-                if (start != null && end != null)
-                {
-                    var range = new TextRange(start, end);
-                    range.ApplyPropertyValue(
-                        TextElement.ForegroundProperty,
-                        new BrushConverter().ConvertFromString(ColorHelper.GetColorCode(info.ColorIndex))
-                    );
-                }
-            }
-        }
-
-
 
         private Brush StringToBrush(string color)
         {

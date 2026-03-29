@@ -3,38 +3,524 @@
     {
       "Title": "Disp0",
       "Lines": [
-        "01234567890         01234567890         ",
-        "",
-        " 12345678901         12345678901        ",
-        "",
-        "  23456789012         23456789012       ",
-        "",
-        "   34567890123         34567890123      ",
-        "",
-        "    45678901234         45678901234     ",
-        "",
-        "     56789012345         56789012345    ",
-        "",
-        "      67890123456         67890123456   ",
-        "",
-        "       78901234567         78901234567  ",
-        "",
-        "        89012345678         89012345678 ",
-        "",
-        "         90123456789         90123456789"
+        "TWO=xxxx.x PSW_L(O) = xxx.xkPa Tsw  = xxxx.x                         \uFF7C\uFF7D\u7570[xxx-xx] \u78BA\u5B9A[xxx-xx|xx](xx)   ",
+        "TWI=xxxx.x PSW_E(I) = xxx.xkPa Ts_c = xxxx.x                         \uFF8A\uFF9E\uFF6F\uFF78\uFF71\uFF6F\uFF8C\uFF9F[b]  \u691C\u51FA[xxx-xx|xx](xx)   ",
+        "TCJ=xxxx.x PSW_S(OP)= xxx.xkPa Ts_h = xxxx.x                                      \u505C\u6B62[xxx-xx]\uFF76\uFF73\uFF9D\uFF84xx    ",
+        "TC1=xxxx.x                                                                        \uFF7C\uFF7D\u505C[xxx-xx|xx]       ",
+        "TC2=xxxx.x                                                                        \u518D\u8D77=xxxx             ",
+        "                                                                                  \uFF7C\uFF7D\u518D=xxxx             ",
+        "[\u6A5F\u7A2Exx][UnitHP:xxxx][\u6C34\u71B1\u4EA4HP:xxxx.x]    \u6D41\u4F53[x,x,x]                                                   ",
+        "\u505C\u6B62\u505C\u6B62[\u901A\u5E38][xxxxx][\uFF7B\uFF70\uFF93:x]              \u0394Pfffff.ff                \u003CODU info\u003E                         ",
+        "Rn   : xxxxxx  Wc:xxx.xx     \u76EE\u6A19Hz xx.xx \u88DCLfffff.ff                COMP:x                             ",
+        "MaxRn: xxxxxx  Wh:xxx.xx     bPump1 xx.xx \u88DCEfffff.ff                DEF :x                             ",
+        "dRn  : xxxxxx  Qn:xxx.xx     bPump2 xx.xx L/mfffff.ff                                                   ",
+        "GA   : xxxxxx                        \u76EE\u6A19\u6D41\u91CFfffff.ff                                                   ",
+        "dTc  : xxxxxx                FLo  Bfffff.ff Cfffff.ff                                                   ",
+        "dE   : xxxxxx                \u03B11  Bfffff.ff Cfffff.ff                                                   ",
+        "dRn_T:   xxxx                \u03B12  Bfffff.ff Cfffff.ff                                                   ",
+        "KeepT:   xxxx                FL   Bfffff.ff Cfffff.ff                                                   ",
+        "Ini_T:   xxxx                \u251C Minfffff.ff Sys CAPA                                                    ",
+        "                             \u2514 Maxfffff.ff  fffff.ff                                                   ",
+        "       PMVL1 PMVL2                                                                                      ",
+        "\u76EE\u6A19  XxxxxxXxxxxx                                                                                      ",
+        "  \u5B9F  XxxxxxXxxxxx                                                                                      ",
+        "                                                                                        \uFF95\uFF86Qc xxxxxxx    ",
+        "                                                                                        \uFF7C\uFF7DQc xxxxxxx    ",
+        "                                                                                        EER     xxxx    ",
+        "                                                                                        Vdisp xxxxxx    ",
+        "                                                                                                        ",
+        "                                                                                                        ",
+        "                                   Fc\u0060 =xxxxxx Fc =xxxxxx \u88DCc =xxxxxx \u80FD\u51B7[HH.H.M.L][xxxx%]             ",
+        "                                   Fh\u0060 =xxxxxx Fh =xxxxxx \u88DCh =xxxxxx \u80FD\u6696[HH.H.M.L][xxxx%]             ",
+        "                                   DFx%xxxxxx% FSGr\u6570xxxx \u5897\u6E1B[xxxxxx]                                  ",
+        "                                                                                                        ",
+        "                                                                                       \u9078\u629E\uFF93\uFF70\uFF84\uFF9E[xxxx]   ",
+        "                                                                                       \uFF83\uFF9E\uFF8F\uFF9D\uFF84\uFF9Exx=xxxx%   ",
+        "                                                                                           \u964D\u96EA\uFF8C\uFF67\uFF9D =b   ",
+        "                                                                                           \u591C\u9593\u4F4E\u9A12=b   ",
+        "                                                                                                        ",
+        "                                                                                                        ",
+        "                                             SW04x SW101 102  103  104  105  106                        ",
+        "                                             SW05x  xxxx xxxx xxxx xxxx xxxx xx                         ",
+        "                                             SW06x CN30x  DN03 xx DN82 xx DN** xx DN** xx DN** xx       ",
+        "                                                   CN31x  DN** xx DN** xx DN** xx DN** xx DN** xx       ",
+        "                                                   CN32x  DN** xx DN** xx DN** xx DN** xx DN** xx       ",
+        "                                                   [xx][xx][xx][xxxxx] \u5BA4\u5916 \u5BA4\u5185   \uFF7C\uFF7D\uFF83\uFF91Max\u5BB9\u91CF xxxxxx   ",
+        "                                              \u8D77\u52D5\u5F8Cxxxx\u6642xxxx\u5206xxxx\u79D2  xx xx.xxHP \uFF95\uFF86\uFF6F\uFF84Max\u5BB9\u91CF xxxxxx   ",
+        "                                                         s=b I=xx 0=xx   x    xx\u53F0       sub-rxErr[xxxx]",
+        "\uFF95\uFF86\u96FBxxxxxxxx \uFF7C\uFF7D\u96FBxxxxxxxx \u7A4D\u7B97xxxxxxxx \u7A4D\u7DCFxxxxxxxx xx                               soft-sub[xxxx-xxxx]",
+        "                                                                                    soft-main[xxxx-xxxx]",
+        ""
       ],
       "Colors": [
         {
           "Row": 0,
           "Column": 0,
           "Length": 11,
-          "ColorIndex": "0"
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 0,
+          "Column": 11,
+          "Length": 5,
+          "ColorIndex": "2"
+        },
+        {
+          "Row": 0,
+          "Column": 16,
+          "Length": 85,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 1,
+          "Column": 0,
+          "Length": 11,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 1,
+          "Column": 11,
+          "Length": 5,
+          "ColorIndex": "2"
+        },
+        {
+          "Row": 1,
+          "Column": 16,
+          "Length": 86,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 2,
+          "Column": 0,
+          "Length": 11,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 2,
+          "Column": 11,
+          "Length": 5,
+          "ColorIndex": "2"
+        },
+        {
+          "Row": 2,
+          "Column": 16,
+          "Length": 86,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 3,
+          "Column": 0,
+          "Length": 103,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 4,
+          "Column": 0,
+          "Length": 102,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 5,
+          "Column": 0,
+          "Length": 103,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 6,
+          "Column": 0,
+          "Length": 97,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 7,
+          "Column": 0,
+          "Length": 36,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 7,
+          "Column": 36,
+          "Length": 2,
+          "ColorIndex": "5"
+        },
+        {
+          "Row": 7,
+          "Column": 38,
+          "Length": 59,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 8,
+          "Column": 0,
+          "Length": 101,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 9,
+          "Column": 0,
+          "Length": 103,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 10,
+          "Column": 0,
+          "Length": 42,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 10,
+          "Column": 42,
+          "Length": 3,
+          "ColorIndex": "6"
+        },
+        {
+          "Row": 10,
+          "Column": 45,
+          "Length": 59,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 11,
+          "Column": 0,
+          "Length": 37,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 11,
+          "Column": 37,
+          "Length": 4,
+          "ColorIndex": "6"
+        },
+        {
+          "Row": 11,
+          "Column": 41,
+          "Length": 59,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 12,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 13,
+          "Column": 0,
+          "Length": 103,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 14,
+          "Column": 0,
+          "Length": 103,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 15,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 16,
+          "Column": 0,
+          "Length": 103,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 17,
+          "Column": 0,
+          "Length": 103,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 18,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 19,
+          "Column": 0,
+          "Length": 102,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 20,
+          "Column": 0,
+          "Length": 103,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 21,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 22,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 23,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 24,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 25,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 26,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 27,
+          "Column": 0,
+          "Length": 101,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 28,
+          "Column": 0,
+          "Length": 101,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 29,
+          "Column": 0,
+          "Length": 101,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 30,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 31,
+          "Column": 0,
+          "Length": 102,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 32,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 33,
+          "Column": 0,
+          "Length": 102,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 34,
+          "Column": 0,
+          "Length": 100,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 35,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 36,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 37,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 38,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 39,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 40,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 41,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 42,
+          "Column": 0,
+          "Length": 98,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 43,
+          "Column": 0,
+          "Length": 96,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 44,
+          "Column": 0,
+          "Length": 103,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 45,
+          "Column": 0,
+          "Length": 98,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 46,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        }
+      ],
+      "Rams": [
+        {
+          "Row": 1,
+          "Column": 4,
+          "Offset": 0,
+          "Symbol": "TWIcnv_swrt",
+          "FormatId": "Bin_Table_00"
+        },
+        {
+          "Row": 0,
+          "Column": 4,
+          "Offset": 0,
+          "Symbol": "TWOcnv_swrt",
+          "FormatId": "Bin_Table_00"
+        },
+        {
+          "Row": 2,
+          "Column": 21,
+          "Offset": 0,
+          "Symbol": "PWSchg",
+          "FormatId": "Bin_Table_00"
+        },
+        {
+          "Row": 1,
+          "Column": 21,
+          "Offset": 0,
+          "Symbol": "PWEchg",
+          "FormatId": "Bin_Table_00"
+        },
+        {
+          "Row": 0,
+          "Column": 21,
+          "Offset": 0,
+          "Symbol": "PWEchg",
+          "FormatId": "Bin_Table_00"
+        },
+        {
+          "Row": 11,
+          "Column": 45,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.FL_target",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 10,
+          "Column": 45,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.FL_current",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 7,
+          "Column": 45,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.deltaP",
+          "FormatId": "F32"
+        }
+      ]
+    },
+    {
+      "Title": "Disp1",
+      "Lines": [
+        "01234567890         01234567890         ",
+        "                                        ",
+        " 12345678901         12345678901        ",
+        "                                        ",
+        "  23456789012         23456789012       ",
+        "                                        ",
+        "   34567890123         34567890123      ",
+        "                                        ",
+        "    45678901234         45678901234     ",
+        "                                        ",
+        "     56789012345         56789012345    ",
+        "                                        ",
+        "      67890123456         67890123456   ",
+        "                                        ",
+        "       78901234567         78901234567  ",
+        "                                        ",
+        "        89012345678         89012345678 ",
+        "                                        ",
+        "         90123456789         90123456789",
+        ""
+      ],
+      "Colors": [
+        {
+          "Row": 0,
+          "Column": 0,
+          "Length": 20,
+          "ColorIndex": "4"
         },
         {
           "Row": 0,
           "Column": 20,
           "Length": 11,
           "ColorIndex": "0"
+        },
+        {
+          "Row": 0,
+          "Column": 31,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 1,
+          "Column": 0,
+          "Length": 40,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 2,
+          "Column": 0,
+          "Length": 1,
+          "ColorIndex": "4"
         },
         {
           "Row": 2,
@@ -44,9 +530,33 @@
         },
         {
           "Row": 2,
+          "Column": 12,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 2,
           "Column": 21,
           "Length": 11,
           "ColorIndex": "1"
+        },
+        {
+          "Row": 2,
+          "Column": 32,
+          "Length": 8,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 3,
+          "Column": 0,
+          "Length": 40,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 4,
+          "Column": 0,
+          "Length": 2,
+          "ColorIndex": "4"
         },
         {
           "Row": 4,
@@ -56,9 +566,33 @@
         },
         {
           "Row": 4,
+          "Column": 13,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 4,
           "Column": 22,
           "Length": 11,
           "ColorIndex": "2"
+        },
+        {
+          "Row": 4,
+          "Column": 33,
+          "Length": 7,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 5,
+          "Column": 0,
+          "Length": 40,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 6,
+          "Column": 0,
+          "Length": 3,
+          "ColorIndex": "4"
         },
         {
           "Row": 6,
@@ -68,9 +602,45 @@
         },
         {
           "Row": 6,
+          "Column": 14,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 6,
           "Column": 23,
           "Length": 11,
           "ColorIndex": "3"
+        },
+        {
+          "Row": 6,
+          "Column": 34,
+          "Length": 6,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 7,
+          "Column": 0,
+          "Length": 40,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 8,
+          "Column": 0,
+          "Length": 40,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 9,
+          "Column": 0,
+          "Length": 40,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 10,
+          "Column": 0,
+          "Length": 5,
+          "ColorIndex": "4"
         },
         {
           "Row": 10,
@@ -80,9 +650,33 @@
         },
         {
           "Row": 10,
+          "Column": 16,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 10,
           "Column": 25,
           "Length": 11,
-          "ColorIndex": "6"
+          "ColorIndex": "5"
+        },
+        {
+          "Row": 10,
+          "Column": 36,
+          "Length": 4,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 11,
+          "Column": 0,
+          "Length": 40,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 12,
+          "Column": 0,
+          "Length": 6,
+          "ColorIndex": "4"
         },
         {
           "Row": 12,
@@ -92,9 +686,33 @@
         },
         {
           "Row": 12,
+          "Column": 17,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 12,
           "Column": 26,
           "Length": 11,
-          "ColorIndex": "5"
+          "ColorIndex": "6"
+        },
+        {
+          "Row": 12,
+          "Column": 37,
+          "Length": 3,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 13,
+          "Column": 0,
+          "Length": 40,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 14,
+          "Column": 0,
+          "Length": 7,
+          "ColorIndex": "4"
         },
         {
           "Row": 14,
@@ -103,19 +721,666 @@
           "ColorIndex": "7"
         },
         {
+          "Row": 14,
+          "Column": 18,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 14,
+          "Column": 27,
+          "Length": 11,
+          "ColorIndex": "7"
+        },
+        {
+          "Row": 14,
+          "Column": 38,
+          "Length": 2,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 15,
+          "Column": 0,
+          "Length": 40,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 16,
+          "Column": 0,
+          "Length": 8,
+          "ColorIndex": "4"
+        },
+        {
           "Row": 16,
           "Column": 8,
           "Length": 11,
           "ColorIndex": "8"
         },
         {
+          "Row": 16,
+          "Column": 19,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 16,
+          "Column": 28,
+          "Length": 11,
+          "ColorIndex": "8"
+        },
+        {
+          "Row": 16,
+          "Column": 39,
+          "Length": 1,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 17,
+          "Column": 0,
+          "Length": 40,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 18,
+          "Column": 0,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
           "Row": 18,
           "Column": 9,
+          "Length": 11,
+          "ColorIndex": "9"
+        },
+        {
+          "Row": 18,
+          "Column": 20,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 18,
+          "Column": 29,
           "Length": 11,
           "ColorIndex": "9"
         }
       ],
       "Rams": []
+    },
+    {
+      "Title": "Disp2",
+      "Lines": [
+        "TWO=xxxx.x PSW_L(O) = xxx.xkPa Tsw  = xxxx.x                         \uFF7C\uFF7D\u7570[xxx-xx] \u78BA\u5B9A[xxx-xx|xx](xx)   ",
+        "TWI=xxxx.x PSW_E(I) = xxx.xkPa Ts_c = xxxx.x                         \uFF8A\uFF9E\uFF6F\uFF78\uFF71\uFF6F\uFF8C\uFF9F[b]  \u691C\u51FA[xxx-xx|xx](xx)   ",
+        "TCJ=xxxx.x PSW_S(OP)= xxx.xkPa Ts_h = xxxx.x                                      \u505C\u6B62[xxx-xx]\uFF76\uFF73\uFF9D\uFF84xx    ",
+        "TC1=xxxx.x                                                                        \uFF7C\uFF7D\u505C[xxx-xx|xx]       ",
+        "TC2=xxxx.x                                                                        \u518D\u8D77=xxxx             ",
+        "                                                                                  \uFF7C\uFF7D\u518D=xxxx             ",
+        "[\u6A5F\u7A2Exx][UnitHP:xxxx][\u6C34\u71B1\u4EA4HP:xxxx.x]    \u6D41\u4F53[x,x,x]                                                   ",
+        "\u505C\u6B62\u505C\u6B62[\u901A\u5E38][xxxxx][\uFF7B\uFF70\uFF93:x]              \u0394Pfffff.ff                \u003CODU info\u003E                         ",
+        "Rn   : xxxxxx  Wc:xxx.xx     \u76EE\u6A19Hz xx.xx \u88DCLfffff.ff                COMP:x                             ",
+        "MaxRn: xxxxxx  Wh:xxx.xx     bPump1 xx.xx \u88DCEfffff.ff                DEF :x                             ",
+        "dRn  : xxxxxx  Qn:xxx.xx     bPump2 xx.xx L/mfffff.ff                                                   ",
+        "GA   : xxxxxx                        \u76EE\u6A19\u6D41\u91CFfffff.ff                                                   ",
+        "dTc  : xxxxxx                FLo  Bfffff.ff Cfffff.ff                                                   ",
+        "dE   : xxxxxx                \u03B11  Bfffff.ff Cfffff.ff                                                   ",
+        "dRn_T:   xxxx                \u03B12  Bfffff.ff Cfffff.ff                                                   ",
+        "KeepT:   xxxx                FL   Bfffff.ff Cfffff.ff                                                   ",
+        "Ini_T:   xxxx                \u251C Minfffff.ff Sys CAPA                                                    ",
+        "                             \u2514 Maxfffff.ff  fffff.ff                                                   ",
+        "       PMVL1 PMVL2                                                                                      ",
+        "\u76EE\u6A19  XxxxxxXxxxxx                                                                                      ",
+        "  \u5B9F  XxxxxxXxxxxx                                                                                      ",
+        "                                                                                        \uFF95\uFF86Qc xxxxxxx    ",
+        "                                                                                        \uFF7C\uFF7DQc xxxxxxx    ",
+        "                                                                                        EER     xxxx    ",
+        "                                                                                        Vdisp xxxxxx    ",
+        "                                                                                                        ",
+        "                                                                                                        ",
+        "                                   Fc\u0060 =xxxxxx Fc =xxxxxx \u88DCc =xxxxxx \u80FD\u51B7[HH.H.M.L][xxxx%]             ",
+        "                                   Fh\u0060 =xxxxxx Fh =xxxxxx \u88DCh =xxxxxx \u80FD\u6696[HH.H.M.L][xxxx%]             ",
+        "                                   DFx%xxxxxx% FSGr\u6570xxxx \u5897\u6E1B[xxxxxx]                                  ",
+        "                                                                                                        ",
+        "                                                                                       \u9078\u629E\uFF93\uFF70\uFF84\uFF9E[xxxx]   ",
+        "                                                                                       \uFF83\uFF9E\uFF8F\uFF9D\uFF84\uFF9Exx=xxxx%   ",
+        "                                                                                           \u964D\u96EA\uFF8C\uFF67\uFF9D =b   ",
+        "                                                                                           \u591C\u9593\u4F4E\u9A12=b   ",
+        "                                                                                                        ",
+        "                                                                                                        ",
+        "                                             SW04x SW101 102  103  104  105  106                        ",
+        "                                             SW05x  xxxx xxxx xxxx xxxx xxxx xx                         ",
+        "                                             SW06x CN30x  DN03 xx DN82 xx DN** xx DN** xx DN** xx       ",
+        "                                                   CN31x  DN** xx DN** xx DN** xx DN** xx DN** xx       ",
+        "                                                   CN32x  DN** xx DN** xx DN** xx DN** xx DN** xx       ",
+        "                                                   [xx][xx][xx][xxxxx] \u5BA4\u5916 \u5BA4\u5185   \uFF7C\uFF7D\uFF83\uFF91Max\u5BB9\u91CF xxxxxx   ",
+        "                                              \u8D77\u52D5\u5F8Cxxxx\u6642xxxx\u5206xxxx\u79D2  xx xx.xxHP \uFF95\uFF86\uFF6F\uFF84Max\u5BB9\u91CF xxxxxx   ",
+        "                                                         s=b I=xx 0=xx   x    xx\u53F0       sub-rxErr[xxxx]",
+        "\uFF95\uFF86\u96FBxxxxxxxx \uFF7C\uFF7D\u96FBxxxxxxxx \u7A4D\u7B97xxxxxxxx \u7A4D\u7DCFxxxxxxxx xx                               soft-sub[xxxx-xxxx]",
+        "                                                                                    soft-main[xxxx-xxxx]",
+        ""
+      ],
+      "Colors": [
+        {
+          "Row": 0,
+          "Column": 0,
+          "Length": 101,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 1,
+          "Column": 0,
+          "Length": 102,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 2,
+          "Column": 0,
+          "Length": 102,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 3,
+          "Column": 0,
+          "Length": 103,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 4,
+          "Column": 0,
+          "Length": 102,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 5,
+          "Column": 0,
+          "Length": 103,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 6,
+          "Column": 0,
+          "Length": 97,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 7,
+          "Column": 0,
+          "Length": 97,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 8,
+          "Column": 0,
+          "Length": 101,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 9,
+          "Column": 0,
+          "Length": 103,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 10,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 11,
+          "Column": 0,
+          "Length": 100,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 12,
+          "Column": 0,
+          "Length": 29,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 12,
+          "Column": 29,
+          "Length": 3,
+          "ColorIndex": "6"
+        },
+        {
+          "Row": 12,
+          "Column": 32,
+          "Length": 2,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 12,
+          "Column": 34,
+          "Length": 1,
+          "ColorIndex": "8"
+        },
+        {
+          "Row": 12,
+          "Column": 35,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 12,
+          "Column": 44,
+          "Length": 1,
+          "ColorIndex": "5"
+        },
+        {
+          "Row": 12,
+          "Column": 45,
+          "Length": 59,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 13,
+          "Column": 0,
+          "Length": 29,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 13,
+          "Column": 29,
+          "Length": 2,
+          "ColorIndex": "6"
+        },
+        {
+          "Row": 13,
+          "Column": 31,
+          "Length": 2,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 13,
+          "Column": 33,
+          "Length": 1,
+          "ColorIndex": "8"
+        },
+        {
+          "Row": 13,
+          "Column": 34,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 13,
+          "Column": 43,
+          "Length": 1,
+          "ColorIndex": "5"
+        },
+        {
+          "Row": 13,
+          "Column": 44,
+          "Length": 59,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 14,
+          "Column": 0,
+          "Length": 29,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 14,
+          "Column": 29,
+          "Length": 2,
+          "ColorIndex": "6"
+        },
+        {
+          "Row": 14,
+          "Column": 31,
+          "Length": 2,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 14,
+          "Column": 33,
+          "Length": 1,
+          "ColorIndex": "8"
+        },
+        {
+          "Row": 14,
+          "Column": 34,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 14,
+          "Column": 43,
+          "Length": 1,
+          "ColorIndex": "5"
+        },
+        {
+          "Row": 14,
+          "Column": 44,
+          "Length": 59,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 15,
+          "Column": 0,
+          "Length": 29,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 15,
+          "Column": 29,
+          "Length": 2,
+          "ColorIndex": "6"
+        },
+        {
+          "Row": 15,
+          "Column": 31,
+          "Length": 3,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 15,
+          "Column": 34,
+          "Length": 1,
+          "ColorIndex": "8"
+        },
+        {
+          "Row": 15,
+          "Column": 35,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 15,
+          "Column": 44,
+          "Length": 1,
+          "ColorIndex": "5"
+        },
+        {
+          "Row": 15,
+          "Column": 45,
+          "Length": 59,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 16,
+          "Column": 0,
+          "Length": 31,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 16,
+          "Column": 31,
+          "Length": 3,
+          "ColorIndex": "6"
+        },
+        {
+          "Row": 16,
+          "Column": 34,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 16,
+          "Column": 43,
+          "Length": 8,
+          "ColorIndex": "6"
+        },
+        {
+          "Row": 16,
+          "Column": 51,
+          "Length": 52,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 17,
+          "Column": 0,
+          "Length": 31,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 17,
+          "Column": 31,
+          "Length": 3,
+          "ColorIndex": "6"
+        },
+        {
+          "Row": 17,
+          "Column": 34,
+          "Length": 69,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 18,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 19,
+          "Column": 0,
+          "Length": 102,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 20,
+          "Column": 0,
+          "Length": 103,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 21,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 22,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 23,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 24,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 25,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 26,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 27,
+          "Column": 0,
+          "Length": 101,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 28,
+          "Column": 0,
+          "Length": 101,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 29,
+          "Column": 0,
+          "Length": 101,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 30,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 31,
+          "Column": 0,
+          "Length": 102,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 32,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 33,
+          "Column": 0,
+          "Length": 102,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 34,
+          "Column": 0,
+          "Length": 100,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 35,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 36,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 37,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 38,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 39,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 40,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 41,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 42,
+          "Column": 0,
+          "Length": 98,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 43,
+          "Column": 0,
+          "Length": 96,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 44,
+          "Column": 0,
+          "Length": 103,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 45,
+          "Column": 0,
+          "Length": 98,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 46,
+          "Column": 0,
+          "Length": 104,
+          "ColorIndex": "4"
+        }
+      ],
+      "Rams": [
+        {
+          "Row": 12,
+          "Column": 35,
+          "Offset": 1,
+          "Symbol": "PUMP_SwrtData.B_FLo",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 13,
+          "Column": 35,
+          "Offset": 2,
+          "Symbol": "PUMP_SwrtData.B_Alpha1",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 14,
+          "Column": 35,
+          "Offset": 3,
+          "Symbol": "PUMP_SwrtData.B_Alpha2",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 15,
+          "Column": 35,
+          "Offset": 4,
+          "Symbol": "PUMP_SwrtData.B_FL_fix",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 12,
+          "Column": 45,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.C_FLo",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 13,
+          "Column": 45,
+          "Offset": 5,
+          "Symbol": "PUMP_SwrtData.C_Alpha1",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 14,
+          "Column": 45,
+          "Offset": 6,
+          "Symbol": "PUMP_SwrtData.C_Alpha2",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 15,
+          "Column": 45,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.C_FL_fix",
+          "FormatId": "F32"
+        }
+      ]
     }
   ]
 }

@@ -63,7 +63,7 @@ namespace WpfApp1.ViewModels
 
         // --- 参照・計算プロパティ（Modelは持たず、ViewModelが解決する） ---
 
-        public RamCatalog? Catalog => _main.CurrentCatalogs.FirstOrDefault(c => c.Symbol == _model.Symbol);
+        public RamCatalog? Catalog => _main.GetCatalogFromAllSheets(_model.Symbol);
 
         public FormatData? Format => _main.FormatList.FirstOrDefault(f => f.Id == FormatId);
 
@@ -89,5 +89,17 @@ namespace WpfApp1.ViewModels
 
         [ObservableProperty]
         private bool _isSelected;
+
+        public void RefreshCatalogInfo()
+        {
+            // カタログから引っ張っているプロパティすべての変更を通知する
+            OnPropertyChanged(nameof(Catalog));
+            OnPropertyChanged(nameof(Data));
+            OnPropertyChanged(nameof(ComputedAddress));
+            OnPropertyChanged(nameof(Format));
+            OnPropertyChanged(nameof(Placeholder));
+            OnPropertyChanged(nameof(IsValid));
+            OnPropertyChanged(nameof(Length));
+        }
     }
 }

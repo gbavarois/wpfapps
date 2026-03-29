@@ -62,7 +62,7 @@ namespace WpfApp1.Views
             // ItemsControl がロード完了していないと Template.FindName は null になるので注意
             if (itemsControl.Template != null)
             {
-                var canvas = itemsControl.Template.FindName("RamCanvas", itemsControl) as Canvas;
+                var canvas = VisualTreeHelperExtensions.GetVisualChild<Canvas>(itemsControl);
                 if (canvas != null)
                 {
                     // スクロール量を Canvas のズレとして適用（同期）
@@ -195,7 +195,23 @@ namespace WpfApp1.Views
         {
             var service = new JsonEditorService();
             var vm = (DisplayEditorViewModel)this.DataContext;
-            return service.CreateSaveEditorData(vm.DisplayNumber, this.MainEditor, vm.PlacedRams.Select(r => r.Model));
+            return service.CreateSaveEditorData(vm.DisplayName, this.MainEditor, vm.PlacedRams.Select(r => r.Model));
+        }
+
+        private void EditorView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext is DisplayEditorViewModel tabVM && tabVM.RestoreData != null)
+            {
+                var service = new JsonEditorService();
+                var data = tabVM.RestoreData;
+
+                this.MainEditor.Document.Blocks.Clear();
+                service.RestoreText(this.MainEditor, data.Lines);
+                service.RestoreColors(this.MainEditor, data.Colors);
+
+                // 復元が終わったらメモリ解放のために消しておく
+                tabVM.RestoreData = null;
+            }
         }
     }
 }

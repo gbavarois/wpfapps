@@ -1,4 +1,5 @@
 ﻿using AvalonDock.Layout;
+using ExcelDataReader.Log;
 using Microsoft.Win32;
 using System;
 using System.Globalization;
@@ -101,54 +102,63 @@ namespace WpfApp1.Views
         //}
 
         // JSON読み込みメニュー用
-        private void OpenFile_Click(object sender, RoutedEventArgs e)
+        private async void OpenFile_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new Microsoft.Win32.OpenFileDialog
             {
                 Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
             };
 
+            // ダイアログでパス取得
             if (dialog.ShowDialog() == true)
             {
-                // ... ダイアログでパス取得 ...
+                _currentFilePath = dialog.FileName;
                 var service = new JsonEditorService();
                 var projectData = service.LoadProjectFromJson(dialog.FileName);
 
-                var vm = (MainViewModel)this.DataContext;
-                vm.EditorTabs.Clear(); // 一旦全タブ削除
+                var mainVm = (MainViewModel)this.DataContext;
+                mainVm.EditorTabs.Clear(); // 一旦全タブ削除
 
                 foreach (var tabData in projectData.Tabs)
                 {
-                    // 1. ViewModelを作成
-                    var tabVM = new DisplayEditorViewModel(vm) { DisplayNumber = tabData.Title };
+                    // ViewModelを作成
+                    var tabVM = new DisplayEditorViewModel(mainVm) { DisplayName = tabData.Title };
 
-                    // 2. RAMデータを復元してVMにセット
+                    // RAMデータを復元してVMにセット
                     foreach (var ram in tabData.Rams)
                     {
-                        tabVM.PlacedRams.Add(new RamItemViewModel(ram, vm));
+                        tabVM.PlacedRams.Add(new RamItemViewModel(ram, mainVm));
                     }
-
-                    // 3. タブを追加（これで EditorView が生成される）
-                    vm.EditorTabs.Add(tabVM);
-
-                    // 【注意】UI(RichTextBox)の復元は、EditorViewがロードされた後に行う必要があります
-                    // ここは一工夫必要（後述）
+                    // EditorViewのLoadedイベントで、レイアウトやシンボルの復元を行うためのデータを渡す
+                    tabVM.RestoreData = tabData;
+                    // タブを追加（これで EditorView が生成される）
+                    mainVm.EditorTabs.Add(tabVM);
                 }
+
+                // 全てのタブを追加し終わった後
+                foreach (var tab in mainVm.EditorTabs)
+                {
+                    // 1. プログラムからタブを切り替える
+                    mainVm.ActiveTab = tab;
+
+                    // 2. 一瞬待機して、WPFが EditorView を生成・Loadedイベントを走らせる時間を稼ぐ
+                    // DispatcherPriority.Background を使うことで描画更新を待てます
+                    await Dispatcher.BeginInvoke(new Action(() => { }), System.Windows.Threading.DispatcherPriority.Background);
+                }
+
+                // 最後に最初のタブに戻しておく
+                //if (mainVm.EditorTabs.Any()) mainVm.ActiveTab = mainVm.EditorTabs[0];
             }
         }
         private void SaveFile_Click(object sender, RoutedEventArgs e)
         {
-            //    if (string.IsNullOrEmpty(_currentFilePath))
-            //    {
-            //        SaveAsFile_Click(sender, e);
-            //        return;
-            //    }
+            if (string.IsNullOrEmpty(_currentFilePath))
+            {
+                SaveAsFile_Click(sender, e);
+                return;
+            }
 
-            //    var service = new JsonEditorService();
-            //    var vm = (MainViewModel)DataContext;
-            //    var data = service.CreateSaveData(MainEditor, vm.RamdataList);
-
-            //    service.SaveToJson(data, _currentFilePath);
+            SaveFile(_currentFilePath);
         }
         private void SaveAsFile_Click(object sender, RoutedEventArgs e)
         {
@@ -159,27 +169,32 @@ namespace WpfApp1.Views
 
             if (dialog.ShowDialog() == true)
             {
-                var saveData = new ProjectSaveData();
-                var service = new JsonEditorService();
+                SaveFile(dialog.FileName);
+            }
+        }
 
-                var documents = dockingManager.Layout.Descendents().OfType<AvalonDock.Layout.LayoutDocument>();
-                foreach (var doc in documents)
+        private void SaveFile(string path)
+        {
+            var saveData = new ProjectSaveData();
+            var service = new JsonEditorService();
+
+            var documents = dockingManager.Layout.Descendents().OfType<AvalonDock.Layout.LayoutDocument>();
+            foreach (var doc in documents)
+            {
+                var layoutItem = dockingManager.GetLayoutItemFromModel(doc);
+                if (layoutItem?.View is ContentPresenter cp)
                 {
-                    var layoutItem = dockingManager.GetLayoutItemFromModel(doc);
-                    if (layoutItem?.View is ContentPresenter cp)
+                    // 各タブの実体(EditorView)からデータを取得
+                    var editorView = VisualTreeHelperExtensions.GetVisualChild<EditorView>(cp);
+                    if (editorView != null)
                     {
-                        // 各タブの実体(EditorView)からデータを取得
-                        var editorView = GetVisualChild<EditorView>(cp);
-                        if (editorView != null)
-                        {
-                            saveData.Tabs.Add(editorView.GetEditorData());
-                        }
+                        saveData.Tabs.Add(editorView.GetEditorData());
                     }
                 }
-                service.SaveToJson(saveData, dialog.FileName);
-
-                _currentFilePath = dialog.FileName;
             }
+            service.SaveToJson(saveData, path);
+
+            _currentFilePath = path;
         }
 
         private void ColorCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -204,7 +219,7 @@ namespace WpfApp1.Views
                 {
                     // 4. 【ここが重要】ContentPresenter の「視覚的な子要素」から EditorView を探す
                     // cp.Content は ViewModel を指しているため、実体（EditorView）を VisualTree から掘り起こす
-                    var editorView = GetVisualChild<EditorView>(cp);
+                    var editorView = VisualTreeHelperExtensions.GetVisualChild<EditorView>(cp);
 
                     if (editorView != null)
                     {
@@ -215,18 +230,18 @@ namespace WpfApp1.Views
             }
         }
 
-        private T? GetVisualChild<T>(DependencyObject parent) where T : DependencyObject
-        {
-            if (parent == null) return null;
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-                if (child is T t) return t;
-                var result = GetVisualChild<T>(child);
-                if (result != null) return result;
-            }
-            return null;
-        }
+        //private T? GetVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        //{
+        //    if (parent == null) return null;
+        //    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        //    {
+        //        var child = VisualTreeHelper.GetChild(parent, i);
+        //        if (child is T t) return t;
+        //        var result = GetVisualChild<T>(child);
+        //        if (result != null) return result;
+        //    }
+        //    return null;
+        //}
 
 
 

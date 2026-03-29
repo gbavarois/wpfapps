@@ -28,5 +28,13 @@ namespace WpfApp1.Models
         {
             return _pages.TryGetValue(sheetName, out var list) ? list : new List<RamCatalog>();
         }
+
+        public RamCatalog? FindCatalogBySymbol(string symbol)
+        {
+            // 全てのシート(Value)を巡回して、一致する Symbol を探す
+            return _pages.Values
+                         .SelectMany(list => list)
+                         .FirstOrDefault(c => c.Symbol == symbol);
+        }
     }
 }

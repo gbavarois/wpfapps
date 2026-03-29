@@ -49,7 +49,7 @@
                 <!-- MainViewModel に実装したコマンドを呼び出す -->
                 <MenuItem Header="新規作成(_N)" Command="{Binding AddTabCommand}"/>
                 <MenuItem Header="開く(_O)" Click="OpenFile_Click"/>
-                <MenuItem Header="上書き保存(_S)" Command="{Binding SaveFileCommand}"/>
+                <MenuItem Header="上書き保存(_S)" Click="SaveFile_Click"/>
                 <MenuItem Header="名前を付けて保存(_A)" Click="SaveAsFile_Click"/>
                 <Separator />
                 <MenuItem Header="RAMデータ読込" Click="LoadRamData_Click"/>
@@ -83,7 +83,7 @@
 
             <ad:DockingManager.LayoutItemContainerStyle>
                 <Style TargetType="ad:LayoutItem">
-                    <Setter Property="Title" Value="{Binding Model.DisplayNumber}" />
+                    <Setter Property="Title" Value="{Binding Model.DisplayName}" />
                 </Style>
             </ad:DockingManager.LayoutItemContainerStyle>
 
