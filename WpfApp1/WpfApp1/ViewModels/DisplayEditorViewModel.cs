@@ -62,16 +62,5 @@ namespace WpfApp1.ViewModels
                 value.IsSelected = true;
             }
         }
-
-        // 保存用データ（DTO）への変換
-        public EditorSaveData CreateSaveData(System.Collections.Generic.List<string> lines, System.Collections.Generic.List<TextColorInfo> colors)
-        {
-            var data = new EditorSaveData { Lines = lines, Colors = colors };
-            foreach (var ramVM in PlacedRams)
-            {
-                data.Rams.Add(ramVM.Model);
-            }
-            return data;
-        }
     }
 }

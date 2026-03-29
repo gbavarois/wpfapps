@@ -9,6 +9,7 @@ namespace WpfApp1.Helpers
 {
     public static class ColorHelper
     {
+        public static string DefaultColorIndex => "4";
         public static string GetColorCode(string index) => index switch
         {
             "0" => "#000000",

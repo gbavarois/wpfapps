@@ -110,19 +110,30 @@ namespace WpfApp1.Views
 
             if (dialog.ShowDialog() == true)
             {
+                // ... ダイアログでパス取得 ...
+                var service = new JsonEditorService();
+                var projectData = service.LoadProjectFromJson(dialog.FileName);
+
                 var vm = (MainViewModel)this.DataContext;
+                vm.EditorTabs.Clear(); // 一旦全タブ削除
 
-                // Command.Execute(...) ではなく、直接メソッドを呼ぶ
-                var saveData = vm.LoadFromJson(dialog.FileName);
-
-                if (saveData != null)
+                foreach (var tabData in projectData.Tabs)
                 {
-                    var service = new JsonEditorService();
-                    //service.RestoreText(MainEditor, saveData.Lines);        // エラーを消すため暫定的にコメント化する
-                    //service.ApplyColorInfo(MainEditor, saveData.Colors);    // エラーを消すため暫定的にコメント化する
-                }
+                    // 1. ViewModelを作成
+                    var tabVM = new DisplayEditorViewModel(vm) { DisplayNumber = tabData.Title };
 
-                _currentFilePath = dialog.FileName;
+                    // 2. RAMデータを復元してVMにセット
+                    foreach (var ram in tabData.Rams)
+                    {
+                        tabVM.PlacedRams.Add(new RamItemViewModel(ram, vm));
+                    }
+
+                    // 3. タブを追加（これで EditorView が生成される）
+                    vm.EditorTabs.Add(tabVM);
+
+                    // 【注意】UI(RichTextBox)の復元は、EditorViewがロードされた後に行う必要があります
+                    // ここは一工夫必要（後述）
+                }
             }
         }
         private void SaveFile_Click(object sender, RoutedEventArgs e)
@@ -141,21 +152,34 @@ namespace WpfApp1.Views
         }
         private void SaveAsFile_Click(object sender, RoutedEventArgs e)
         {
-            //    var dialog = new SaveFileDialog
-            //    {
-            //        Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
-            //    };
+            var dialog = new SaveFileDialog
+            {
+                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+            };
 
-            //    if (dialog.ShowDialog() == true)
-            //    {
-            //        var service = new JsonEditorService();
-            //        var vm = (MainViewModel)DataContext;
-            //        var data = service.CreateSaveData(MainEditor, vm.RamdataList);
+            if (dialog.ShowDialog() == true)
+            {
+                var saveData = new ProjectSaveData();
+                var service = new JsonEditorService();
 
-            //        service.SaveToJson(data, dialog.FileName);
+                var documents = dockingManager.Layout.Descendents().OfType<AvalonDock.Layout.LayoutDocument>();
+                foreach (var doc in documents)
+                {
+                    var layoutItem = dockingManager.GetLayoutItemFromModel(doc);
+                    if (layoutItem?.View is ContentPresenter cp)
+                    {
+                        // 各タブの実体(EditorView)からデータを取得
+                        var editorView = GetVisualChild<EditorView>(cp);
+                        if (editorView != null)
+                        {
+                            saveData.Tabs.Add(editorView.GetEditorData());
+                        }
+                    }
+                }
+                service.SaveToJson(saveData, dialog.FileName);
 
-            //        _currentFilePath = dialog.FileName;
-            //    }
+                _currentFilePath = dialog.FileName;
+            }
         }
 
         private void ColorCommand_Executed(object sender, ExecutedRoutedEventArgs e)

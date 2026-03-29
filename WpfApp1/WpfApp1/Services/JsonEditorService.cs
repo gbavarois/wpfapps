@@ -15,9 +15,12 @@ namespace WpfApp1.Services
     public class JsonEditorService
     {
         // 保存データ生成（RichText → DTO）
-        public EditorSaveData CreateSaveData(RichTextBox rtb, IEnumerable<RamLayout> ramList)
+        public EditorData CreateSaveEditorData(string title, RichTextBox rtb, IEnumerable<RamLayout> ramList)
         {
-            var data = new EditorSaveData();
+            var data = new EditorData();
+
+            // --- タイトル ---
+            data.Title = title;
 
             // --- テキスト保存（行単位） ---
             foreach (var block in rtb.Document.Blocks)
@@ -25,10 +28,7 @@ namespace WpfApp1.Services
                 if (block is Paragraph para)
                 {
                     var text = new TextRange(para.ContentStart, para.ContentEnd).Text;
-
-                    // 改行コード除去
-                    text = text.Replace("\r", "").Replace("\n", "");
-
+                    text = text.Replace("\r", "").Replace("\n", "");    // 改行コード除去
                     data.Lines.Add(text);
                 }
             }
@@ -43,9 +43,9 @@ namespace WpfApp1.Services
                 {
                     Row = ram.Row,
                     Column = ram.Column,
+                    Offset = ram.Offset,
                     Symbol = ram.Symbol,
-                    FormatId = ram.FormatId,
-                    Offset = 0 // ← まだ未実装なら固定
+                    FormatId = ram.FormatId
                 });
             }
 
@@ -53,7 +53,7 @@ namespace WpfApp1.Services
         }
 
         // JSON書き込み
-        public void SaveToJson(EditorSaveData data, string path)
+        public void SaveToJson(ProjectSaveData data, string path)
         {
             var json = System.Text.Json.JsonSerializer.Serialize(
                 data,
@@ -66,11 +66,11 @@ namespace WpfApp1.Services
         }
 
         // JSON読み込み
-        public EditorSaveData LoadFromJson(string path)
+        public ProjectSaveData LoadFromJson(string path)
         {
             var json = File.ReadAllText(path);
 
-            return System.Text.Json.JsonSerializer.Deserialize<EditorSaveData>(json);
+            return System.Text.Json.JsonSerializer.Deserialize<ProjectSaveData>(json);
         }
 
         // テキスト復元
@@ -103,13 +103,11 @@ namespace WpfApp1.Services
             var result = new List<TextColorInfo>();
 
             int row = 0;
-
             foreach (var block in rtb.Document.Blocks)
             {
                 if (block is not Paragraph para) continue;
 
                 int col = 0;
-
                 foreach (var inline in para.Inlines)
                 {
                     if (inline is Run run)
@@ -119,8 +117,8 @@ namespace WpfApp1.Services
 
                         string colorIndex = ColorHelper.GetColorIndex(run.Foreground);
 
-                        // デフォルト（0）は保存しない
-                        if (colorIndex != "0")
+                        // デフォルト（4）は保存しない
+                        if (colorIndex != ColorHelper.DefaultColorIndex)
                         {
                             result.Add(new TextColorInfo
                             {
@@ -130,11 +128,9 @@ namespace WpfApp1.Services
                                 ColorIndex = colorIndex
                             });
                         }
-
                         col += text.Length;
                     }
                 }
-
                 row++;
             }
 
@@ -248,6 +244,18 @@ namespace WpfApp1.Services
             }
 
             return result;
+        }
+
+        public void SaveProjectToJson(ProjectSaveData data, string path)
+        {
+            var json = System.Text.Json.JsonSerializer.Serialize(data, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, json);
+        }
+
+        public ProjectSaveData LoadProjectFromJson(string path)
+        {
+            var json = File.ReadAllText(path);
+            return System.Text.Json.JsonSerializer.Deserialize<ProjectSaveData>(json);
         }
     }
 }

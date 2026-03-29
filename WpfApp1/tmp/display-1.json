@@ -1,0 +1,296 @@
+{
+  "Tabs": [
+    {
+      "Title": "Disp0",
+      "Lines": [
+        "TWO=xxxx.x PSW_L(O) = xxx.xkPa Tsw  = xxxx.x                         \uFF7C\uFF7D\u7570[xxx-xx] \u78BA\u5B9A[xxx-xx|xx](xx)   ",
+        "TWI=xxxx.x PSW_E(I) = xxx.xkPa Ts_c = xxxx.x                         \uFF8A\uFF9E\uFF6F\uFF78\uFF71\uFF6F\uFF8C\uFF9F[b]  \u691C\u51FA[xxx-xx|xx](xx)   ",
+        "TCJ=xxxx.x PSW_S(OP)= xxx.xkPa Ts_h = xxxx.x                                      \u505C\u6B62[xxx-xx]\uFF76\uFF73\uFF9D\uFF84xx    ",
+        "TC1=xxxx.x                                                                        \uFF7C\uFF7D\u505C[xxx-xx|xx]       ",
+        "TC2=xxxx.x                                                                        \u518D\u8D77=xxxx             ",
+        "                                                                                  \uFF7C\uFF7D\u518D=xxxx             ",
+        "[\u6A5F\u7A2Exx][UnitHP:xxxx][\u6C34\u71B1\u4EA4HP:xxxx.x]    \u6D41\u4F53[x,x,x]                                                   ",
+        "\u505C\u6B62\u505C\u6B62[\u901A\u5E38][xxxxx][\uFF7B\uFF70\uFF93:x]              \u0394Pfffff.ff                \u003CODU info\u003E                         ",
+        "Rn   : xxxxxx  Wc:xxx.xx     \u76EE\u6A19Hz xx.xx \u88DCLfffff.ff                COMP:x                             ",
+        "MaxRn: xxxxxx  Wh:xxx.xx     bPump1 xx.xx \u88DCEfffff.ff                DEF :x                             ",
+        "dRn  : xxxxxx  Qn:xxx.xx     bPump2 xx.xx L/mfffff.ff                                                   ",
+        "GA   : xxxxxx                        \u76EE\u6A19\u6D41\u91CFfffff.ff                                                   ",
+        "dTc  : xxxxxx                FLo  Bfffff.ff Cfffff.ff                                                   ",
+        "dE   : xxxxxx                \u03B11  Bfffff.ff Cfffff.ff                                                   ",
+        "dRn_T:   xxxx                \u03B12  Bfffff.ff Cfffff.ff                                                   ",
+        "KeepT:   xxxx                FL   Bfffff.ff Cfffff.ff                                                   ",
+        "Ini_T:   xxxx                \u251C Minfffff.ff Sys CAPA                                                    ",
+        "                             \u2514 Maxfffff.ff  fffff.ff                                                   ",
+        "       PMVL1 PMVL2                                                                                      ",
+        "\u76EE\u6A19  XxxxxxXxxxxx                                                                                      ",
+        "  \u5B9F  XxxxxxXxxxxx                                                                                      ",
+        "                                                                                        \uFF95\uFF86Qc xxxxxxx    ",
+        "                                                                                        \uFF7C\uFF7DQc xxxxxxx    ",
+        "                                                                                        EER     xxxx    ",
+        "                                                                                        Vdisp xxxxxx    ",
+        "                                                                                                        ",
+        "                                                                                                        ",
+        "                                   Fc\u0060 =xxxxxx Fc =xxxxxx \u88DCc =xxxxxx \u80FD\u51B7[HH.H.M.L][xxxx%]             ",
+        "                                   Fh\u0060 =xxxxxx Fh =xxxxxx \u88DCh =xxxxxx \u80FD\u6696[HH.H.M.L][xxxx%]             ",
+        "                                   DFx%xxxxxx% FSGr\u6570xxxx \u5897\u6E1B[xxxxxx]                                  ",
+        "                                                                                                        ",
+        "                                                                                       \u9078\u629E\uFF93\uFF70\uFF84\uFF9E[xxxx]   ",
+        "                                                                                       \uFF83\uFF9E\uFF8F\uFF9D\uFF84\uFF9Exx=xxxx%   ",
+        "                                                                                           \u964D\u96EA\uFF8C\uFF67\uFF9D =b   ",
+        "                                                                                           \u591C\u9593\u4F4E\u9A12=b   ",
+        "                                                                                                        ",
+        "                                                                                                        ",
+        "                                             SW04x SW101 102  103  104  105  106                        ",
+        "                                             SW05x  xxxx xxxx xxxx xxxx xxxx xx                         ",
+        "                                             SW06x CN30x  DN03 xx DN82 xx DN** xx DN** xx DN** xx       ",
+        "                                                   CN31x  DN** xx DN** xx DN** xx DN** xx DN** xx       ",
+        "                                                   CN32x  DN** xx DN** xx DN** xx DN** xx DN** xx       ",
+        "                                                   [xx][xx][xx][xxxxx] \u5BA4\u5916 \u5BA4\u5185   \uFF7C\uFF7D\uFF83\uFF91Max\u5BB9\u91CF xxxxxx   ",
+        "                                              \u8D77\u52D5\u5F8Cxxxx\u6642xxxx\u5206xxxx\u79D2  xx xx.xxHP \uFF95\uFF86\uFF6F\uFF84Max\u5BB9\u91CF xxxxxx   ",
+        "                                                         s=b I=xx 0=xx   x    xx\u53F0       sub-rxErr[xxxx]",
+        "\uFF95\uFF86\u96FBxxxxxxxx \uFF7C\uFF7D\u96FBxxxxxxxx \u7A4D\u7B97xxxxxxxx \u7A4D\u7DCFxxxxxxxx xx                               soft-sub[xxxx-xxxx]",
+        "                                                                                    soft-main[xxxx-xxxx]",
+        ""
+      ],
+      "Colors": [
+        {
+          "Row": 0,
+          "Column": 11,
+          "Length": 5,
+          "ColorIndex": "2"
+        },
+        {
+          "Row": 1,
+          "Column": 11,
+          "Length": 5,
+          "ColorIndex": "2"
+        },
+        {
+          "Row": 2,
+          "Column": 11,
+          "Length": 5,
+          "ColorIndex": "2"
+        },
+        {
+          "Row": 7,
+          "Column": 36,
+          "Length": 2,
+          "ColorIndex": "5"
+        },
+        {
+          "Row": 10,
+          "Column": 42,
+          "Length": 3,
+          "ColorIndex": "6"
+        }
+      ],
+      "Rams": [
+        {
+          "Row": 2,
+          "Column": 21,
+          "Offset": 0,
+          "Symbol": "PWSchg",
+          "FormatId": "Bin_Table_00"
+        },
+        {
+          "Row": 1,
+          "Column": 21,
+          "Offset": 0,
+          "Symbol": "PWEchg",
+          "FormatId": "Bin_Table_00"
+        },
+        {
+          "Row": 0,
+          "Column": 21,
+          "Offset": 0,
+          "Symbol": "PWLchg",
+          "FormatId": "Bin_Table_00"
+        }
+      ]
+    },
+    {
+      "Title": "Disp1",
+      "Lines": [
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        "01234567890123456789012345678901234567890123456789012345678901234567890123456789",
+        ""
+      ],
+      "Colors": [
+        {
+          "Row": 5,
+          "Column": 11,
+          "Length": 11,
+          "ColorIndex": "1"
+        },
+        {
+          "Row": 6,
+          "Column": 22,
+          "Length": 11,
+          "ColorIndex": "2"
+        },
+        {
+          "Row": 7,
+          "Column": 33,
+          "Length": 11,
+          "ColorIndex": "3"
+        },
+        {
+          "Row": 9,
+          "Column": 55,
+          "Length": 11,
+          "ColorIndex": "5"
+        },
+        {
+          "Row": 10,
+          "Column": 16,
+          "Length": 11,
+          "ColorIndex": "6"
+        },
+        {
+          "Row": 11,
+          "Column": 27,
+          "Length": 11,
+          "ColorIndex": "7"
+        },
+        {
+          "Row": 12,
+          "Column": 38,
+          "Length": 11,
+          "ColorIndex": "8"
+        },
+        {
+          "Row": 13,
+          "Column": 49,
+          "Length": 11,
+          "ColorIndex": "9"
+        },
+        {
+          "Row": 14,
+          "Column": 60,
+          "Length": 11,
+          "ColorIndex": "0"
+        }
+      ],
+      "Rams": []
+    },
+    {
+      "Title": "Disp2",
+      "Lines": [
+        "TWO=xxxx.x PSW_L(O) = xxx.xkPa Tsw  = xxxx.x                         \uFF7C\uFF7D\u7570[xxx-xx] \u78BA\u5B9A[xxx-xx|xx](xx)   ",
+        "TWI=xxxx.x PSW_E(I) = xxx.xkPa Ts_c = xxxx.x                         \uFF8A\uFF9E\uFF6F\uFF78\uFF71\uFF6F\uFF8C\uFF9F[b]  \u691C\u51FA[xxx-xx|xx](xx)   ",
+        "TCJ=xxxx.x PSW_S(OP)= xxx.xkPa Ts_h = xxxx.x                                      \u505C\u6B62[xxx-xx]\uFF76\uFF73\uFF9D\uFF84xx    ",
+        "TC1=xxxx.x                                                                        \uFF7C\uFF7D\u505C[xxx-xx|xx]       ",
+        "TC2=xxxx.x                                                                        \u518D\u8D77=xxxx             ",
+        "                                                                                  \uFF7C\uFF7D\u518D=xxxx             ",
+        "[\u6A5F\u7A2Exx][UnitHP:xxxx][\u6C34\u71B1\u4EA4HP:xxxx.x]    \u6D41\u4F53[x,x,x]                                                   ",
+        "\u505C\u6B62\u505C\u6B62[\u901A\u5E38][xxxxx][\uFF7B\uFF70\uFF93:x]              \u0394Pfffff.ff                \u003CODU info\u003E                         ",
+        "Rn   : xxxxxx  Wc:xxx.xx     \u76EE\u6A19Hz xx.xx \u88DCLfffff.ff                COMP:x                             ",
+        "MaxRn: xxxxxx  Wh:xxx.xx     bPump1 xx.xx \u88DCEfffff.ff                DEF :x                             ",
+        "dRn  : xxxxxx  Qn:xxx.xx     bPump2 xx.xx L/mfffff.ff                                                   ",
+        "GA   : xxxxxx                        \u76EE\u6A19\u6D41\u91CFfffff.ff                                                   ",
+        "dTc  : xxxxxx                FLo  Bfffff.ff Cfffff.ff                                                   ",
+        "dE   : xxxxxx                \u03B11  Bfffff.ff Cfffff.ff                                                   ",
+        "dRn_T:   xxxx                \u03B12  Bfffff.ff Cfffff.ff                                                   ",
+        "KeepT:   xxxx                FL   Bfffff.ff Cfffff.ff                                                   ",
+        "Ini_T:   xxxx                \u251C Minfffff.ff Sys CAPA                                                    ",
+        "                             \u2514 Maxfffff.ff  fffff.ff                                                   ",
+        "       PMVL1 PMVL2                                                                                      ",
+        "\u76EE\u6A19  XxxxxxXxxxxx                                                                                      ",
+        "  \u5B9F  XxxxxxXxxxxx                                                                                      ",
+        "                                                                                        \uFF95\uFF86Qc xxxxxxx    ",
+        "                                                                                        \uFF7C\uFF7DQc xxxxxxx    ",
+        "                                                                                        EER     xxxx    ",
+        "                                                                                        Vdisp xxxxxx    ",
+        "                                                                                                        ",
+        "                                                                                                        ",
+        "                                   Fc\u0060 =xxxxxx Fc =xxxxxx \u88DCc =xxxxxx \u80FD\u51B7[HH.H.M.L][xxxx%]             ",
+        "                                   Fh\u0060 =xxxxxx Fh =xxxxxx \u88DCh =xxxxxx \u80FD\u6696[HH.H.M.L][xxxx%]             ",
+        "                                   DFx%xxxxxx% FSGr\u6570xxxx \u5897\u6E1B[xxxxxx]                                  ",
+        "                                                                                                        ",
+        "                                                                                       \u9078\u629E\uFF93\uFF70\uFF84\uFF9E[xxxx]   ",
+        "                                                                                       \uFF83\uFF9E\uFF8F\uFF9D\uFF84\uFF9Exx=xxxx%   ",
+        "                                                                                           \u964D\u96EA\uFF8C\uFF67\uFF9D =b   ",
+        "                                                                                           \u591C\u9593\u4F4E\u9A12=b   ",
+        "                                                                                                        ",
+        "                                                                                                        ",
+        "                                             SW04x SW101 102  103  104  105  106                        ",
+        "                                             SW05x  xxxx xxxx xxxx xxxx xxxx xx                         ",
+        "                                             SW06x CN30x  DN03 xx DN82 xx DN** xx DN** xx DN** xx       ",
+        "                                                   CN31x  DN** xx DN** xx DN** xx DN** xx DN** xx       ",
+        "                                                   CN32x  DN** xx DN** xx DN** xx DN** xx DN** xx       ",
+        "                                                   [xx][xx][xx][xxxxx] \u5BA4\u5916 \u5BA4\u5185   \uFF7C\uFF7D\uFF83\uFF91Max\u5BB9\u91CF xxxxxx   ",
+        "                                              \u8D77\u52D5\u5F8Cxxxx\u6642xxxx\u5206xxxx\u79D2  xx xx.xxHP \uFF95\uFF86\uFF6F\uFF84Max\u5BB9\u91CF xxxxxx   ",
+        "                                                         s=b I=xx 0=xx   x    xx\u53F0       sub-rxErr[xxxx]",
+        "\uFF95\uFF86\u96FBxxxxxxxx \uFF7C\uFF7D\u96FBxxxxxxxx \u7A4D\u7B97xxxxxxxx \u7A4D\u7DCFxxxxxxxx xx                               soft-sub[xxxx-xxxx]",
+        "                                                                                    soft-main[xxxx-xxxx]",
+        ""
+      ],
+      "Colors": [],
+      "Rams": [
+        {
+          "Row": 11,
+          "Column": 45,
+          "Offset": 1,
+          "Symbol": "PUMP_SwrtData.FL_target",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 10,
+          "Column": 45,
+          "Offset": 2,
+          "Symbol": "PUMP_SwrtData.FL_current",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 7,
+          "Column": 45,
+          "Offset": 3,
+          "Symbol": "PUMP_SwrtData.deltaP",
+          "FormatId": "F32"
+        }
+      ]
+    }
+  ]
+}

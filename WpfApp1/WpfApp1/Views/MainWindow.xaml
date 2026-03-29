@@ -30,12 +30,7 @@
         <local:PosConverter x:Key="CharToPosConverter" Scale="7.0" />
         <local:PosConverter x:Key="LineToPosConverter" Scale="14.0" />
         <local:PosConverter x:Key="LenToWidthConverter" Scale="7.0" />
-
-        
-
     </Window.Resources>
-    
-    
 
     <Grid>
         <!-- 上：メニューバー、下：DockingManager 本体 -->
@@ -85,12 +80,6 @@
                     <views:EditorView />
                 </DataTemplate>
             </ad:DockingManager.Resources>
-
-            <!--ad:DockingManager.DocumentHeaderTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Model.DisplayNumber}" />
-                </DataTemplate>
-            </ad:DockingManager.DocumentHeaderTemplate-->
 
             <ad:DockingManager.LayoutItemContainerStyle>
                 <Style TargetType="ad:LayoutItem">

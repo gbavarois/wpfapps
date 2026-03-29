@@ -144,23 +144,5 @@ namespace WpfApp1.ViewModels
 
         [RelayCommand]
         private void ClearSelection() => SelectedRamdata = null;
-
-        public EditorSaveData? LoadFromJson(string path)
-        {
-            var service = new JsonEditorService();
-            var saveData = service.LoadFromJson(path);
-
-            // RAMデータの復元（ここはViewModelの仕事）
-            var restoredRams = service.RestoreRamData(saveData.Rams, _currentCatalogs, FormatList);
-
-            RamdataList.Clear();
-            foreach (var ram in restoredRams)
-            {
-                //ram.ResolveReferences(FormatList, _currentCatalogs);
-                RamdataList.Add(ram);
-            }
-
-            return saveData; // View(RichTextBox)で使うためにデータを返す
-        }
     }
 }

@@ -15,6 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp1;
 using WpfApp1.Helpers;
+using WpfApp1.Models;
+using WpfApp1.Services;
 using WpfApp1.ViewModels;
 
 namespace WpfApp1.Views
@@ -187,6 +189,13 @@ namespace WpfApp1.Views
                 var brush = ColorHelper.GetBrushFromIndex(colorIndex);
                 range.ApplyPropertyValue(TextElement.ForegroundProperty, brush);
             }
+        }
+
+        public EditorData GetEditorData()
+        {
+            var service = new JsonEditorService();
+            var vm = (DisplayEditorViewModel)this.DataContext;
+            return service.CreateSaveEditorData(vm.DisplayNumber, this.MainEditor, vm.PlacedRams.Select(r => r.Model));
         }
     }
 }
