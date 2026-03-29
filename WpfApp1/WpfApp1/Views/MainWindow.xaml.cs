@@ -37,13 +37,28 @@ namespace WpfApp1.Views
         // 0～9用のコマンドを定義
         public static RoutedCommand ColorCommand = new RoutedCommand();
 
+        public static readonly RoutedUICommand OpenCommand = new RoutedUICommand("開く", "Open", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.O, ModifierKeys.Control) });
+        public static readonly RoutedUICommand SaveCommand = new RoutedUICommand("上書き保存", "Save", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.S, ModifierKeys.Control) });
+        public static readonly RoutedUICommand SaveAsCommand = new RoutedUICommand("名前を付けて保存", "SaveAs", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift) });
+        public static readonly RoutedUICommand NewTabCommand = new RoutedUICommand("新規作成", "NewTab", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.N, ModifierKeys.Control) });
+
+
 
         public MainWindow()
         {
             InitializeComponent();
             // ViewModelをセット
             this.DataContext = new MainViewModel();
+            // コマンドと既存メソッドの紐付け（CommandBinding）
             this.CommandBindings.Add(new CommandBinding(ColorCommand, ColorCommand_Executed));
+            this.CommandBindings.Add(new CommandBinding(OpenCommand, OpenFile_Click));
+            this.CommandBindings.Add(new CommandBinding(SaveCommand, SaveFile_Click));
+            this.CommandBindings.Add(new CommandBinding(SaveAsCommand, SaveAsFile_Click));
+
+            // 新規作成はViewModelのメソッドを呼ぶように橋渡し
+            this.CommandBindings.Add(new CommandBinding(NewTabCommand, (s, e) => {
+                ((MainViewModel)this.DataContext).AddTabCommand.Execute(null);
+            }));
         }
 
         

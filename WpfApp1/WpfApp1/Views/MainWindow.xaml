@@ -47,10 +47,10 @@
         <Menu Grid.Row="0">
             <MenuItem Header="ファイル(_F)">
                 <!-- MainViewModel に実装したコマンドを呼び出す -->
-                <MenuItem Header="新規作成(_N)" Command="{Binding AddTabCommand}"/>
-                <MenuItem Header="開く(_O)" Click="OpenFile_Click"/>
-                <MenuItem Header="上書き保存(_S)" Click="SaveFile_Click"/>
-                <MenuItem Header="名前を付けて保存(_A)" Click="SaveAsFile_Click"/>
+                <MenuItem Header="新規作成(_N)" Command="{x:Static views:MainWindow.NewTabCommand}" />
+                <MenuItem Header="開く(_O)" Command="{x:Static views:MainWindow.OpenCommand}"/>
+                <MenuItem Header="上書き保存(_S)" Command="{x:Static views:MainWindow.SaveCommand}"/>
+                <MenuItem Header="名前を付けて保存(_A)" Command="{x:Static views:MainWindow.SaveAsCommand}" />
                 <Separator />
                 <MenuItem Header="RAMデータ読込" Click="LoadRamData_Click"/>
                 
