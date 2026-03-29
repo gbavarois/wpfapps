@@ -41,6 +41,8 @@ namespace WpfApp1.Views
         public static readonly RoutedUICommand SaveCommand = new RoutedUICommand("上書き保存", "Save", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.S, ModifierKeys.Control) });
         public static readonly RoutedUICommand SaveAsCommand = new RoutedUICommand("名前を付けて保存", "SaveAs", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift) });
         public static readonly RoutedUICommand NewTabCommand = new RoutedUICommand("新規作成", "NewTab", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.N, ModifierKeys.Control) });
+        public static readonly RoutedUICommand AddRamCommand = new RoutedUICommand("RAM配置", "AddRam", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.Insert, ModifierKeys.Control | ModifierKeys.Shift) });
+        public static readonly RoutedUICommand DeleteRamCommand = new RoutedUICommand("RAM削除", "DeleteRam", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.Delete) });
 
 
 
@@ -48,13 +50,22 @@ namespace WpfApp1.Views
         {
             InitializeComponent();
             // ViewModelをセット
-            this.DataContext = new MainViewModel();
+            var vm = new MainViewModel();
+            this.DataContext = vm;
             // コマンドと既存メソッドの紐付け（CommandBinding）
             this.CommandBindings.Add(new CommandBinding(ColorCommand, ColorCommand_Executed));
             this.CommandBindings.Add(new CommandBinding(OpenCommand, OpenFile_Click));
             this.CommandBindings.Add(new CommandBinding(SaveCommand, SaveFile_Click));
             this.CommandBindings.Add(new CommandBinding(SaveAsCommand, SaveAsFile_Click));
-
+            this.CommandBindings.Add(new CommandBinding(AddRamCommand, (s, e) => {
+                if (vm.AddRamFromCatalogCommand.CanExecute(null))
+                    vm.AddRamFromCatalogCommand.Execute(null);
+            }));
+            this.CommandBindings.Add(new CommandBinding(DeleteRamCommand, (s, e) => {
+                if (vm.RemoveRamCommand.CanExecute(null))
+                    vm.RemoveRamCommand.Execute(null);
+            }));
+        
             // 新規作成はViewModelのメソッドを呼ぶように橋渡し
             this.CommandBindings.Add(new CommandBinding(NewTabCommand, (s, e) => {
                 ((MainViewModel)this.DataContext).AddTabCommand.Execute(null);

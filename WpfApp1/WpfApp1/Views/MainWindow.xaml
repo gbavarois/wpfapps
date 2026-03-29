@@ -114,6 +114,11 @@
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
                                     <Border Grid.Row="1" Margin="2" BorderBrush="LightGray" BorderThickness="1">
                                         <DataGrid x:Name="RamCatalogList" ItemsSource="{Binding CurrentCatalogs}" SelectedItem="{Binding SelectedRamCatalog}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                                            <DataGrid.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="RAMデータを配置" Command="{Binding AddRamFromCatalogCommand}" />
+                                                </ContextMenu>
+                                            </DataGrid.ContextMenu>
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="データ名" Binding="{Binding Data}" Width="120"/>
                                                 <DataGridTextColumn Header="シンボル" Binding="{Binding Symbol}" Width="*"/>
@@ -221,6 +226,11 @@
                                                   AutoGenerateColumns="False"
                                                   CanUserAddRows="False"
                                                   SelectionMode="Single">
+                                            <DataGrid.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="削除" Command="{Binding RemoveRamCommand}" />
+                                                </ContextMenu>
+                                            </DataGrid.ContextMenu>
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="行" Binding="{Binding Row}" Width="30"/>
                                                 <DataGridTextColumn Header="桁" Binding="{Binding Column}" Width="30"/>

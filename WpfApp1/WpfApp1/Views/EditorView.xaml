@@ -57,7 +57,7 @@
                         <MenuItem Header="9:黄緑" Click="SetColor_Click" Tag="9" InputGestureText="Ctrl+Shift+9" Foreground="#80FF00"/>
                         <MenuItem Header="0:黒"   Click="SetColor_Click" Tag="0" InputGestureText="Ctrl+Shift+B" Foreground="Gray"/>
                     </MenuItem>
-                    <MenuItem Header="RAMデータを配置" />
+                    <MenuItem Header="RAMデータを配置" Command="{Binding DataContext.AddRamFromCatalogCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
 
                     <Separator />
                     <!-- 区切り線 -->
@@ -91,10 +91,15 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <!-- 従来の Thumb の設定をここに凝縮 -->
-                    <Thumb Width="{Binding Length, Converter={StaticResource LenToWidthConverter}}" 
-                       Height="14" 
-                       DragDelta="Thumb_DragDelta"
-                       PreviewMouseLeftButtonDown="Thumb_MouseDown">
+                    <Thumb Width="{Binding Length, Converter={StaticResource LenToWidthConverter}}"
+                           Height="14"
+                           DragDelta="Thumb_DragDelta"
+                           PreviewMouseLeftButtonDown="Thumb_MouseDown">
+                        <Thumb.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="削除" Command="{Binding DataContext.RemoveRamFromCatalogCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+                            </ContextMenu>
+                        </Thumb.ContextMenu>
                         <Thumb.Template>
                             <ControlTemplate TargetType="Thumb">
                                 <Border x:Name="brd" Background="#80FFFFFF">

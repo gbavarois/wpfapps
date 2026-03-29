@@ -58,6 +58,17 @@ namespace WpfApp1.ViewModels
             RefreshAllPlacedRams();
         }
 
+        partial void OnSelectedRamCatalogChanged(RamCatalog? value)
+        {
+            AddRamFromCatalogCommand.NotifyCanExecuteChanged();
+        }
+
+        // アクティブなタブが変わった時に「配置・削除両方」を更新
+        partial void OnActiveTabChanged(DisplayEditorViewModel? value)
+        {
+            AddRamFromCatalogCommand.NotifyCanExecuteChanged();
+            RemoveRamCommand.NotifyCanExecuteChanged();
+        }
 
 
         //private Dictionary<string, List<RamCatalog>> _allSheets = new();
@@ -107,7 +118,8 @@ namespace WpfApp1.ViewModels
             RefreshAllPlacedRams();
         }
 
-        [RelayCommand]
+        // --- RAM配置コマンド ---
+        [RelayCommand(CanExecute = nameof(CanAddRam))]
         private void AddRamFromCatalog()
         {
             if (SelectedRamCatalog == null || ActiveTab == null) return;
@@ -127,17 +139,20 @@ namespace WpfApp1.ViewModels
             ActiveTab.SelectedRam = vm;
 
         }
-
+        // カタログが選択されていて、かつタブが開いている時だけ有効
+        private bool CanAddRam() => SelectedRamCatalog != null && ActiveTab != null;
+        
+        // --- RAM削除コマンド ---
         [RelayCommand(CanExecute = nameof(CanRemove))]
         private void RemoveRam()
         {
-            if (ActiveTab.SelectedRam != null)
+            if (ActiveTab?.SelectedRam != null)
             {
                 ActiveTab.PlacedRams.Remove(ActiveTab.SelectedRam);
                 ActiveTab.SelectedRam = null;
             }
         }
-        private bool CanRemove() => ActiveTab.SelectedRam != null;
+        private bool CanRemove() => ActiveTab?.SelectedRam != null;
 
         [RelayCommand]
         private void ClearSelection() => ActiveTab.SelectedRam = null;
