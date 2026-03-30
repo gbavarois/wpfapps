@@ -1,0 +1,77 @@
+{
+  "Tabs": [
+    {
+      "Title": "Disp0",
+      "Lines": [
+        "aaaaa",
+        "bbbb",
+        "ccc",
+        "dd",
+        "e"
+      ],
+      "Colors": [
+        {
+          "Row": 0,
+          "Column": 0,
+          "Length": 5,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 1,
+          "Column": 0,
+          "Length": 4,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 2,
+          "Column": 0,
+          "Length": 3,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 3,
+          "Column": 0,
+          "Length": 2,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 4,
+          "Column": 0,
+          "Length": 1,
+          "ColorIndex": "4"
+        }
+      ],
+      "Rams": []
+    },
+    {
+      "Title": "Disp1",
+      "Lines": [
+        "gg",
+        "gg",
+        "gg",
+        ""
+      ],
+      "Colors": [
+        {
+          "Row": 0,
+          "Column": 0,
+          "Length": 2,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 1,
+          "Column": 0,
+          "Length": 2,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 2,
+          "Column": 0,
+          "Length": 2,
+          "ColorIndex": "4"
+        }
+      ],
+      "Rams": []
+    }
+  ]
+}

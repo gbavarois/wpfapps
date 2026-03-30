@@ -1,0 +1,57 @@
+{
+  "Tabs": [
+    {
+      "Title": "Disp0",
+      "Lines": [
+        "vvvv"
+      ],
+      "Colors": [
+        {
+          "Row": 0,
+          "Column": 0,
+          "Length": 4,
+          "ColorIndex": "4"
+        }
+      ],
+      "Rams": [
+        {
+          "Row": 4,
+          "Column": 3,
+          "Offset": 1,
+          "Symbol": "TWOcnv_swrt",
+          "FormatId": "Bin_Table_00"
+        }
+      ]
+    },
+    {
+      "Title": "Disp1",
+      "Lines": [
+        "fff"
+      ],
+      "Colors": [
+        {
+          "Row": 0,
+          "Column": 0,
+          "Length": 3,
+          "ColorIndex": "4"
+        }
+      ],
+      "Rams": []
+    },
+    {
+      "Title": "Disp2",
+      "Lines": [
+        "aaa"
+      ],
+      "Colors": [
+        {
+          "Row": 0,
+          "Column": 0,
+          "Length": 3,
+          "ColorIndex": "4"
+        }
+      ],
+      "Rams": []
+    }
+  ]
+}

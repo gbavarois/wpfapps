@@ -328,6 +328,34 @@ namespace WpfApp1.Views
             }
         }
 
+        private void RamCatalogList_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed && sender is DataGrid grid)
+            {
+                // 選択されているアイテム（RamCatalog）を取得
+                var selectedItem = grid.SelectedItem as RamCatalog;
+                if (selectedItem != null)
+                {
+                    var vm = (MainViewModel)this.DataContext;
+                    vm.IsDraggingCatalog = true; // ★ ドラッグ開始（全Canvasを実体化）
+                    //// ドラッグ操作を開始（データを DataObject に詰める）
+                    //DataObject data = new DataObject("RamCatalogData", selectedItem);
+                    //DragDrop.DoDragDrop(grid, data, DragDropEffects.Copy);
+                    try
+                    {
+                        DataObject data = new DataObject("RamCatalogData", selectedItem);
+                        // ★DoDragDropはドロップが完了するかキャンセルされるまでここでブロック（待機）します
+                        DragDrop.DoDragDrop(grid, data, DragDropEffects.Copy);
+                    }
+                    finally
+                    {
+                        // 2. ドロップ完了、またはキャンセル！全タブのCanvasを透過状態(null)に戻す
+                        vm.IsDraggingCatalog = false;
+                    }
+                }
+            }
+        }
+
         //private T? GetVisualChild<T>(DependencyObject parent) where T : DependencyObject
         //{
         //    if (parent == null) return null;

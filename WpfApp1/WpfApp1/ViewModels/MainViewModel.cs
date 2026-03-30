@@ -47,6 +47,9 @@ namespace WpfApp1.ViewModels
         // タイトルバーに表示する文字列を合成
         public string WindowTitle => $"{(IsDirty ? "* " : "")}{(Path.GetFileName(_currentFilePath) ?? "無題")} - 画面ファイルエディタ";
 
+        [ObservableProperty]
+        private bool _isDraggingCatalog; // ドラッグ中かどうか
+
         // データを変更した時に呼ぶ
         public void MarkAsDirty() => IsDirty = true;
 

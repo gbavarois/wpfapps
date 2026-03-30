@@ -78,7 +78,24 @@
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <!-- RenderTransform はコードビハインドから操作してもOK -->
-                    <Canvas x:Name="RamCanvas" Background="{x:Null}" IsHitTestVisible="True" Margin="4,0,0,0" />
+                    <Canvas x:Name="RamCanvas" 
+                            AllowDrop="True" 
+                            Drop="RamCanvas_Drop" 
+                            IsHitTestVisible="True" 
+                            Margin="4,0,0,0" >
+                        <Canvas.Style>
+                            <Style TargetType="Canvas">
+                                <!-- 通常は null（クリック透過） -->
+                                <Setter Property="Background" Value="{x:Null}" />
+                                <Style.Triggers>
+                                    <!-- ドラッグ中だけ Transparent（ドロップ受付） -->
+                                    <DataTrigger Binding="{Binding Main.IsDraggingCatalog}" Value="True">
+                                        <Setter Property="Background" Value="Transparent" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Canvas.Style>
+                    </Canvas>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 

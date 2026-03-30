@@ -237,5 +237,42 @@ namespace WpfApp1.Views
                 if (mainVM != null) mainVM.IsDirty = true;
             }
         }
+
+        private void RamCanvas_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent("RamCatalogData"))
+            {
+                var catalog = e.Data.GetData("RamCatalogData") as RamCatalog;
+                var tabVM = this.DataContext as DisplayEditorViewModel;
+
+                if (catalog != null && tabVM != null)
+                {
+                    // ドロップされた位置（マウス座標）を取得
+                    Point dropPoint = e.GetPosition(sender as IInputElement);
+
+                    // 座標を「行・桁」に変換（PosConverterの逆計算）
+                    // 例: Scale=7.0 なら 座標/7.0
+                    int col = (int)Math.Round(dropPoint.X / 7.0);
+                    int row = (int)Math.Round(dropPoint.Y / 14.0);
+
+                    // 新しい RAM データを生成して追加
+                    var newRam = new RamLayout
+                    {
+                        Symbol = catalog.Symbol,
+                        FormatId = catalog.FormatId,
+                        Row = row,
+                        Column = col
+                    };
+
+                    // MainViewModel のインスタンスを通じて追加（既存の仕組みを利用）
+                    var mainVM = tabVM.Main;
+                    var newItem = new RamItemViewModel(newRam, mainVM);
+                    tabVM.PlacedRams.Add(newItem);
+
+                    // 変更フラグを立てる
+                    //mainVM.IsDirty = true;
+                }
+            }
+        }
     }
 }

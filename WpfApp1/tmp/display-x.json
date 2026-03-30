@@ -464,6 +464,13 @@
           "Offset": 0,
           "Symbol": "PUMP_SwrtData.deltaP",
           "FormatId": "F32"
+        },
+        {
+          "Row": 17,
+          "Column": 45,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.FL_sys_max",
+          "FormatId": "F32"
         }
       ]
     },
@@ -1327,50 +1334,127 @@
         {
           "Row": 12,
           "Column": 35,
-          "Offset": 1,
+          "Offset": 0,
           "Symbol": "PUMP_SwrtData.B_FLo",
           "FormatId": "F32"
         },
         {
           "Row": 13,
           "Column": 35,
-          "Offset": 2,
+          "Offset": 0,
           "Symbol": "PUMP_SwrtData.B_Alpha1",
           "FormatId": "F32"
         },
         {
           "Row": 14,
           "Column": 35,
-          "Offset": 3,
+          "Offset": 0,
           "Symbol": "PUMP_SwrtData.B_Alpha2",
           "FormatId": "F32"
         },
         {
           "Row": 15,
           "Column": 35,
-          "Offset": 4,
+          "Offset": 0,
           "Symbol": "PUMP_SwrtData.B_FL_fix",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 12,
+          "Column": 45,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.C_FLo",
           "FormatId": "F32"
         },
         {
           "Row": 13,
           "Column": 45,
-          "Offset": 5,
+          "Offset": 0,
           "Symbol": "PUMP_SwrtData.C_Alpha1",
           "FormatId": "F32"
         },
         {
           "Row": 14,
           "Column": 45,
-          "Offset": 6,
+          "Offset": 0,
           "Symbol": "PUMP_SwrtData.C_Alpha2",
           "FormatId": "F32"
         },
         {
           "Row": 15,
           "Column": 45,
-          "Offset": 9,
+          "Offset": 0,
           "Symbol": "PUMP_SwrtData.C_FL_fix",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 6,
+          "Column": 47,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.fluid_type",
+          "FormatId": "Bin_0bit"
+        },
+        {
+          "Row": 6,
+          "Column": 49,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.brine_type",
+          "FormatId": "Bin_0bit"
+        },
+        {
+          "Row": 6,
+          "Column": 51,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.hex_hp_idx",
+          "FormatId": "Bin_0bit"
+        },
+        {
+          "Row": 7,
+          "Column": 45,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.deltaP",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 8,
+          "Column": 45,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.PerrL",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 9,
+          "Column": 45,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.PerrE",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 10,
+          "Column": 45,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.FL_current",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 11,
+          "Column": 45,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.FL_target",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 17,
+          "Column": 45,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.FL_sys_max",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 17,
+          "Column": 35,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.FL_hyd_max",
           "FormatId": "F32"
         },
         {
@@ -1378,14 +1462,7 @@
           "Column": 35,
           "Offset": 0,
           "Symbol": "PUMP_SwrtData.FL_min",
-          "FormatId": "uint_16"
-        },
-        {
-          "Row": 26,
-          "Column": 33,
-          "Offset": 0,
-          "Symbol": "Hydro.Tsw_x10",
-          "FormatId": ""
+          "FormatId": "F32"
         }
       ]
     }
