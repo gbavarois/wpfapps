@@ -37,9 +37,11 @@ namespace WpfApp1.Views
         // Canvasをクリックした際に選択解除
         private void MainEditor_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.OriginalSource is not Border && e.OriginalSource is not Shape)
+            // リッチテキストの「何もないところ」や「文字」をクリックした時
+            if (this.DataContext is DisplayEditorViewModel tabVM)
             {
-                (DataContext as MainViewModel)?.ClearSelectionCommand.Execute(null);
+                // 現在選択されている RAM を解除（nullを代入）
+                tabVM.SelectedRam = null;
             }
         }
 
@@ -165,13 +167,16 @@ namespace WpfApp1.Views
 
         private void Thumb_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (sender is Thumb thumb && thumb.DataContext is RamItemViewModel data)
+            if (sender is Thumb thumb)
             {
-                // 2. この EditorView 自身の DataContext (DisplayEditorViewModel) を取得
-                if (this.DataContext is DisplayEditorViewModel tabVM)
+                // 1. フォーカスを強制的に Thumb (またはその親) に移す
+                // これにより、Deleteキーなどのコマンドがこのコンテキストで有効になります
+                thumb.Focus();
+
+                if (thumb.DataContext is RamItemViewModel data && this.DataContext is DisplayEditorViewModel tabVM)
                 {
-                    // 3. そのタブ内での「選択されたRAM」を更新する
                     tabVM.SelectedRam = data;
+                    // 右クリックメニューを出すためにイベントを「処理済み」にしない
                 }
             }
         }

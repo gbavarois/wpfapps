@@ -22,6 +22,8 @@ namespace WpfApp1.ViewModels
         // 保存データ（Model）をそのまま取得したい時用
         public RamLayout Model => _model;
 
+        public MainViewModel Main => _main;
+
         // Modelの値をプロパティとして公開（変更されたらModelも書き換える）
         public int Row
         {

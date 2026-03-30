@@ -29,6 +29,8 @@ namespace WpfApp1.ViewModels
         {
             _main = main;
         }
+        
+        public MainViewModel Main => _main;
 
         public EditorData? RestoreData { get; set; }
 

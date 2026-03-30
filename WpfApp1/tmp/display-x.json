@@ -1353,13 +1353,6 @@
           "FormatId": "F32"
         },
         {
-          "Row": 12,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.C_FLo",
-          "FormatId": "F32"
-        },
-        {
           "Row": 13,
           "Column": 45,
           "Offset": 5,
@@ -1379,6 +1372,20 @@
           "Offset": 9,
           "Symbol": "PUMP_SwrtData.C_FL_fix",
           "FormatId": "F32"
+        },
+        {
+          "Row": 16,
+          "Column": 35,
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.FL_min",
+          "FormatId": "uint_16"
+        },
+        {
+          "Row": 26,
+          "Column": 33,
+          "Offset": 0,
+          "Symbol": "Hydro.Tsw_x10",
+          "FormatId": ""
         }
       ]
     }
