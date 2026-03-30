@@ -28,19 +28,19 @@ namespace WpfApp1.ViewModels
         public int Row
         {
             get => _model.Row;
-            set { if (SetProperty(_model.Row, value, _model, (m, v) => m.Row = v)) OnPropertyChanged(); }
+            set { if (SetProperty(_model.Row, value, _model, (m, v) => m.Row = v)) OnPropertyChanged(); MarkDirty(); }
         }
 
         public int Column
         {
             get => _model.Column;
-            set { if (SetProperty(_model.Column, value, _model, (m, v) => m.Column = v)) OnPropertyChanged(); }
+            set { if (SetProperty(_model.Column, value, _model, (m, v) => m.Column = v)) OnPropertyChanged(); MarkDirty(); }
         }
 
         public int Offset
         {
             get => _model.Offset;
-            set { if (SetProperty(_model.Offset, value, _model, (m, v) => m.Offset = v)) OnPropertyChanged(); OnPropertyChanged(nameof(ComputedAddress)); }
+            set { if (SetProperty(_model.Offset, value, _model, (m, v) => m.Offset = v)) OnPropertyChanged(); MarkDirty(); OnPropertyChanged(nameof(ComputedAddress)); }
         }
 
         public string Symbol => _model.Symbol;
@@ -102,6 +102,16 @@ namespace WpfApp1.ViewModels
             OnPropertyChanged(nameof(Placeholder));
             OnPropertyChanged(nameof(IsValid));
             OnPropertyChanged(nameof(Length));
+        }
+
+        
+        private void MarkDirty()
+        {
+            // 親である MainViewModel のフラグを立てる
+            if (_main != null)
+            {
+                _main.IsDirty = true;
+            }
         }
     }
 }

@@ -29,18 +29,16 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        
-
-        // 現在開いているファイルのフルパスを保持する変数
-        private string? _currentFilePath;
-
         // 0～9用のコマンドを定義
         public static RoutedCommand ColorCommand = new RoutedCommand();
 
+        public static readonly RoutedUICommand NewProjectCommand = new RoutedUICommand("新規作成", "NewProject", typeof(MainWindow),new InputGestureCollection { new KeyGesture(Key.N, ModifierKeys.Control) });
         public static readonly RoutedUICommand OpenCommand = new RoutedUICommand("開く", "Open", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.O, ModifierKeys.Control) });
         public static readonly RoutedUICommand SaveCommand = new RoutedUICommand("上書き保存", "Save", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.S, ModifierKeys.Control) });
         public static readonly RoutedUICommand SaveAsCommand = new RoutedUICommand("名前を付けて保存", "SaveAs", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift) });
-        public static readonly RoutedUICommand NewTabCommand = new RoutedUICommand("新規作成", "NewTab", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.N, ModifierKeys.Control) });
+        public static readonly RoutedUICommand ExitCommand = new RoutedUICommand("終了", "Exit", typeof(MainWindow),new InputGestureCollection { new KeyGesture(Key.F4, ModifierKeys.Alt) });
+
+        public static readonly RoutedUICommand NewTabCommand = new RoutedUICommand("新しいタブ", "NewTab", typeof(MainWindow));
         public static readonly RoutedUICommand AddRamCommand = new RoutedUICommand("RAM配置", "AddRam", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.Insert, ModifierKeys.Control | ModifierKeys.Shift) });
         public static readonly RoutedUICommand DeleteRamCommand = new RoutedUICommand("RAM削除", "DeleteRam", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.Delete) });
 
@@ -53,10 +51,16 @@ namespace WpfApp1.Views
             var vm = new MainViewModel();
             this.DataContext = vm;
             // コマンドと既存メソッドの紐付け（CommandBinding）
+            this.CommandBindings.Add(new CommandBinding(NewProjectCommand, NewProject_Click));
             this.CommandBindings.Add(new CommandBinding(ColorCommand, ColorCommand_Executed));
             this.CommandBindings.Add(new CommandBinding(OpenCommand, OpenFile_Click));
             this.CommandBindings.Add(new CommandBinding(SaveCommand, SaveFile_Click));
             this.CommandBindings.Add(new CommandBinding(SaveAsCommand, SaveAsFile_Click));
+            this.CommandBindings.Add(new CommandBinding(ExitCommand, (s, e) => this.Close()));
+
+            this.CommandBindings.Add(new CommandBinding(NewTabCommand, (s, e) => {
+                vm.AddTabCommand.Execute(null);
+            }));
             this.CommandBindings.Add(new CommandBinding(AddRamCommand, (s, e) => {
                 if (vm.AddRamFromCatalogCommand.CanExecute(null))
                     vm.AddRamFromCatalogCommand.Execute(null);
@@ -65,14 +69,21 @@ namespace WpfApp1.Views
                 if (vm.RemoveRamCommand.CanExecute(null))
                     vm.RemoveRamCommand.Execute(null);
             }));
-        
-            // 新規作成はViewModelのメソッドを呼ぶように橋渡し
-            this.CommandBindings.Add(new CommandBinding(NewTabCommand, (s, e) => {
-                ((MainViewModel)this.DataContext).AddTabCommand.Execute(null);
-            }));
         }
 
-        
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            base.OnClosing(e);
+
+            // 以前作成した「変更があれば保存確認する」メソッドを呼び出す
+            if (!ConfirmSaveIfDirty())
+            {
+                // キャンセルされたら、終了自体を取り消す
+                e.Cancel = true;
+            }
+        }
+
+
         private void ShowFormatPane_Click(object sender, RoutedEventArgs e)
         {
             // AvalonDockの機能で、非表示状態から再表示させます
@@ -121,15 +132,45 @@ namespace WpfApp1.Views
             }
         }
 
-        //private void NewFile_Click(object sender, RoutedEventArgs e)
-        //{
-        //    MainEditor.Document = new FlowDocument();
-        //    _currentFilePath = null;
-        //}
+        private void NewProject_Click(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (!ConfirmSaveIfDirty()) return; // 変更あれば保存確認（以前作成したメソッド）
+
+            var vm = (MainViewModel)this.DataContext;
+
+            // 1. 全データをクリア
+            vm.EditorTabs.Clear();
+            vm.CurrentFilePath = null;
+
+            // 2. 初期タブを1枚だけ作成
+            vm.AddTabCommand.Execute(null);
+
+            // 3. 状態リセット
+            vm.IsDirty = false;
+        }
+
+        private bool ConfirmSaveIfDirty()
+        {
+            var vm = (MainViewModel)DataContext;
+            if (!vm.IsDirty) return true; // 変更なければ次へ
+
+            var result = MessageBox.Show("変更を保存しますか？", "確認",
+                MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                SaveFile_Click(null, null); // 保存実行
+                return !vm.IsDirty; // 保存成功ならTrue
+            }
+
+            return result == MessageBoxResult.No; // 「いいえ」なら破棄OK
+        }
 
         // JSON読み込みメニュー用
         private async void OpenFile_Click(object sender, RoutedEventArgs e)
         {
+            if (!ConfirmSaveIfDirty()) return; // キャンセルなら中断
+
             var dialog = new Microsoft.Win32.OpenFileDialog
             {
                 Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
@@ -138,11 +179,11 @@ namespace WpfApp1.Views
             // ダイアログでパス取得
             if (dialog.ShowDialog() == true)
             {
-                _currentFilePath = dialog.FileName;
                 var service = new JsonEditorService();
                 var projectData = service.LoadProjectFromJson(dialog.FileName);
 
                 var mainVm = (MainViewModel)this.DataContext;
+                mainVm.CurrentFilePath = dialog.FileName;
                 mainVm.EditorTabs.Clear(); // 一旦全タブ削除
 
                 foreach (var tabData in projectData.Tabs)
@@ -172,19 +213,19 @@ namespace WpfApp1.Views
                     await Dispatcher.BeginInvoke(new Action(() => { }), System.Windows.Threading.DispatcherPriority.Background);
                 }
 
-                // 最後に最初のタブに戻しておく
-                //if (mainVm.EditorTabs.Any()) mainVm.ActiveTab = mainVm.EditorTabs[0];
+                mainVm.IsDirty = false;
             }
         }
         private void SaveFile_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(_currentFilePath))
+            var mainVm = (MainViewModel)this.DataContext;
+            if (string.IsNullOrEmpty(mainVm.CurrentFilePath))
             {
                 SaveAsFile_Click(sender, e);
                 return;
             }
 
-            SaveFile(_currentFilePath);
+            SaveFile(mainVm.CurrentFilePath);
         }
         private void SaveAsFile_Click(object sender, RoutedEventArgs e)
         {
@@ -195,7 +236,9 @@ namespace WpfApp1.Views
 
             if (dialog.ShowDialog() == true)
             {
-                SaveFile(dialog.FileName);
+                var mainVm = (MainViewModel)this.DataContext;
+                mainVm.CurrentFilePath = dialog.FileName;
+                SaveFile(mainVm.CurrentFilePath);
             }
         }
 
@@ -219,8 +262,8 @@ namespace WpfApp1.Views
                 }
             }
             service.SaveToJson(saveData, path);
-
-            _currentFilePath = path;
+            var mainVm = (MainViewModel)this.DataContext;
+            mainVm.IsDirty = false;
         }
 
         private void ColorCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -253,6 +296,35 @@ namespace WpfApp1.Views
                         editorView.ApplyColorToSelection(index);
                     }
                 }
+            }
+        }
+
+        private void dockingManager_DocumentClosing(object sender, AvalonDock.DocumentClosingEventArgs e)
+        {
+            // 閉じようとしているタブの ViewModel を取得
+            var tabVM = e.Document.Content as DisplayEditorViewModel;
+            if (tabVM == null) return;
+
+            // 確認メッセージを表示
+            var result = MessageBox.Show(
+                $"{tabVM.DisplayName} を閉じますか？\n（タブの内容は破棄されます。）",
+                "タブを閉じる確認",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Cancel)
+            {
+                // 1. キャンセルなら、閉じる動作自体を無効にする
+                e.Cancel = true;
+            }
+            else
+            {
+                // 2. OKなら、ViewModel のリスト(EditorTabs)からも削除する
+                // これをしないと、画面からは消えてもメモリ（保存対象）に残ってしまいます
+                var mainVM = (MainViewModel)this.DataContext;
+                mainVM.EditorTabs.Remove(tabVM);
+
+                if (mainVM.EditorTabs.Count == 0) mainVM.IsDirty = false;
             }
         }
 

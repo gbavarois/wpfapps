@@ -2,9 +2,12 @@
 using CommunityToolkit.Mvvm.Input;
 using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Windows;
 using WpfApp1.Models;
 using WpfApp1.Services;
 
@@ -32,6 +35,21 @@ namespace WpfApp1.ViewModels
 
         [ObservableProperty] private FormatData? _selectedFormat;
 
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(WindowTitle))] // タイトルも連動
+        private bool _isDirty;
+
+        // 現在開いているファイルのフルパスを保持する変数
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(WindowTitle))]
+        public string _currentFilePath;
+
+        // タイトルバーに表示する文字列を合成
+        public string WindowTitle => $"{(IsDirty ? "* " : "")}{(Path.GetFileName(_currentFilePath) ?? "無題")} - 画面ファイルエディタ";
+
+        // データを変更した時に呼ぶ
+        public void MarkAsDirty() => IsDirty = true;
+
         public MainViewModel()
         {
             AddTab();
@@ -40,9 +58,26 @@ namespace WpfApp1.ViewModels
         [RelayCommand]
         private void AddTab()
         {
+            // 1. 候補となる文字のリストを定義（1～9, A～F）
+            string candidates = "0123456789ABCDEF";
+
+            // 2. 現在のタブ名から、使われている末尾の文字を抽出
+            // 例: "Disp1" -> "1"
+            var usedIds = EditorTabs
+                .Select(t => t.DisplayName.Replace("Disp", ""))
+                .ToList();
+
+            // 3. 候補の中で、使われていない最初の文字を探す
+            // FirstOrDefault で「条件に合う最初のもの」を取得
+            char nextIdChar = candidates.FirstOrDefault(c => !usedIds.Contains(c.ToString()));
+
+            // 4. 文字を決定（万が一15枚を超えた場合は、現在のカウントを振るなどの回避策）
+            string nextId = nextIdChar != '\0' ? nextIdChar.ToString() : (EditorTabs.Count + 1).ToString();
+
+            // 5. 新規タブ作成
             var tab = new DisplayEditorViewModel(this)
             {
-                DisplayName = $"Disp{EditorTabs.Count}"
+                DisplayName = $"Disp{nextId}"
             };
 
             EditorTabs.Add(tab);
@@ -137,7 +172,7 @@ namespace WpfApp1.ViewModels
 
             ActiveTab.PlacedRams.Add(vm);
             ActiveTab.SelectedRam = vm;
-
+            IsDirty = true;
         }
         // カタログが選択されていて、かつタブが開いている時だけ有効
         private bool CanAddRam() => SelectedRamCatalog != null && ActiveTab != null;

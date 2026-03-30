@@ -8,7 +8,7 @@
         xmlns:views="clr-namespace:WpfApp1.Views"
         xmlns:vm="clr-namespace:WpfApp1.ViewModels" 
         mc:Ignorable="d"
-        Title="画面ファイルエディタ" Height="800" Width="1600">
+        Title="{Binding WindowTitle}" Height="800" Width="1600">
 
     <Window.InputBindings>
         <KeyBinding Key="B" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="0" />
@@ -47,18 +47,20 @@
         <Menu Grid.Row="0">
             <MenuItem Header="ファイル(_F)">
                 <!-- MainViewModel に実装したコマンドを呼び出す -->
-                <MenuItem Header="新規作成(_N)" Command="{x:Static views:MainWindow.NewTabCommand}" />
+                <MenuItem Header="新規作成(_N)" Command="{x:Static views:MainWindow.NewProjectCommand}" />
                 <MenuItem Header="開く(_O)" Command="{x:Static views:MainWindow.OpenCommand}"/>
                 <MenuItem Header="上書き保存(_S)" Command="{x:Static views:MainWindow.SaveCommand}"/>
                 <MenuItem Header="名前を付けて保存(_A)" Command="{x:Static views:MainWindow.SaveAsCommand}" />
-                <Separator />
-                <MenuItem Header="RAMデータ読込" Click="LoadRamData_Click"/>
-                
+                <MenuItem Header="終了(_X)" Command="{x:Static views:MainWindow.ExitCommand}" />
+
             </MenuItem>
             <MenuItem Header="編集(_E)">
                 <!-- 選択中のみ有効になるコマンド -->
-                <MenuItem Header="RAMデータを配置" Command="{Binding AddRamFromCatalogCommand}"/>
-                <MenuItem Header="配置RAMを削除" Command="{Binding RemoveRamCommand}"/>
+                <MenuItem Header="新しいタブ" Command="{x:Static views:MainWindow.NewTabCommand}" />
+                <MenuItem Header="RAMデータを配置" Command="{x:Static views:MainWindow.AddRamCommand}" />
+                <MenuItem Header="配置RAMを削除" Command="{x:Static views:MainWindow.DeleteRamCommand}" />
+                <Separator />
+                <MenuItem Header="RAMデータ読込" Click="LoadRamData_Click"/>
             </MenuItem>
             <MenuItem Header="表示(_V)">
                 <!-- 右パネルの各タブを表示／非表示切り替え -->
@@ -73,6 +75,7 @@
                            x:Name="dockingManager" 
                            DocumentsSource="{Binding EditorTabs}"
                            ActiveContent="{Binding ActiveTab, Mode=TwoWay}"
+                           DocumentClosing="dockingManager_DocumentClosing"
                            Validation.ErrorTemplate="{x:Null}">
 
             <ad:DockingManager.Resources>
@@ -208,7 +211,7 @@
                         <!-- 中央：エディタ領域 -->
                         <ad:LayoutDocumentPane />
 
-                        <!-- 右側：サイドパネル（上下2分割） -->
+                            <!-- 右側：サイドパネル（上下2分割） -->
                         <ad:LayoutAnchorablePane DockWidth="350">
                             <ad:LayoutAnchorable x:Name="RamDatePane" Title="配置RAMデータ" ContentId="RamDataPane" CanHide="True" CanClose="False">
                                 <Grid DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}">

@@ -26,6 +26,7 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class EditorView : UserControl
     {
+        private bool _isRestoring = false; // 復元中フラグ
         private const double CharWidth = 7.0;
         private const double LineHeightValue = 14.0;
 
@@ -207,6 +208,7 @@ namespace WpfApp1.Views
         {
             if (this.DataContext is DisplayEditorViewModel tabVM && tabVM.RestoreData != null)
             {
+                _isRestoring = true;
                 var service = new JsonEditorService();
                 var data = tabVM.RestoreData;
 
@@ -216,6 +218,23 @@ namespace WpfApp1.Views
 
                 // 復元が終わったらメモリ解放のために消しておく
                 tabVM.RestoreData = null;
+                // 描画が落ち着くまで少し待ってからフラグを下ろす（Dispatcher経由が確実）
+                Dispatcher.BeginInvoke(new Action(() => _isRestoring = false),
+                    System.Windows.Threading.DispatcherPriority.Background);
+            }
+        }
+
+        private void MainEditor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_isRestoring) return;
+
+            // ロード中(Undo/Redoなど)の意図しない反応を防ぐため、
+            // ユーザー操作による変更かどうかを判定するならここで行う
+            if (this.DataContext is DisplayEditorViewModel tabVM)
+            {
+                // 親のMainViewModelを探してフラグを立てる
+                var mainVM = System.Windows.Window.GetWindow(this)?.DataContext as MainViewModel;
+                if (mainVM != null) mainVM.IsDirty = true;
             }
         }
     }

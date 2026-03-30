@@ -27,7 +27,8 @@
                      HorizontalScrollBarVisibility="Auto"
                      SelectionChanged="MainEditor_SelectionChanged"
                      ScrollViewer.ScrollChanged="MainEditor_ScrollChanged"
-                     PreviewMouseDown="MainEditor_PreviewMouseDown" >
+                     PreviewMouseDown="MainEditor_PreviewMouseDown"
+                     TextChanged="MainEditor_TextChanged">
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="0"/>
