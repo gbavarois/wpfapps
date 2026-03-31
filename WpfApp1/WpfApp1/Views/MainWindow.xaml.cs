@@ -61,14 +61,41 @@ namespace WpfApp1.Views
             this.CommandBindings.Add(new CommandBinding(NewTabCommand, (s, e) => {
                 vm.AddTabCommand.Execute(null);
             }));
-            this.CommandBindings.Add(new CommandBinding(AddRamCommand, (s, e) => {
-                if (vm.AddRamFromCatalogCommand.CanExecute(null))
-                    vm.AddRamFromCatalogCommand.Execute(null);
-            }));
-            this.CommandBindings.Add(new CommandBinding(DeleteRamCommand, (s, e) => {
-                if (vm.RemoveRamCommand.CanExecute(null))
-                    vm.RemoveRamCommand.Execute(null);
-            }));
+
+            // --- RAM削除 (Deleteキー / メニュー) の完全な同期設定 ---
+            var delBinding = new CommandBinding(DeleteRamCommand);
+
+            // 1. 実行内容：ViewModel の削除コマンドを叩く
+            delBinding.Executed += (s, e) => {
+                vm.RemoveRamCommand.Execute(null);
+            };
+
+            // 2. 有効判定：ViewModel の「今消せるか？」の結果をそのまま返す
+            delBinding.CanExecute += (s, e) => {
+                e.CanExecute = vm.RemoveRamCommand.CanExecute(null);
+                // この1行を入れると、WPFがより頻繁に状態をチェックしてくれるようになります
+                e.Handled = true;
+            };
+
+            this.CommandBindings.Add(delBinding);
+
+            // --- RAM配置 (AddRamCommand) も同様にセット ---
+            var addBinding = new CommandBinding(AddRamCommand);
+            addBinding.Executed += (s, e) => vm.AddRamFromCatalogCommand.Execute(null);
+            addBinding.CanExecute += (s, e) => {
+                e.CanExecute = vm.AddRamFromCatalogCommand.CanExecute(null);
+                e.Handled = true;
+            };
+            this.CommandBindings.Add(addBinding);
+
+            //this.CommandBindings.Add(new CommandBinding(AddRamCommand, (s, e) => {
+            //    if (vm.AddRamFromCatalogCommand.CanExecute(null))
+            //        vm.AddRamFromCatalogCommand.Execute(null);
+            //}));
+            //this.CommandBindings.Add(new CommandBinding(DeleteRamCommand, (s, e) => {
+            //    if (vm.RemoveRamCommand.CanExecute(null))
+            //        vm.RemoveRamCommand.Execute(null);
+            //}));
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)

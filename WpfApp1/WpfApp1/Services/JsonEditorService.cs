@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -61,16 +62,18 @@ namespace WpfApp1.Services
                 data,
                 new System.Text.Json.JsonSerializerOptions
                 {
-                    WriteIndented = true
+                    WriteIndented = true,
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
                 });
-
-            File.WriteAllText(path, json);
+            var sjis = System.Text.Encoding.GetEncoding("shift_jis");
+            File.WriteAllText(path, json, sjis);
         }
 
         // JSON読み込み
         public ProjectSaveData LoadFromJson(string path)
         {
-            var json = File.ReadAllText(path);
+            var sjis = System.Text.Encoding.GetEncoding("shift_jis");
+            var json = File.ReadAllText(path, sjis);
 
             return System.Text.Json.JsonSerializer.Deserialize<ProjectSaveData>(json);
         }
@@ -252,7 +255,8 @@ namespace WpfApp1.Services
 
         public ProjectSaveData LoadProjectFromJson(string path)
         {
-            var json = File.ReadAllText(path);
+            var sjis = System.Text.Encoding.GetEncoding("shift_jis");
+            var json = File.ReadAllText(path, sjis);
             return System.Text.Json.JsonSerializer.Deserialize<ProjectSaveData>(json);
         }
     }

@@ -268,6 +268,7 @@ namespace WpfApp1.Views
                     var mainVM = tabVM.Main;
                     var newItem = new RamItemViewModel(newRam, mainVM);
                     tabVM.PlacedRams.Add(newItem);
+                    tabVM.SelectedRam = newItem;
 
                     // 変更フラグを立てる
                     mainVM.IsDirty = true;
