@@ -24,6 +24,23 @@ namespace WpfApp1.ViewModels
 
         public MainViewModel Main => _main;
 
+		// 縦長かどうかの判定ロジック（例：特定のフォーマット名やフラグで判定）
+		private static readonly string[] VerticalFormatIds = 
+		{ 
+			"Verti_4bit", 
+			"Verti_8bit", 
+			"Verti_12bit", 
+			"Verti_16bit", 
+			"Verti_4bit_2" 
+		};
+		public bool IsVertical => VerticalFormatIds.Contains(_model.FormatId);
+
+		// 横幅の計算
+		public int VisualWidth => IsVertical ? 1 : Length;
+
+		// 高さの計算
+		public int VisualHeight => IsVertical ? Length : 1;
+
         // Modelの値をプロパティとして公開（変更されたらModelも書き換える）
         public int Row
         {
@@ -58,6 +75,9 @@ namespace WpfApp1.ViewModels
                     OnPropertyChanged(nameof(Length));
                     OnPropertyChanged(nameof(Placeholder));
                     OnPropertyChanged(nameof(IsValid));
+					OnPropertyChanged(nameof(IsVertical));
+					OnPropertyChanged(nameof(VisualWidth));
+            		OnPropertyChanged(nameof(VisualHeight));
                 }
             }
         }
@@ -102,6 +122,8 @@ namespace WpfApp1.ViewModels
             OnPropertyChanged(nameof(Placeholder));
             OnPropertyChanged(nameof(IsValid));
             OnPropertyChanged(nameof(Length));
+			OnPropertyChanged(nameof(VisualWidth));
+			OnPropertyChanged(nameof(VisualHeight));
         }
 
         

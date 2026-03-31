@@ -110,8 +110,8 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <!-- 従来の Thumb の設定をここに凝縮 -->
-                    <Thumb Width="{Binding Length, Converter={StaticResource LenToWidthConverter}}"
-                           Height="14"
+                    <Thumb Width="{Binding VisualWidth, Converter={StaticResource LenToWidthConverter}}"
+       					   Height="{Binding VisualHeight, Converter={StaticResource LineToPosConverter}}"
                            Focusable="True"
                            DragDelta="Thumb_DragDelta"
                            PreviewMouseLeftButtonDown="Thumb_MouseDown">

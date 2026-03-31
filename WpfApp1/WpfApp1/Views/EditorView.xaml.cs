@@ -270,7 +270,7 @@ namespace WpfApp1.Views
                     tabVM.PlacedRams.Add(newItem);
 
                     // 変更フラグを立てる
-                    //mainVM.IsDirty = true;
+                    mainVM.IsDirty = true;
                 }
             }
         }
