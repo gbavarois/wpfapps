@@ -89,6 +89,8 @@ namespace WpfApp1.ViewModels
 
         public FormatData? Format => _main.FormatList.FirstOrDefault(f => f.Id == FormatId);
 
+        public string FormatCode => _main.FormatList.FirstOrDefault(f => f.Id == _model.FormatId)?.Code ?? "00";
+
         public string Placeholder => Format?.Placeholder ?? string.Empty;
 
         public bool IsValid => Catalog != null && Format != null;
