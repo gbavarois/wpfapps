@@ -111,8 +111,8 @@
                                     <!-- シート選択 (ComboBox) -->
                                     <StackPanel Grid.Row="0" Margin="5" Orientation="Horizontal">
                                         <TextBlock Text="ページ:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                                        <!-- ViewModelのSheetNamesプロパティと、選択中のSelectedSheetをバインド想定 -->
-                                        <ComboBox x:Name="SheetSelector" Width="150" ItemsSource="{Binding SheetNames}" SelectedItem="{Binding SelectedSheet}"/>
+                                        <!-- ViewModelのPageNamesプロパティと、選択中のSelectedPageをバインド想定 -->
+                                        <ComboBox x:Name="SheetSelector" Width="150" ItemsSource="{Binding PageNames}" SelectedItem="{Binding SelectedPage}"/>
                                     </StackPanel>
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
                                     <Border Grid.Row="1" Margin="2" BorderBrush="LightGray" BorderThickness="1">

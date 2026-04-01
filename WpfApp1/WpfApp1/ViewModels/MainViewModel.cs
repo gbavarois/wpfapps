@@ -15,29 +15,75 @@ namespace WpfApp1.ViewModels
 {
     public partial class MainViewModel : ObservableObject
     {
-        private readonly RamTableMaster _model = new();
-        // コンボボックス用のシート名リスト
-        [ObservableProperty] private ObservableCollection<string> _sheetNames = new();
-        // コンボボックスで選択されたページ名
-        [ObservableProperty] private string? _selectedSheet;
-        // DataGridに表示する現在のページのデータ
-        [ObservableProperty] private ObservableCollection<RamCatalog> _currentCatalogs = new();
-        //
-        [ObservableProperty] private RamCatalog? _selectedRamCatalog;
-        // FormatData用の一覧
-        [ObservableProperty] private ObservableCollection<FormatData> _formatList = new();
-        // 開いている全タブのリスト
-        [ObservableProperty] private ObservableCollection<DisplayEditorViewModel> _editorTabs = new();
-        // 現在アクティブなタブ
-        [ObservableProperty] private DisplayEditorViewModel? _activeTab;
+        // RAMテーブルのマスタークラス（Excelからのデータ読み込みと提供を担当）
+        private readonly RamTableMaster _ramTableMaster = new();
 
-        [ObservableProperty] private ObservableCollection<RamItemViewModel> _ramItemVMList = new();
-
-        [ObservableProperty] private FormatData? _selectedFormat;
-
+        // ページ名とRAMカタログのリストを保持する辞書
+        private Dictionary<string, ObservableCollection<RamCatalog>> _pages = new();
+        
+        // 現在選択されているページ名
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(WindowTitle))] // タイトルも連動
+        [NotifyPropertyChangedFor(nameof(CurrentCatalogs))]
+        private string? _selectedPage;
+
+        // ページ名のリスト（ComboBoxのItemsSourceにバインド）
+        public IEnumerable<string> PageNames => _pages.Keys;
+
+        // 現在選択されているページのRAMカタログアイテムのリスト（ListBoxのItemsSourceにバインド）
+        public IEnumerable<RamCatalog> CurrentCatalogs =>
+            SelectedPage != null && _pages.TryGetValue(SelectedPage, out var list)
+                ? list
+                : Enumerable.Empty<RamCatalog>();
+
+        // DataGridで選択されたRAMカタログアイテム
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddRamFromCatalogCommand))]
+        private RamCatalog? _selectedRamCatalog;
+
+        // フォーマットデータのリスト（これもExcelから読み込む）
+        [ObservableProperty]
+        private ObservableCollection<FormatData> _formatList = new();
+
+        // 現在SelectedRamCatalogに基づいて、配置するRAMのフォーマットを特定するためのプロパティ
+        [ObservableProperty]
+        private FormatData? _selectedFormat;
+
+        // データが変更されたかどうかを示すフラグ
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(WindowTitle))]
         private bool _isDirty;
+
+        //// コンボボックスに表示するページ名のリスト
+        //[ObservableProperty]
+        //private ObservableCollection<string> _pageNames = new();
+
+        //// 現在選択されているページ名
+        //[ObservableProperty]
+        //private string? _selectedPage;
+
+        //// 現在表示しているページのRAMカタログアイテムのリスト
+        //[ObservableProperty]
+        //private ObservableCollection<RamCatalog> _currentCatalogs = new();
+
+        //// フォーマットデータのリスト（これもExcelから読み込む）
+        //[ObservableProperty]
+        //private ObservableCollection<FormatData> _formatList = new();
+
+        // 開いているタブのリスト
+        [ObservableProperty]
+        private ObservableCollection<DisplayEditorViewModel> _editorTabs = new();
+
+        // 現在アクティブなタブ
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddRamFromCatalogCommand))]
+        [NotifyCanExecuteChangedFor(nameof(RemoveRamCommand))]
+        private DisplayEditorViewModel? _activeTab;
+
+        // 画面上に配置されているRAMアイテムのリスト（全タブ共通で管理する場合）
+        [ObservableProperty]
+        private ObservableCollection<RamItemViewModel> _ramItemVMList = new();
+
+        
 
         // 現在開いているファイルのフルパスを保持する変数
         [ObservableProperty]
@@ -66,9 +112,7 @@ namespace WpfApp1.ViewModels
 
             // 2. 現在のタブ名から、使われている末尾の文字を抽出
             // 例: "Disp1" -> "1"
-            var usedIds = EditorTabs
-                .Select(t => t.DisplayName.Replace("Disp", ""))
-                .ToList();
+            var usedIds = EditorTabs.Select(t => t.DisplayName.Replace("Disp", "")).ToList();
 
             // 3. 候補の中で、使われていない最初の文字を探す
             // FirstOrDefault で「条件に合う最初のもの」を取得
@@ -87,26 +131,26 @@ namespace WpfApp1.ViewModels
             ActiveTab = tab;
         }
 
-        // SelectedSheetNameが変更されたときに自動で呼ばれるメソッド（Toolkitの機能）
-        partial void OnSelectedSheetChanged(string value)
+        // SelectedPageNameが変更されたときに自動で呼ばれるメソッド
+        partial void OnSelectedPageChanged(string value)
         {
-            var data = _model.GetCatalogsBySheet(value);
-            CurrentCatalogs.Clear();
-            foreach (var item in data) CurrentCatalogs.Add(item);
+            //var data = _ramTableMaster.GetCatalogsByPage(value);
+            //CurrentCatalogs.Clear();
+            //foreach (var item in data) CurrentCatalogs.Add(item);
             RefreshAllPlacedRams();
         }
 
-        partial void OnSelectedRamCatalogChanged(RamCatalog? value)
-        {
-            AddRamFromCatalogCommand.NotifyCanExecuteChanged();
-        }
+        //partial void OnSelectedRamCatalogChanged(RamCatalog? value)
+        //{
+        //    AddRamFromCatalogCommand.NotifyCanExecuteChanged();
+        //}
 
-        // アクティブなタブが変わった時に「配置・削除両方」を更新
-        partial void OnActiveTabChanged(DisplayEditorViewModel? value)
-        {
-            AddRamFromCatalogCommand.NotifyCanExecuteChanged();
-            RemoveRamCommand.NotifyCanExecuteChanged();
-        }
+        //// アクティブなタブが変わった時に「配置・削除両方」を更新
+        //partial void OnActiveTabChanged(DisplayEditorViewModel? value)
+        //{
+        //    AddRamFromCatalogCommand.NotifyCanExecuteChanged();
+        //    RemoveRamCommand.NotifyCanExecuteChanged();
+        //}
 
 
         //private Dictionary<string, List<RamCatalog>> _allSheets = new();
@@ -146,13 +190,24 @@ namespace WpfApp1.ViewModels
         [RelayCommand]
         private void LoadExcel(string path)
         {
-            _model.Load(path);
+            _ramTableMaster.Load(path);
+            _pages = _ramTableMaster.Pages.ToDictionary(
+                kvp => kvp.Key,
+                kvp => new ObservableCollection<RamCatalog>(kvp.Value)
+            );
+            OnPropertyChanged(nameof(PageNames));   // ComboBox更新
+            OnPropertyChanged(nameof(CurrentCatalogs)); // 念のため
 
-            SheetNames = new ObservableCollection<string>(_model.SheetNames);
-            if (SheetNames.Count > 0) SelectedSheet = SheetNames[0];
+            SelectedPage = PageNames.FirstOrDefault();
+
+            FormatList = new ObservableCollection<FormatData>(_ramTableMaster.Formats);
+
+            
+            //PageNames = new ObservableCollection<string>(_ramTableMaster.PageNames);
+            //if (PageNames.Count > 0) SelectedPage = PageNames[0];
 
             // ロードしたFormatDataを表示用リストにセット ---
-            FormatList = new ObservableCollection<FormatData>(_model.Formats);
+            //FormatList = new ObservableCollection<FormatData>(_ramTableMaster.Formats);
             RefreshAllPlacedRams();
         }
 
@@ -208,7 +263,7 @@ namespace WpfApp1.ViewModels
 
         public RamCatalog? GetCatalogFromAllSheets(string symbol)
         {
-            return _model.FindCatalogBySymbol(symbol);
+            return _ramTableMaster.FindCatalogBySymbol(symbol);
         }
     }
 }

@@ -11,12 +11,10 @@ namespace WpfApp1.Models
     public class RamTableMaster
     {
         private Dictionary<string, List<RamCatalog>> _pages = new();
-        private List<FormatData> _formats = new(); // 内部保持
+        public IReadOnlyDictionary<string, List<RamCatalog>> Pages => _pages;
 
-        public List<string> SheetNames => _pages.Keys.ToList();
-
-        // ViewModelから参照できるように公開
-        public List<FormatData> Formats => _formats;
+        private List<FormatData> _formats = new();
+        public IReadOnlyList<FormatData> Formats => _formats;
 
         public void Load(string filePath)
         {
@@ -24,10 +22,24 @@ namespace WpfApp1.Models
             _formats = ExcelLoader.LoadFormats(filePath);
         }
 
-        public List<RamCatalog> GetCatalogsBySheet(string sheetName)
-        {
-            return _pages.TryGetValue(sheetName, out var list) ? list : new List<RamCatalog>();
-        }
+        //private Dictionary<string, List<RamCatalog>> _pages = new();
+        //private List<FormatData> _formats = new(); // 内部保持
+
+        //public List<string> SheetNames => _pages.Keys.ToList();
+
+        //// ViewModelから参照できるように公開
+        //public List<FormatData> Formats => _formats;
+
+        //public void Load(string filePath)
+        //{
+        //    _pages = ExcelLoader.LoadCatalogs(filePath);
+        //    _formats = ExcelLoader.LoadFormats(filePath);
+        //}
+
+        //public List<RamCatalog> GetCatalogsBySheet(string sheetName)
+        //{
+        //    return _pages.TryGetValue(sheetName, out var list) ? list : new List<RamCatalog>();
+        //}
 
         public RamCatalog? FindCatalogBySymbol(string symbol)
         {
