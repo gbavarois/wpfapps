@@ -61,7 +61,16 @@ namespace WpfApp1.ViewModels
 			ApplyColorRequested?.Invoke(colorIndex);
 		}
 
-		partial void OnSelectedRamChanged(RamItemViewModel? value)
+        public EditorData GetSaveData()
+        {
+            return new EditorData
+            {
+                Title = DisplayName,
+                Rams = PlacedRams.Select(r => r.ToModel()).ToList()
+            };
+        }
+
+        partial void OnSelectedRamChanged(RamItemViewModel? value)
         {
             // 全部解除
             foreach (var ram in PlacedRams)

@@ -29,70 +29,21 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        // 0～9用のコマンドを定義
-        //public static RoutedCommand ColorCommand = new RoutedCommand();
-
-        public static readonly RoutedUICommand NewProjectCommand = new RoutedUICommand("新規作成", "NewProject", typeof(MainWindow),new InputGestureCollection { new KeyGesture(Key.N, ModifierKeys.Control) });
-        public static readonly RoutedUICommand OpenCommand = new RoutedUICommand("開く", "Open", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.O, ModifierKeys.Control) });
-        public static readonly RoutedUICommand SaveCommand = new RoutedUICommand("上書き保存", "Save", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.S, ModifierKeys.Control) });
-        public static readonly RoutedUICommand SaveAsCommand = new RoutedUICommand("名前を付けて保存", "SaveAs", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift) });
-        public static readonly RoutedUICommand ExitCommand = new RoutedUICommand("終了", "Exit", typeof(MainWindow),new InputGestureCollection { new KeyGesture(Key.F4, ModifierKeys.Alt) });
-
-        public static readonly RoutedUICommand NewTabCommand = new RoutedUICommand("新しいタブ", "NewTab", typeof(MainWindow));
-        public static readonly RoutedUICommand AddRamCommand = new RoutedUICommand("RAM配置", "AddRam", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.Insert, ModifierKeys.Control | ModifierKeys.Shift) });
-        public static readonly RoutedUICommand DeleteRamCommand = new RoutedUICommand("RAM削除", "DeleteRam", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.Delete) });
-
+        private MainViewModel vm => (MainViewModel)DataContext;
 
 
         public MainWindow()
         {
             InitializeComponent();
-            // ViewModelをセット
+            //// ViewModelをセット
             var vm = new MainViewModel();
             this.DataContext = vm;
-            // コマンドと既存メソッドの紐付け（CommandBinding）
-            this.CommandBindings.Add(new CommandBinding(NewProjectCommand, NewProject_Click));
-            //this.CommandBindings.Add(new CommandBinding(ColorCommand, ColorCommand_Executed));
-            this.CommandBindings.Add(new CommandBinding(OpenCommand, OpenFile_Click));
-            this.CommandBindings.Add(new CommandBinding(SaveCommand, SaveFile_Click));
-            this.CommandBindings.Add(new CommandBinding(SaveAsCommand, SaveAsFile_Click));
-            this.CommandBindings.Add(new CommandBinding(ExitCommand, (s, e) => this.Close()));
-            this.CommandBindings.Add(new CommandBinding(NewTabCommand, (s, e) => { vm.AddTabCommand.Execute(null); }));
 
-            // --- RAM削除 (Deleteキー / メニュー) の完全な同期設定 ---
-            var delBinding = new CommandBinding(DeleteRamCommand);
-
-            // 1. 実行内容：ViewModel の削除コマンドを叩く
-            delBinding.Executed += (s, e) => {
-                vm.RemoveRamCommand.Execute(null);
-            };
-
-            // 2. 有効判定：ViewModel の「今消せるか？」の結果をそのまま返す
-            delBinding.CanExecute += (s, e) => {
-                e.CanExecute = vm.RemoveRamCommand.CanExecute(null);
-                // この1行を入れると、WPFがより頻繁に状態をチェックしてくれるようになります
-                e.Handled = true;
-            };
-
-            this.CommandBindings.Add(delBinding);
-
-            // --- RAM配置 (AddRamCommand) も同様にセット ---
-            var addBinding = new CommandBinding(AddRamCommand);
-            addBinding.Executed += (s, e) => vm.AddRamFromCatalogCommand.Execute(null);
-            addBinding.CanExecute += (s, e) => {
-                e.CanExecute = vm.AddRamFromCatalogCommand.CanExecute(null);
-                e.Handled = true;
-            };
-            this.CommandBindings.Add(addBinding);
-
-            //this.CommandBindings.Add(new CommandBinding(AddRamCommand, (s, e) => {
-            //    if (vm.AddRamFromCatalogCommand.CanExecute(null))
-            //        vm.AddRamFromCatalogCommand.Execute(null);
-            //}));
-            //this.CommandBindings.Add(new CommandBinding(DeleteRamCommand, (s, e) => {
-            //    if (vm.RemoveRamCommand.CanExecute(null))
-            //        vm.RemoveRamCommand.Execute(null);
-            //}));
+            vm.OpenFileRequested += OnOpenFileRequested;
+            vm.SaveFileRequested += OnSaveFileRequested;
+            vm.SaveAsFileRequested += OnSaveAsFileRequested;
+            //vm.ExitRequested += () => OnExitRequested;
+            vm.ConfirmSaveRequested += ConfirmSaveIfDirty;
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
@@ -150,7 +101,7 @@ namespace WpfApp1.Views
 
             if (dialog.ShowDialog() == true)
             {
-                var vm = (MainViewModel)this.DataContext;
+                //var vm = (MainViewModel)this.DataContext;
                 // ViewModelのコマンドを、パスを引数にして実行する
                 vm.LoadExcelCommand.Execute(dialog.FileName);
             }
@@ -158,100 +109,75 @@ namespace WpfApp1.Views
 
         private void NewProject_Click(object sender, ExecutedRoutedEventArgs e)
         {
-            if (!ConfirmSaveIfDirty()) return; // 変更あれば保存確認（以前作成したメソッド）
+            if (!ConfirmSaveIfDirty()) return;
 
-            var vm = (MainViewModel)this.DataContext;
-
-            // 1. 全データをクリア
-            vm.EditorTabs.Clear();
-            vm.CurrentFilePath = null;
-
-            // 2. 初期タブを1枚だけ作成
-            vm.AddTabCommand.Execute(null);
-
-            // 3. 状態リセット
-            vm.IsDirty = false;
+            //var vm = (MainViewModel)DataContext;
+            vm.NewProjectCommand.Execute(null);
         }
 
         private bool ConfirmSaveIfDirty()
         {
-            var vm = (MainViewModel)DataContext;
-            if (!vm.IsDirty) return true; // 変更なければ次へ
+            if (!vm.IsDirty) return true;
 
             var result = MessageBox.Show("変更を保存しますか？", "確認",
                 MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
-                SaveFile_Click(null, null); // 保存実行
-                return !vm.IsDirty; // 保存成功ならTrue
+                return SaveWithDialog();
             }
 
-            return result == MessageBoxResult.No; // 「いいえ」なら破棄OK
+            return result == MessageBoxResult.No;
         }
 
-        // JSON読み込みメニュー用
-        private async void OpenFile_Click(object sender, RoutedEventArgs e)
+        private bool SaveWithDialog()
         {
-            if (!ConfirmSaveIfDirty()) return; // キャンセルなら中断
+            if (!string.IsNullOrEmpty(vm.CurrentFilePath))
+            {
+                vm.SaveFileCommand.Execute(vm.CurrentFilePath);
+                return true;
+            }
 
-            var dialog = new Microsoft.Win32.OpenFileDialog
+            return ShowSaveAsDialog();
+        }
+
+
+
+        // ===== Open =====
+        private async void OnOpenFileRequested()
+        {
+            if (!ConfirmSaveIfDirty()) return;
+
+            var dialog = new OpenFileDialog
             {
                 Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
             };
 
-            // ダイアログでパス取得
             if (dialog.ShowDialog() == true)
             {
-                var service = new JsonEditorService();
-                var projectData = service.LoadProjectFromJson(dialog.FileName);
-
-                var mainVm = (MainViewModel)this.DataContext;
-                mainVm.CurrentFilePath = dialog.FileName;
-                mainVm.EditorTabs.Clear(); // 一旦全タブ削除
-
-                foreach (var tabData in projectData.Tabs)
-                {
-                    // ViewModelを作成
-                    var tabVM = new DisplayEditorViewModel(mainVm) { DisplayName = tabData.Title };
-
-                    // RAMデータを復元してVMにセット
-                    foreach (var ram in tabData.Rams)
-                    {
-                        tabVM.PlacedRams.Add(new RamItemViewModel(ram, mainVm));
-                    }
-                    // EditorViewのLoadedイベントで、レイアウトやシンボルの復元を行うためのデータを渡す
-                    tabVM.RestoreData = tabData;
-                    // タブを追加（これで EditorView が生成される）
-                    mainVm.EditorTabs.Add(tabVM);
-                }
-
-                // 全てのタブを追加し終わった後
-                foreach (var tab in mainVm.EditorTabs)
-                {
-                    // 1. プログラムからタブを切り替える
-                    mainVm.ActiveTab = tab;
-
-                    // 2. 一瞬待機して、WPFが EditorView を生成・Loadedイベントを走らせる時間を稼ぐ
-                    // DispatcherPriority.Background を使うことで描画更新を待てます
-                    await Dispatcher.BeginInvoke(new Action(() => { }), System.Windows.Threading.DispatcherPriority.Background);
-                }
-
-                mainVm.IsDirty = false;
+                await vm.OpenFileCommand.ExecuteAsync(dialog.FileName);
             }
         }
-        private void SaveFile_Click(object sender, RoutedEventArgs e)
+
+        // ===== Save =====
+        private void OnSaveFileRequested()
         {
-            var mainVm = (MainViewModel)this.DataContext;
-            if (string.IsNullOrEmpty(mainVm.CurrentFilePath))
+            if (string.IsNullOrEmpty(vm.CurrentFilePath))
             {
-                SaveAsFile_Click(sender, e);
+                ShowSaveAsDialog();
                 return;
             }
 
-            SaveFile(mainVm.CurrentFilePath);
+            vm.SaveFileCommand.Execute(vm.CurrentFilePath);
         }
-        private void SaveAsFile_Click(object sender, RoutedEventArgs e)
+
+        // ===== SaveAs =====
+        private void OnSaveAsFileRequested()
+        {
+            ShowSaveAsDialog();
+        }
+
+        private bool ShowSaveAsDialog()
         {
             var dialog = new SaveFileDialog
             {
@@ -260,34 +186,11 @@ namespace WpfApp1.Views
 
             if (dialog.ShowDialog() == true)
             {
-                var mainVm = (MainViewModel)this.DataContext;
-                mainVm.CurrentFilePath = dialog.FileName;
-                SaveFile(mainVm.CurrentFilePath);
+                vm.SaveAsCommand.Execute(dialog.FileName);
+                return true;
             }
-        }
 
-        private void SaveFile(string path)
-        {
-            var saveData = new ProjectSaveData();
-            var service = new JsonEditorService();
-
-            var documents = dockingManager.Layout.Descendents().OfType<AvalonDock.Layout.LayoutDocument>();
-            foreach (var doc in documents)
-            {
-                var layoutItem = dockingManager.GetLayoutItemFromModel(doc);
-                if (layoutItem?.View is ContentPresenter cp)
-                {
-                    // 各タブの実体(EditorView)からデータを取得
-                    var editorView = VisualTreeHelperExtensions.GetVisualChild<EditorView>(cp);
-                    if (editorView != null)
-                    {
-                        saveData.Tabs.Add(editorView.GetEditorData());
-                    }
-                }
-            }
-            service.SaveToJson(saveData, path);
-            var mainVm = (MainViewModel)this.DataContext;
-            mainVm.IsDirty = false;
+            return false;
         }
 
         //private void ColorCommand_Executed(object sender, ExecutedRoutedEventArgs e)

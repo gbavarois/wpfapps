@@ -83,12 +83,16 @@ namespace WpfApp1.ViewModels
         [ObservableProperty]
         private ObservableCollection<RamItemViewModel> _ramItemVMList = new();
 
-        
-
         // 現在開いているファイルのフルパスを保持する変数
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(WindowTitle))]
         public string _currentFilePath;
+
+        public event Action? NewProjectRequested;
+        public event Action? OpenFileRequested;
+        public event Action? SaveFileRequested;
+        public event Action? SaveAsFileRequested;
+        public event Func<bool>? ConfirmSaveRequested;
 
         // タイトルバーに表示する文字列を合成
         public string WindowTitle => $"{(IsDirty ? "* " : "")}{(Path.GetFileName(_currentFilePath) ?? "無題")} - 画面ファイルエディタ";
@@ -140,53 +144,6 @@ namespace WpfApp1.ViewModels
             RefreshAllPlacedRams();
         }
 
-        //partial void OnSelectedRamCatalogChanged(RamCatalog? value)
-        //{
-        //    AddRamFromCatalogCommand.NotifyCanExecuteChanged();
-        //}
-
-        //// アクティブなタブが変わった時に「配置・削除両方」を更新
-        //partial void OnActiveTabChanged(DisplayEditorViewModel? value)
-        //{
-        //    AddRamFromCatalogCommand.NotifyCanExecuteChanged();
-        //    RemoveRamCommand.NotifyCanExecuteChanged();
-        //}
-
-
-        //private Dictionary<string, List<RamCatalog>> _allSheets = new();
-
-
-        //[ObservableProperty] private ObservableCollection<RamCatalog> _selectedSheetData = new();
-
-
-        //[ObservableProperty] private List<RamCatalog> _allRamCatalogs = new();
-
-
-
-        //[ObservableProperty] private RamLayout? _selectedRamdata;               // これを消す
-        //[ObservableProperty] private RamItemViewModel? _selectedRamItem;
-
-        // シート選択が変わったら自動でリスト更新
-        //partial void OnSelectedSheetChanged(string? value)
-        //{
-        //    SelectedSheetData.Clear();
-        //    var count = _allSheets.Count;
-        //    if (value != null && _allSheets.TryGetValue(value, out var data))
-        //    {
-        //        foreach (var d in data) SelectedSheetData.Add(d);
-        //    }
-        //}
-
-        // --- コマンドの実装 ---
-        //// 新規タブ追加コマンド
-        //[RelayCommand]
-        //private void AddNewTab()
-        //{
-        //    var newTab = new DisplayEditorViewModel(this) { DisplayNumber = $"Display {EditorTabs.Count + 1}" };
-        //    EditorTabs.Add(newTab);
-        //    ActiveTab = newTab; // 追加したタブを選択状態にする
-        //}
-
         [RelayCommand]
         private void LoadExcel(string path)
         {
@@ -209,6 +166,98 @@ namespace WpfApp1.ViewModels
             // ロードしたFormatDataを表示用リストにセット ---
             //FormatList = new ObservableCollection<FormatData>(_ramTableMaster.Formats);
             RefreshAllPlacedRams();
+        }
+
+        // --- 新規プロジェクト ---
+        [RelayCommand]
+        private void NewProject()
+        {
+            if (ConfirmSaveRequested != null && !ConfirmSaveRequested())
+                return;
+
+            EditorTabs.Clear();
+            CurrentFilePath = null;
+
+            AddTab();
+            IsDirty = false;
+        }
+
+        // ===== Open（入口） =====
+        [RelayCommand]
+        private void Open()
+        {
+            OpenFileRequested?.Invoke();
+        }
+
+        // ===== Open（本体） =====
+        [RelayCommand]
+        private async Task OpenFile(string path)
+        {
+            var service = new JsonEditorService();
+            var projectData = service.LoadProjectFromJson(path);
+
+            CurrentFilePath = path;
+            EditorTabs.Clear();
+
+            foreach (var tabData in projectData.Tabs)
+            {
+                var tabVM = new DisplayEditorViewModel(this)
+                {
+                    DisplayName = tabData.Title
+                };
+
+                foreach (var ram in tabData.Rams)
+                {
+                    tabVM.PlacedRams.Add(new RamItemViewModel(ram, this));
+                }
+
+                EditorTabs.Add(tabVM);
+            }
+
+            foreach (var tab in EditorTabs)
+            {
+                ActiveTab = tab;
+                await Task.Yield();
+            }
+
+            IsDirty = false;
+        }
+
+        // ===== Save =====
+        [RelayCommand]
+        private void Save()
+        {
+            SaveFileRequested?.Invoke();
+        }
+
+        [RelayCommand]
+        private void SaveFile(string path)
+        {
+            var data = new ProjectSaveData();
+
+            foreach (var tab in EditorTabs)
+            {
+                data.Tabs.Add(tab.GetSaveData());
+            }
+
+            var service = new JsonEditorService();
+            service.SaveToJson(data, path);
+
+            IsDirty = false;
+        }
+
+        // ===== SaveAs =====
+        [RelayCommand]
+        private void SaveAs()
+        {
+            SaveAsFileRequested?.Invoke();
+        }
+
+        // ===== タブ =====
+        [RelayCommand]
+        private void Exit()
+        {
+            Application.Current.Shutdown();
         }
 
         // --- RAM配置コマンド ---

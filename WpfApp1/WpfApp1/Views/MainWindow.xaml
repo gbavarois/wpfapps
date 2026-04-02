@@ -11,16 +11,23 @@
         Title="{Binding WindowTitle}" Height="800" Width="1600">
 
     <Window.InputBindings>
-        <KeyBinding Key="B" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="0" />
-        <KeyBinding Key="D1" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="1" />
-        <KeyBinding Key="D2" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="2" />
-        <KeyBinding Key="D3" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="3" />
-        <KeyBinding Key="D4" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="4" />
-        <KeyBinding Key="D5" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="5" />
-        <KeyBinding Key="D6" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="6" />
-        <KeyBinding Key="D7" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="7" />
-        <KeyBinding Key="D8" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="8" />
-        <KeyBinding Key="D9" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="9" />
+        <!--KeyBinding Key="N"      Modifiers="Control"       Command="{Binding NewProjectCommand}" /-->
+        <!--KeyBinding Key="O"      Modifiers="Control"       Command="{Binding OpenCommand}" /-->
+        <!--KeyBinding Key="S"      Modifiers="Control"       Command="{Binding SaveCommand}" /-->
+        <!--KeyBinding Key="S"      Modifiers="Control+Shift" Command="{Binding SaveAsCommand}" /-->
+        <!--KeyBinding Key="F4"     Modifiers="Alt"           Command="{Binding ExitCommand}" /-->
+        <KeyBinding Key="Insert" Modifiers="Control+Shift" Command="{Binding PlaceRamCommand}" />
+        <KeyBinding Key="Delete"                           Command="{Binding RemoveRamCommand}" />
+        <KeyBinding Key="B"      Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="0" />
+        <KeyBinding Key="D1"     Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="1" />
+        <KeyBinding Key="D2"     Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="2" />
+        <KeyBinding Key="D3"     Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="3" />
+        <KeyBinding Key="D4"     Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="4" />
+        <KeyBinding Key="D5"     Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="5" />
+        <KeyBinding Key="D6"     Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="6" />
+        <KeyBinding Key="D7"     Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="7" />
+        <KeyBinding Key="D8"     Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="8" />
+        <KeyBinding Key="D9"     Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="9" />
     </Window.InputBindings>
     <Window.Resources>
         <!-- Window内のすべてのDataGridに適用される -->
@@ -47,18 +54,18 @@
         <Menu Grid.Row="0">
             <MenuItem Header="ファイル(_F)">
                 <!-- MainViewModel に実装したコマンドを呼び出す -->
-                <MenuItem Header="新規作成(_N)" Command="{x:Static views:MainWindow.NewProjectCommand}" />
-                <MenuItem Header="開く(_O)" Command="{x:Static views:MainWindow.OpenCommand}"/>
-                <MenuItem Header="上書き保存(_S)" Command="{x:Static views:MainWindow.SaveCommand}"/>
-                <MenuItem Header="名前を付けて保存(_A)" Command="{x:Static views:MainWindow.SaveAsCommand}" />
-                <MenuItem Header="終了(_X)" Command="{x:Static views:MainWindow.ExitCommand}" />
+                <MenuItem Header="新規作成(_N)"         Command="{Binding NewProjectCommand}" />
+                <MenuItem Header="開く(_O)"             Command="{Binding OpenCommand}"/>
+                <MenuItem Header="上書き保存(_S)"       Command="{Binding SaveCommand}"/>
+                <MenuItem Header="名前を付けて保存(_A)" Command="{Binding SaveAsCommand}" />
+                <MenuItem Header="終了(_X)"             Command="{Binding ExitCommand}" />
 
             </MenuItem>
             <MenuItem Header="編集(_E)">
                 <!-- 選択中のみ有効になるコマンド -->
-                <MenuItem Header="新しいタブ" Command="{x:Static views:MainWindow.NewTabCommand}" />
-                <MenuItem Header="RAMデータを配置" Command="{x:Static views:MainWindow.AddRamCommand}" />
-                <MenuItem Header="配置RAMを削除" Command="{x:Static views:MainWindow.DeleteRamCommand}" />
+                <MenuItem Header="新しいタブ"      Command="{Binding AddTabCommand}" />
+                <MenuItem Header="RAMデータを配置" Command="{Binding PlaceRamCommand}" />
+                <MenuItem Header="配置RAMを削除"   Command="{Binding RemoveRamCommand}" />
                 <Separator />
                 <MenuItem Header="RAMデータ読込" Click="LoadRamData_Click"/>
             </MenuItem>

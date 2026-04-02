@@ -59,7 +59,7 @@
                         <MenuItem Header="9:黄緑" Command="{Binding ApplyColorCommand}" CommandParameter="9" InputGestureText="Ctrl+Shift+9" Foreground="#80FF00"/>
                         <MenuItem Header="0:黒"   Command="{Binding ApplyColorCommand}" CommandParameter="0" InputGestureText="Ctrl+Shift+B" Foreground="Gray"/>
                     </MenuItem>
-                    <MenuItem Header="RAMデータを配置" Command="{Binding Main.AddRamFromCatalogCommand}" />
+                    <MenuItem Header="RAMデータを配置" Command="{Binding Main.PlaceRamCommand}" />
 
                     <Separator />
                     <!-- 区切り線 -->
@@ -116,7 +116,7 @@
                            DragDelta="Thumb_DragDelta"
                            PreviewMouseLeftButtonDown="Thumb_MouseDown">
                         <Thumb.ContextMenu>
-                            <ContextMenu>
+                            <ContextMenu  DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                                 <MenuItem Header="削除" Command="{Binding Main.RemoveRamCommand}" />
                             </ContextMenu>
                         </Thumb.ContextMenu>

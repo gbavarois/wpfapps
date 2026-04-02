@@ -137,5 +137,17 @@ namespace WpfApp1.ViewModels
                 _main.IsDirty = true;
             }
         }
+
+        public RamLayout ToModel()
+        {
+            return new RamLayout
+            {
+                Row = this.Row,
+                Column = this.Column,
+                Offset = this.Offset,
+                Symbol = this.Symbol,
+                FormatId = this.FormatId
+            };
+        }
     }
 }
