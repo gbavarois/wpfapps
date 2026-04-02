@@ -11,16 +11,16 @@
         Title="{Binding WindowTitle}" Height="800" Width="1600">
 
     <Window.InputBindings>
-        <KeyBinding Key="B" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="0" />
-        <KeyBinding Key="D1" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="1" />
-        <KeyBinding Key="D2" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="2" />
-        <KeyBinding Key="D3" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="3" />
-        <KeyBinding Key="D4" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="4" />
-        <KeyBinding Key="D5" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="5" />
-        <KeyBinding Key="D6" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="6" />
-        <KeyBinding Key="D7" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="7" />
-        <KeyBinding Key="D8" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="8" />
-        <KeyBinding Key="D9" Modifiers="Control+Shift" Command="{x:Static views:MainWindow.ColorCommand}" CommandParameter="9" />
+        <KeyBinding Key="B" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="0" />
+        <KeyBinding Key="D1" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="1" />
+        <KeyBinding Key="D2" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="2" />
+        <KeyBinding Key="D3" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="3" />
+        <KeyBinding Key="D4" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="4" />
+        <KeyBinding Key="D5" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="5" />
+        <KeyBinding Key="D6" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="6" />
+        <KeyBinding Key="D7" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="7" />
+        <KeyBinding Key="D8" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="8" />
+        <KeyBinding Key="D9" Modifiers="Control+Shift" Command="{Binding ActiveTab.ApplyColorCommand}" CommandParameter="9" />
     </Window.InputBindings>
     <Window.Resources>
         <!-- Window内のすべてのDataGridに適用される -->

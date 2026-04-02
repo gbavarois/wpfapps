@@ -45,19 +45,19 @@
                 <Paragraph x:Name="MainEditorParagraph"/>
             </FlowDocument>
             <RichTextBox.ContextMenu>
-                <ContextMenu>
+                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                     <MenuItem Header="色">
                         <!-- 指定の10色をネストして配置 -->
-                        <MenuItem Header="1:青"   Click="SetColor_Click" Tag="1" InputGestureText="Ctrl+Shift+1" Foreground="#4040FF"/>
-                        <MenuItem Header="2:赤"   Click="SetColor_Click" Tag="2" InputGestureText="Ctrl+Shift+2" Foreground="#FF4040" />
-                        <MenuItem Header="3:紫"   Click="SetColor_Click" Tag="3" InputGestureText="Ctrl+Shift+3" Foreground="#FF00FF"/>
-                        <MenuItem Header="4:緑"   Click="SetColor_Click" Tag="4" InputGestureText="Ctrl+Shift+4" Foreground="#00FF00"/>
-                        <MenuItem Header="5:水色" Click="SetColor_Click" Tag="5" InputGestureText="Ctrl+Shift+5" Foreground="#00FFFF"/>
-                        <MenuItem Header="6:黄"   Click="SetColor_Click" Tag="6" InputGestureText="Ctrl+Shift+6" Foreground="#FFFF00"/>
-                        <MenuItem Header="7:白"   Click="SetColor_Click" Tag="7" InputGestureText="Ctrl+Shift+7" Foreground="White" Background="Gray"/>
-                        <MenuItem Header="8:橙"   Click="SetColor_Click" Tag="8" InputGestureText="Ctrl+Shift+8" Foreground="#FF8000"/>
-                        <MenuItem Header="9:黄緑" Click="SetColor_Click" Tag="9" InputGestureText="Ctrl+Shift+9" Foreground="#80FF00"/>
-                        <MenuItem Header="0:黒"   Click="SetColor_Click" Tag="0" InputGestureText="Ctrl+Shift+B" Foreground="Gray"/>
+                        <MenuItem Header="1:青"   Command="{Binding ApplyColorCommand}" CommandParameter="1" InputGestureText="Ctrl+Shift+1" Foreground="#4040FF"/>
+                        <MenuItem Header="2:赤"   Command="{Binding ApplyColorCommand}" CommandParameter="2" InputGestureText="Ctrl+Shift+2" Foreground="#FF4040" />
+                        <MenuItem Header="3:紫"   Command="{Binding ApplyColorCommand}" CommandParameter="3" InputGestureText="Ctrl+Shift+3" Foreground="#FF00FF"/>
+                        <MenuItem Header="4:緑"   Command="{Binding ApplyColorCommand}" CommandParameter="4" InputGestureText="Ctrl+Shift+4" Foreground="#00FF00"/>
+                        <MenuItem Header="5:水色" Command="{Binding ApplyColorCommand}" CommandParameter="5" InputGestureText="Ctrl+Shift+5" Foreground="#00FFFF"/>
+                        <MenuItem Header="6:黄"   Command="{Binding ApplyColorCommand}" CommandParameter="6" InputGestureText="Ctrl+Shift+6" Foreground="#FFFF00"/>
+                        <MenuItem Header="7:白"   Command="{Binding ApplyColorCommand}" CommandParameter="7" InputGestureText="Ctrl+Shift+7" Foreground="White" Background="Gray"/>
+                        <MenuItem Header="8:橙"   Command="{Binding ApplyColorCommand}" CommandParameter="8" InputGestureText="Ctrl+Shift+8" Foreground="#FF8000"/>
+                        <MenuItem Header="9:黄緑" Command="{Binding ApplyColorCommand}" CommandParameter="9" InputGestureText="Ctrl+Shift+9" Foreground="#80FF00"/>
+                        <MenuItem Header="0:黒"   Command="{Binding ApplyColorCommand}" CommandParameter="0" InputGestureText="Ctrl+Shift+B" Foreground="Gray"/>
                     </MenuItem>
                     <MenuItem Header="RAMデータを配置" Command="{Binding Main.AddRamFromCatalogCommand}" />
 

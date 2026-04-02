@@ -30,7 +30,7 @@ namespace WpfApp1.Views
     public partial class MainWindow : Window
     {
         // 0～9用のコマンドを定義
-        public static RoutedCommand ColorCommand = new RoutedCommand();
+        //public static RoutedCommand ColorCommand = new RoutedCommand();
 
         public static readonly RoutedUICommand NewProjectCommand = new RoutedUICommand("新規作成", "NewProject", typeof(MainWindow),new InputGestureCollection { new KeyGesture(Key.N, ModifierKeys.Control) });
         public static readonly RoutedUICommand OpenCommand = new RoutedUICommand("開く", "Open", typeof(MainWindow), new InputGestureCollection { new KeyGesture(Key.O, ModifierKeys.Control) });
@@ -52,15 +52,12 @@ namespace WpfApp1.Views
             this.DataContext = vm;
             // コマンドと既存メソッドの紐付け（CommandBinding）
             this.CommandBindings.Add(new CommandBinding(NewProjectCommand, NewProject_Click));
-            this.CommandBindings.Add(new CommandBinding(ColorCommand, ColorCommand_Executed));
+            //this.CommandBindings.Add(new CommandBinding(ColorCommand, ColorCommand_Executed));
             this.CommandBindings.Add(new CommandBinding(OpenCommand, OpenFile_Click));
             this.CommandBindings.Add(new CommandBinding(SaveCommand, SaveFile_Click));
             this.CommandBindings.Add(new CommandBinding(SaveAsCommand, SaveAsFile_Click));
             this.CommandBindings.Add(new CommandBinding(ExitCommand, (s, e) => this.Close()));
-
-            this.CommandBindings.Add(new CommandBinding(NewTabCommand, (s, e) => {
-                vm.AddTabCommand.Execute(null);
-            }));
+            this.CommandBindings.Add(new CommandBinding(NewTabCommand, (s, e) => { vm.AddTabCommand.Execute(null); }));
 
             // --- RAM削除 (Deleteキー / メニュー) の完全な同期設定 ---
             var delBinding = new CommandBinding(DeleteRamCommand);
@@ -293,38 +290,38 @@ namespace WpfApp1.Views
             mainVm.IsDirty = false;
         }
 
-        private void ColorCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (e.Parameter is string index)
-            {
-                // 1. アクティブなコンテンツ（ViewModel）を取得
-                var activeContent = dockingManager.ActiveContent;
-                if (activeContent == null) return;
+        //private void ColorCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        //{
+        //    if (e.Parameter is string index)
+        //    {
+        //        // 1. アクティブなコンテンツ（ViewModel）を取得
+        //        var activeContent = dockingManager.ActiveContent;
+        //        if (activeContent == null) return;
 
-                // 2. 全ドキュメントの中から、このViewModelを持っている「実体」を探す
-                // LayoutDocumentPane内の全ドキュメントをスキャンします
-                var activeLayoutDocument = dockingManager.Layout.Descendents()
-                    .OfType<AvalonDock.Layout.LayoutDocument>()
-                    .FirstOrDefault(d => d.Content == activeContent);
+        //        // 2. 全ドキュメントの中から、このViewModelを持っている「実体」を探す
+        //        // LayoutDocumentPane内の全ドキュメントをスキャンします
+        //        var activeLayoutDocument = dockingManager.Layout.Descendents()
+        //            .OfType<AvalonDock.Layout.LayoutDocument>()
+        //            .FirstOrDefault(d => d.Content == activeContent);
 
-                if (activeLayoutDocument == null) return;
+        //        if (activeLayoutDocument == null) return;
 
-                // 3. レイアウトアイテム（枠組み）を取得
-                var layoutItem = dockingManager.GetLayoutItemFromModel(activeLayoutDocument);
-                if (layoutItem?.View is ContentPresenter cp)
-                {
-                    // 4. 【ここが重要】ContentPresenter の「視覚的な子要素」から EditorView を探す
-                    // cp.Content は ViewModel を指しているため、実体（EditorView）を VisualTree から掘り起こす
-                    var editorView = VisualTreeHelperExtensions.GetVisualChild<EditorView>(cp);
+        //        // 3. レイアウトアイテム（枠組み）を取得
+        //        var layoutItem = dockingManager.GetLayoutItemFromModel(activeLayoutDocument);
+        //        if (layoutItem?.View is ContentPresenter cp)
+        //        {
+        //            // 4. 【ここが重要】ContentPresenter の「視覚的な子要素」から EditorView を探す
+        //            // cp.Content は ViewModel を指しているため、実体（EditorView）を VisualTree から掘り起こす
+        //            var editorView = VisualTreeHelperExtensions.GetVisualChild<EditorView>(cp);
 
-                    if (editorView != null)
-                    {
-                        // 5. EditorView の色変更メソッドを呼ぶ
-                        editorView.ApplyColorToSelection(index);
-                    }
-                }
-            }
-        }
+        //            if (editorView != null)
+        //            {
+        //                // 5. EditorView の色変更メソッドを呼ぶ
+        //                editorView.ApplyColorToSelection(index);
+        //            }
+        //        }
+        //    }
+        //}
 
         private void dockingManager_DocumentClosing(object sender, AvalonDock.DocumentClosingEventArgs e)
         {

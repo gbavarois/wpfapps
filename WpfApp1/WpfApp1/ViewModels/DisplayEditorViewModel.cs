@@ -19,8 +19,10 @@ namespace WpfApp1.ViewModels
 
         [ObservableProperty] private string _displayName = "新規ディスプレイ";
 
-        // このディスプレイに配置されているRAMのリスト
-        public ObservableCollection<RamItemViewModel> PlacedRams { get; } = new();
+		public event Action<string>? ApplyColorRequested;
+
+		// このディスプレイに配置されているRAMのリスト
+		public ObservableCollection<RamItemViewModel> PlacedRams { get; } = new();
 
         // このディスプレイで選択されているRAM
         [ObservableProperty] private RamItemViewModel? _selectedRam;
@@ -34,25 +36,32 @@ namespace WpfApp1.ViewModels
 
         public EditorData? RestoreData { get; set; }
 
-        //[RelayCommand]
-        //public void AddRam(RamCatalog sourceCatalog)
-        //{
-        //    // 1. Modelを作る（位置はとりあえず0,0など）
-        //    var newModel = new RamLayout
-        //    {
-        //        Symbol = sourceCatalog.Symbol,
-        //        FormatId = sourceCatalog.FormatId
-        //    };
+		//[RelayCommand]
+		//public void AddRam(RamCatalog sourceCatalog)
+		//{
+		//    // 1. Modelを作る（位置はとりあえず0,0など）
+		//    var newModel = new RamLayout
+		//    {
+		//        Symbol = sourceCatalog.Symbol,
+		//        FormatId = sourceCatalog.FormatId
+		//    };
 
-        //    // 2. ViewModelでラップしてリストに追加
-        //    var vm = new RamItemViewModel(newModel, _main);
-        //    PlacedRams.Add(vm);
+		//    // 2. ViewModelでラップしてリストに追加
+		//    var vm = new RamItemViewModel(newModel, _main);
+		//    PlacedRams.Add(vm);
 
-        //    // 3. 選択状態にする
-        //    SelectedRam = vm;
-        //}
+		//    // 3. 選択状態にする
+		//    SelectedRam = vm;
+		//}
 
-        partial void OnSelectedRamChanged(RamItemViewModel? value)
+
+		[RelayCommand]
+		private void ApplyColor(string colorIndex)
+		{
+			ApplyColorRequested?.Invoke(colorIndex);
+		}
+
+		partial void OnSelectedRamChanged(RamItemViewModel? value)
         {
             // 全部解除
             foreach (var ram in PlacedRams)

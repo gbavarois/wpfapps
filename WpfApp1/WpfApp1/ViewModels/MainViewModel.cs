@@ -247,10 +247,12 @@ namespace WpfApp1.ViewModels
         }
         private bool CanRemove() => ActiveTab?.SelectedRam != null;
 
-        [RelayCommand]
-        private void ClearSelection() => ActiveTab.SelectedRam = null;
+        //[RelayCommand]
+        //private void ClearSelection() => ActiveTab.SelectedRam = null;
 
-        public void RefreshAllPlacedRams()
+		
+
+		public void RefreshAllPlacedRams()
         {
             foreach (var tab in EditorTabs)
             {

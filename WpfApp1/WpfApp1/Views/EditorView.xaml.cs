@@ -26,23 +26,33 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class EditorView : UserControl
     {
-        private bool _isRestoring = false; // 復元中フラグ
+		private DisplayEditorViewModel? _vm;
+		private bool _isRestoring = false; // 復元中フラグ
         private const double CharWidth = 7.0;
         private const double LineHeightValue = 14.0;
 
         public EditorView()
         {
             InitializeComponent();
-        }
+			DataContextChanged += OnDataContextChanged;
+		}
 
-        // Canvasをクリックした際に選択解除
-        private void MainEditor_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+		private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (e.NewValue is DisplayEditorViewModel vm)
+			{
+				vm.ApplyColorRequested += ApplyColorToSelection;
+			}
+		}
+
+		// Canvasをクリックした際に選択解除
+		private void MainEditor_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             // リッチテキストの「何もないところ」や「文字」をクリックした時
-            if (this.DataContext is DisplayEditorViewModel tabVM)
+            if (this.DataContext is DisplayEditorViewModel vm)
             {
-                // 現在選択されている RAM を解除（nullを代入）
-                tabVM.SelectedRam = null;
+				// 現在選択されている RAM を解除（nullを代入）
+				vm.SelectedRam = null;
             }
         }
 
