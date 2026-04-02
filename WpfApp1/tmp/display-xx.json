@@ -3,387 +3,64 @@
     {
       "Title": "Disp0",
       "Lines": [
-        "TWO=xxxx.x PSW_L(O) = xxx.xkPa Tsw  = xxxx.x                         ｼｽ異[xxx-xx] 確定[xxx-xx|xx](xx)   ",
-        "TWI=xxxx.x PSW_E(I) = xxx.xkPa Ts_c = xxxx.x                         ﾊﾞｯｸｱｯﾌﾟ[b]  検出[xxx-xx|xx](xx)   ",
-        "TCJ=xxxx.x PSW_S(OP)= xxx.xkPa Ts_h = xxxx.x                                      停止[xxx-xx]ｶｳﾝﾄxx    ",
-        "TC1=xxxx.x                                                                        ｼｽ停[xxx-xx|xx]       ",
-        "TC2=xxxx.x                                                                        再起=xxxx             ",
-        "                                                                                  ｼｽ再=xxxx             ",
-        "[機種xx][UnitHP:xxxx][水熱交HP:xxxx.x]    流体[x,x,x]                                                   ",
-        "停止停止[通常][xxxxx][ｻｰﾓ:x]              ΔPfffff.ff                <ODU info>                         ",
-        "Rn   : xxxxxx  Wc:xxx.xx     目標Hz xx.xx 補Lfffff.ff                COMP:x                             ",
-        "MaxRn: xxxxxx  Wh:xxx.xx     bPump1 xx.xx 補Efffff.ff                DEF :x                             ",
-        "dRn  : xxxxxx  Qn:xxx.xx     bPump2 xx.xx L/mfffff.ff                                                   ",
-        "GA   : xxxxxx                        目標流量fffff.ff                                                   ",
-        "dTc  : xxxxxx                FLo  Bfffff.ff Cfffff.ff                                                   ",
-        "dE   : xxxxxx                α1  Bfffff.ff Cfffff.ff                                                   ",
-        "dRn_T:   xxxx                α2  Bfffff.ff Cfffff.ff                                                   ",
-        "KeepT:   xxxx                FL   Bfffff.ff Cfffff.ff                                                   ",
-        "Ini_T:   xxxx                ├ Minfffff.ff Sys CAPA                                                    ",
-        "                             └ Maxfffff.ff  fffff.ff                                                   ",
-        "       PMVL1 PMVL2                                                                                      ",
-        "目標  XxxxxxXxxxxx                                                                                      ",
-        "  実  XxxxxxXxxxxx                                                                                      ",
-        "                                                                                        ﾕﾆQc xxxxxxx    ",
-        "                                                                                        ｼｽQc xxxxxxx    ",
-        "                                                                                        EER     xxxx    ",
-        "                                                                                        Vdisp xxxxxx    ",
-        "                                                                                                        ",
-        "                                                                                                        ",
-        "                                   Fc` =xxxxxx Fc =xxxxxx 補c =xxxxxx 能冷[HH.H.M.L][xxxx%]             ",
-        "                                   Fh` =xxxxxx Fh =xxxxxx 補h =xxxxxx 能暖[HH.H.M.L][xxxx%]             ",
-        "                                   DFx%xxxxxx% FSGr数xxxx 増減[xxxxxx]                                  ",
-        "                                                                                                        ",
-        "                                                                                       選択ﾓｰﾄﾞ[xxxx]   ",
-        "                                                                                       ﾃﾞﾏﾝﾄﾞxx=xxxx%   ",
-        "                                                                                           降雪ﾌｧﾝ =b   ",
-        "                                                                                           夜間低騒=b   ",
-        "                                                                                                        ",
-        "                                                                                                        ",
-        "                                             SW04x SW101 102  103  104  105  106                        ",
-        "                                             SW05x  xxxx xxxx xxxx xxxx xxxx xx                         ",
-        "                                             SW06x CN30x  DN03 xx DN82 xx DN** xx DN** xx DN** xx       ",
-        "                                                   CN31x  DN** xx DN** xx DN** xx DN** xx DN** xx       ",
-        "                                                   CN32x  DN** xx DN** xx DN** xx DN** xx DN** xx       ",
-        "                                                   [xx][xx][xx][xxxxx] 室外 室内   ｼｽﾃﾑMax容量 xxxxxx   ",
-        "                                              起動後xxxx時xxxx分xxxx秒  xx xx.xxHP ﾕﾆｯﾄMax容量 xxxxxx   ",
-        "                                                         s=b I=xx 0=xx   x    xx台       sub-rxErr[xxxx]",
-        "ﾕﾆ電xxxxxxxx ｼｽ電xxxxxxxx 積算xxxxxxxx 積総xxxxxxxx xx                               soft-sub[xxxx-xxxx]",
-        "                                                                                    soft-main[xxxx-xxxx]",
         ""
       ],
-      "Colors": [
-        {
-          "Row": 0,
-          "Column": 0,
-          "Length": 101,
-          "ColorIndex": "4"
-        },
+      "Colors": [],
+      "Rams": [
         {
           "Row": 1,
-          "Column": 0,
-          "Length": 102,
-          "ColorIndex": "4"
+          "Column": 5,
+          "Offset": 0,
+          "Symbol": "TWIcnv_swrt",
+          "FormatId": "Bin_Table_00"
+        },
+        {
+          "Row": 0,
+          "Column": 4,
+          "Offset": 0,
+          "Symbol": "TWOcnv_swrt",
+          "FormatId": "Bin_Table_00"
         },
         {
           "Row": 2,
-          "Column": 0,
-          "Length": 102,
-          "ColorIndex": "4"
+          "Column": 23,
+          "Offset": 0,
+          "Symbol": "PWSchg",
+          "FormatId": "Bin_Table_00"
         },
         {
-          "Row": 3,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
+          "Row": 1,
+          "Column": 22,
+          "Offset": 0,
+          "Symbol": "PWEchg",
+          "FormatId": "Bin_Table_00"
         },
         {
-          "Row": 4,
-          "Column": 0,
-          "Length": 102,
-          "ColorIndex": "4"
+          "Row": 0,
+          "Column": 21,
+          "Offset": 0,
+          "Symbol": "PWEchg",
+          "FormatId": "Bin_Table_00"
         },
         {
           "Row": 5,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 6,
-          "Column": 0,
-          "Length": 97,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 7,
-          "Column": 0,
-          "Length": 97,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 8,
-          "Column": 0,
-          "Length": 101,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 9,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 10,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 11,
-          "Column": 0,
-          "Length": 100,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 12,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 13,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 14,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 15,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 16,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 17,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 18,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 19,
-          "Column": 0,
-          "Length": 102,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 20,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 21,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 22,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 23,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 24,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 25,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 26,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 27,
-          "Column": 0,
-          "Length": 101,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 28,
-          "Column": 0,
-          "Length": 101,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 29,
-          "Column": 0,
-          "Length": 101,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 30,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 31,
-          "Column": 0,
-          "Length": 102,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 32,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 33,
-          "Column": 0,
-          "Length": 102,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 34,
-          "Column": 0,
-          "Length": 100,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 35,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 36,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 37,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 38,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 39,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 40,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 41,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 42,
-          "Column": 0,
-          "Length": 98,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 43,
-          "Column": 0,
-          "Length": 96,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 44,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 45,
-          "Column": 0,
-          "Length": 98,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 46,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        }
-      ],
-      "Rams": [
-        {
-          "Row": 6,
-          "Column": 47,
+          "Column": 26,
           "Offset": 0,
-          "Symbol": "PUMP_SwrtData.fluid_type",
-          "FormatId": "Bin_0bit"
+          "Symbol": "PUMP_SwrtData.FL_target",
+          "FormatId": "F32"
         },
         {
-          "Row": 6,
-          "Column": 49,
+          "Row": 4,
+          "Column": 25,
           "Offset": 0,
-          "Symbol": "PUMP_SwrtData.brine_type",
-          "FormatId": "Bin_0bit"
+          "Symbol": "PUMP_SwrtData.FL_current",
+          "FormatId": "F32"
         },
         {
-          "Row": 6,
-          "Column": 51,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.hex_hp_idx",
-          "FormatId": "Bin_0bit"
-        },
-        {
-          "Row": 7,
-          "Column": 45,
+          "Row": 3,
+          "Column": 24,
           "Offset": 0,
           "Symbol": "PUMP_SwrtData.deltaP",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 8,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.PerrL",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 9,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.PerrE",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 12,
-          "Column": 35,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.B_FLo",
           "FormatId": "F32"
         }
       ]

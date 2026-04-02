@@ -39,14 +39,37 @@ namespace WpfApp1.Views
 
 		private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
-			if (e.NewValue is DisplayEditorViewModel vm)
-			{
-				vm.ApplyColorRequested += ApplyColorToSelection;
-			}
-		}
+            if (e.NewValue is DisplayEditorViewModel vm)
+            {
+                vm.ApplyColorRequested += ApplyColorToSelection;
 
-		// Canvasをクリックした際に選択解除
-		private void MainEditor_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+                // ★ここ追加（Loadedから移動）
+                if (vm.RestoreData != null)
+                {
+                    Restore(vm);
+                }
+            }
+        }
+
+        private void Restore(DisplayEditorViewModel vm)
+        {
+            _isRestoring = true;
+
+            var service = new JsonEditorService();
+            var data = vm.RestoreData;
+
+            this.MainEditor.Document.Blocks.Clear();
+            service.RestoreText(this.MainEditor, data.Lines);
+            service.RestoreColors(this.MainEditor, data.Colors);
+
+            vm.RestoreData = null;
+
+            Dispatcher.BeginInvoke(new Action(() => _isRestoring = false),
+                System.Windows.Threading.DispatcherPriority.Background);
+        }
+
+        // Canvasをクリックした際に選択解除
+        private void MainEditor_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             // リッチテキストの「何もないところ」や「文字」をクリックした時
             if (this.DataContext is DisplayEditorViewModel vm)
@@ -216,22 +239,22 @@ namespace WpfApp1.Views
 
         private void EditorView_Loaded(object sender, RoutedEventArgs e)
         {
-            if (this.DataContext is DisplayEditorViewModel tabVM && tabVM.RestoreData != null)
-            {
-                _isRestoring = true;
-                var service = new JsonEditorService();
-                var data = tabVM.RestoreData;
+            //if (this.DataContext is DisplayEditorViewModel tabVM && tabVM.RestoreData != null)
+            //{
+            //    _isRestoring = true;
+            //    var service = new JsonEditorService();
+            //    var data = tabVM.RestoreData;
 
-                this.MainEditor.Document.Blocks.Clear();
-                service.RestoreText(this.MainEditor, data.Lines);
-                service.RestoreColors(this.MainEditor, data.Colors);
+            //    this.MainEditor.Document.Blocks.Clear();
+            //    service.RestoreText(this.MainEditor, data.Lines);
+            //    service.RestoreColors(this.MainEditor, data.Colors);
 
-                // 復元が終わったらメモリ解放のために消しておく
-                tabVM.RestoreData = null;
-                // 描画が落ち着くまで少し待ってからフラグを下ろす（Dispatcher経由が確実）
-                Dispatcher.BeginInvoke(new Action(() => _isRestoring = false),
-                    System.Windows.Threading.DispatcherPriority.Background);
-            }
+            //    // 復元が終わったらメモリ解放のために消しておく
+            //    tabVM.RestoreData = null;
+            //    // 描画が落ち着くまで少し待ってからフラグを下ろす（Dispatcher経由が確実）
+            //    Dispatcher.BeginInvoke(new Action(() => _isRestoring = false),
+            //        System.Windows.Threading.DispatcherPriority.Background);
+            //}
         }
 
         private void MainEditor_TextChanged(object sender, TextChangedEventArgs e)

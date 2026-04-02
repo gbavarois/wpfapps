@@ -39,24 +39,30 @@ namespace WpfApp1.Views
             var vm = new MainViewModel();
             this.DataContext = vm;
 
-            vm.OpenFileRequested += OnOpenFileRequested;
-            vm.SaveFileRequested += OnSaveFileRequested;
-            vm.SaveAsFileRequested += OnSaveAsFileRequested;
-            //vm.ExitRequested += () => OnExitRequested;
-            vm.ConfirmSaveRequested += ConfirmSaveIfDirty;
-        }
-
-        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
-        {
-            base.OnClosing(e);
-
-            // 以前作成した「変更があれば保存確認する」メソッドを呼び出す
-            if (!ConfirmSaveIfDirty())
+            Loaded += (s, e) =>
             {
-                // キャンセルされたら、終了自体を取り消す
-                e.Cancel = true;
-            }
+                var vm = (MainViewModel)DataContext;
+
+                vm.RequestSaveBeforeContinue += ConfirmSaveIfDirtyAsync;
+                vm.RequestOpenFilePath += ShowOpenDialogAsync;
+                vm.RequestSaveFilePath += ShowSaveDialogAsync;
+                vm.SaveRequested += SaveFile;
+            };
+
+            this.Closing += MainWindow_Closing;
         }
+
+        //protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        //{
+        //    base.OnClosing(e);
+
+        //    // 以前作成した「変更があれば保存確認する」メソッドを呼び出す
+        //    if (!ConfirmSaveIfDirty())
+        //    {
+        //        // キャンセルされたら、終了自体を取り消す
+        //        e.Cancel = true;
+        //    }
+        //}
 
 
         private void ShowFormatPane_Click(object sender, RoutedEventArgs e)
@@ -107,124 +113,144 @@ namespace WpfApp1.Views
             }
         }
 
-        private void NewProject_Click(object sender, ExecutedRoutedEventArgs e)
+        private async Task<bool> ConfirmSaveIfDirtyAsync()
         {
-            if (!ConfirmSaveIfDirty()) return;
+            var vm = (MainViewModel)DataContext;
 
-            //var vm = (MainViewModel)DataContext;
-            vm.NewProjectCommand.Execute(null);
-        }
-
-        private bool ConfirmSaveIfDirty()
-        {
             if (!vm.IsDirty) return true;
 
-            var result = MessageBox.Show("変更を保存しますか？", "確認",
-                MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            var result = MessageBox.Show(
+                "変更を保存しますか？",
+                "確認",
+                MessageBoxButton.YesNoCancel);
 
             if (result == MessageBoxResult.Yes)
             {
-                return SaveWithDialog();
+                return await SaveFileInternal(); // ← Command使わない！
             }
 
             return result == MessageBoxResult.No;
         }
 
-        private bool SaveWithDialog()
+        //private bool SaveWithDialog()
+        //{
+        //    if (!string.IsNullOrEmpty(vm.CurrentFilePath))
+        //    {
+        //        vm.SaveFileCommand.Execute(vm.CurrentFilePath);
+        //        return true;
+        //    }
+
+        //    return ShowSaveAsDialog();
+        //}
+
+
+
+        private Task<string?> ShowOpenDialogAsync()
         {
-            if (!string.IsNullOrEmpty(vm.CurrentFilePath))
-            {
-                vm.SaveFileCommand.Execute(vm.CurrentFilePath);
-                return true;
-            }
-
-            return ShowSaveAsDialog();
-        }
-
-
-
-        // ===== Open =====
-        private async void OnOpenFileRequested()
-        {
-            if (!ConfirmSaveIfDirty()) return;
-
             var dialog = new OpenFileDialog
             {
-                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+                Filter = "JSON files (*.json)|*.json"
             };
 
-            if (dialog.ShowDialog() == true)
-            {
-                await vm.OpenFileCommand.ExecuteAsync(dialog.FileName);
-            }
+            return Task.FromResult(dialog.ShowDialog() == true ? dialog.FileName : null);
         }
 
-        // ===== Save =====
-        private void OnSaveFileRequested()
-        {
-            if (string.IsNullOrEmpty(vm.CurrentFilePath))
-            {
-                ShowSaveAsDialog();
-                return;
-            }
-
-            vm.SaveFileCommand.Execute(vm.CurrentFilePath);
-        }
-
-        // ===== SaveAs =====
-        private void OnSaveAsFileRequested()
-        {
-            ShowSaveAsDialog();
-        }
-
-        private bool ShowSaveAsDialog()
+        private Task<string?> ShowSaveDialogAsync()
         {
             var dialog = new SaveFileDialog
             {
-                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+                Filter = "JSON files (*.json)|*.json"
             };
 
-            if (dialog.ShowDialog() == true)
-            {
-                vm.SaveAsCommand.Execute(dialog.FileName);
-                return true;
-            }
-
-            return false;
+            return Task.FromResult(dialog.ShowDialog() == true ? dialog.FileName : null);
         }
 
-        //private void ColorCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        //{
-        //    if (e.Parameter is string index)
-        //    {
-        //        // 1. アクティブなコンテンツ（ViewModel）を取得
-        //        var activeContent = dockingManager.ActiveContent;
-        //        if (activeContent == null) return;
+        private async Task<bool> SaveFileInternal()
+        {
+            var vm = (MainViewModel)DataContext;
 
-        //        // 2. 全ドキュメントの中から、このViewModelを持っている「実体」を探す
-        //        // LayoutDocumentPane内の全ドキュメントをスキャンします
-        //        var activeLayoutDocument = dockingManager.Layout.Descendents()
-        //            .OfType<AvalonDock.Layout.LayoutDocument>()
-        //            .FirstOrDefault(d => d.Content == activeContent);
+            if (string.IsNullOrEmpty(vm.CurrentFilePath))
+            {
+                var path = await ShowSaveDialogAsync();
+                if (string.IsNullOrEmpty(path)) return false;
 
-        //        if (activeLayoutDocument == null) return;
+                vm.CurrentFilePath = path;
+            }
 
-        //        // 3. レイアウトアイテム（枠組み）を取得
-        //        var layoutItem = dockingManager.GetLayoutItemFromModel(activeLayoutDocument);
-        //        if (layoutItem?.View is ContentPresenter cp)
-        //        {
-        //            // 4. 【ここが重要】ContentPresenter の「視覚的な子要素」から EditorView を探す
-        //            // cp.Content は ViewModel を指しているため、実体（EditorView）を VisualTree から掘り起こす
-        //            var editorView = VisualTreeHelperExtensions.GetVisualChild<EditorView>(cp);
+            SaveFile(vm.CurrentFilePath);
+            return true;
+        }
 
-        //            if (editorView != null)
-        //            {
-        //                // 5. EditorView の色変更メソッドを呼ぶ
-        //                editorView.ApplyColorToSelection(index);
-        //            }
-        //        }
-        //    }
-        //}
+        private void SaveFile(string path)
+        {
+            var saveData = new ProjectSaveData();
+            var service = new JsonEditorService();
+
+            var documents = dockingManager.Layout.Descendents()
+                .OfType<AvalonDock.Layout.LayoutDocument>();
+
+            foreach (var doc in documents)
+            {
+                var layoutItem = dockingManager.GetLayoutItemFromModel(doc);
+                if (layoutItem?.View is ContentPresenter cp)
+                {
+                    var editorView = VisualTreeHelperExtensions.GetVisualChild<EditorView>(cp);
+                    if (editorView != null)
+                    {
+                        saveData.Tabs.Add(editorView.GetEditorData());
+                    }
+                }
+            }
+
+            service.SaveToJson(saveData, path);
+
+            var vm = (MainViewModel)DataContext;
+            vm.IsDirty = false;
+        }
+
+        private async void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var vm = (MainViewModel)DataContext;
+
+            if (!vm.IsDirty) return;
+
+            var result = MessageBox.Show(
+                "変更を保存しますか？",
+                "確認",
+                MessageBoxButton.YesNoCancel);
+
+            if (result == MessageBoxResult.Cancel)
+            {
+                e.Cancel = true; // ← 閉じるの中断
+                return;
+            }
+
+            if (result == MessageBoxResult.Yes)
+            {
+                var success = await SaveAsInternal();
+
+                if (!success)
+                {
+                    e.Cancel = true; // ← 保存キャンセルされたら閉じない
+                }
+            }
+        }
+
+        private async Task<bool> SaveAsInternal()
+        {
+            var vm = (MainViewModel)DataContext;
+
+            // ★必ずダイアログ出す（既存パス無視）
+            var path = await ShowSaveDialogAsync();
+            if (string.IsNullOrEmpty(path)) return false;
+
+            vm.CurrentFilePath = path;
+
+            SaveFile(path);
+
+            return true;
+        }
+
 
         private void dockingManager_DocumentClosing(object sender, AvalonDock.DocumentClosingEventArgs e)
         {

@@ -53,22 +53,6 @@ namespace WpfApp1.ViewModels
         [NotifyPropertyChangedFor(nameof(WindowTitle))]
         private bool _isDirty;
 
-        //// コンボボックスに表示するページ名のリスト
-        //[ObservableProperty]
-        //private ObservableCollection<string> _pageNames = new();
-
-        //// 現在選択されているページ名
-        //[ObservableProperty]
-        //private string? _selectedPage;
-
-        //// 現在表示しているページのRAMカタログアイテムのリスト
-        //[ObservableProperty]
-        //private ObservableCollection<RamCatalog> _currentCatalogs = new();
-
-        //// フォーマットデータのリスト（これもExcelから読み込む）
-        //[ObservableProperty]
-        //private ObservableCollection<FormatData> _formatList = new();
-
         // 開いているタブのリスト
         [ObservableProperty]
         private ObservableCollection<DisplayEditorViewModel> _editorTabs = new();
@@ -88,11 +72,10 @@ namespace WpfApp1.ViewModels
         [NotifyPropertyChangedFor(nameof(WindowTitle))]
         public string _currentFilePath;
 
-        public event Action? NewProjectRequested;
-        public event Action? OpenFileRequested;
-        public event Action? SaveFileRequested;
-        public event Action? SaveAsFileRequested;
-        public event Func<bool>? ConfirmSaveRequested;
+        // --- ダイアログ依頼イベント ---
+        public event Func<Task<bool>>? RequestSaveBeforeContinue;
+        public event Func<Task<string?>>? RequestOpenFilePath;
+        public event Func<Task<string?>>? RequestSaveFilePath;
 
         // タイトルバーに表示する文字列を合成
         public string WindowTitle => $"{(IsDirty ? "* " : "")}{(Path.GetFileName(_currentFilePath) ?? "無題")} - 画面ファイルエディタ";
@@ -168,30 +151,79 @@ namespace WpfApp1.ViewModels
             RefreshAllPlacedRams();
         }
 
-        // --- 新規プロジェクト ---
+        // --- 新規 ---
         [RelayCommand]
-        private void NewProject()
+        private async Task NewProject()
         {
-            if (ConfirmSaveRequested != null && !ConfirmSaveRequested())
-                return;
+            if (RequestSaveBeforeContinue != null)
+            {
+                var ok = await RequestSaveBeforeContinue.Invoke();
+                if (!ok) return;
+            }
 
             EditorTabs.Clear();
             CurrentFilePath = null;
 
-            AddTab();
+            AddTabCommand.Execute(null);
             IsDirty = false;
         }
 
-        // ===== Open（入口） =====
+        // --- 開く ---
         [RelayCommand]
-        private void Open()
+        private async Task OpenFile()
         {
-            OpenFileRequested?.Invoke();
+            if (RequestSaveBeforeContinue != null)
+            {
+                var ok = await RequestSaveBeforeContinue.Invoke();
+                if (!ok) return;
+            }
+
+            if (RequestOpenFilePath == null) return;
+
+            var path = await RequestOpenFilePath.Invoke();
+            if (string.IsNullOrEmpty(path)) return;
+
+            LoadFromFile(path);
         }
 
-        // ===== Open（本体） =====
+        // --- 保存 ---
         [RelayCommand]
-        private async Task OpenFile(string path)
+        private async Task SaveFile()
+        {
+            if (string.IsNullOrEmpty(CurrentFilePath))
+            {
+                if (RequestSaveFilePath == null) return;
+
+                var path = await RequestSaveFilePath.Invoke();
+                if (string.IsNullOrEmpty(path)) return;
+
+                CurrentFilePath = path;
+            }
+
+            SaveRequested?.Invoke(CurrentFilePath);
+            IsDirty = false;
+        }
+
+        // --- 名前を付けて保存 ---
+        [RelayCommand]
+        private async Task SaveAsFile()
+        {
+            if (RequestSaveFilePath == null) return;
+
+            var path = await RequestSaveFilePath.Invoke();
+            if (string.IsNullOrEmpty(path)) return;
+
+            CurrentFilePath = path;
+
+            SaveRequested?.Invoke(path);
+            IsDirty = false;
+        }
+
+        // --- Viewに保存実行させるイベント ---
+        public event Action<string>? SaveRequested;
+
+        // --- ファイル読み込みロジック ---
+        private void LoadFromFile(string path)
         {
             var service = new JsonEditorService();
             var projectData = service.LoadProjectFromJson(path);
@@ -214,43 +246,8 @@ namespace WpfApp1.ViewModels
                 EditorTabs.Add(tabVM);
             }
 
-            foreach (var tab in EditorTabs)
-            {
-                ActiveTab = tab;
-                await Task.Yield();
-            }
-
+            ActiveTab = EditorTabs.FirstOrDefault();
             IsDirty = false;
-        }
-
-        // ===== Save =====
-        [RelayCommand]
-        private void Save()
-        {
-            SaveFileRequested?.Invoke();
-        }
-
-        [RelayCommand]
-        private void SaveFile(string path)
-        {
-            var data = new ProjectSaveData();
-
-            foreach (var tab in EditorTabs)
-            {
-                data.Tabs.Add(tab.GetSaveData());
-            }
-
-            var service = new JsonEditorService();
-            service.SaveToJson(data, path);
-
-            IsDirty = false;
-        }
-
-        // ===== SaveAs =====
-        [RelayCommand]
-        private void SaveAs()
-        {
-            SaveAsFileRequested?.Invoke();
         }
 
         // ===== タブ =====
