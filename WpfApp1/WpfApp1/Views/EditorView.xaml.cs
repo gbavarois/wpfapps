@@ -28,32 +28,12 @@ namespace WpfApp1.Views
     {
 		private DisplayEditorViewModel? _vm;
 		private bool _isRestoring = false; // 復元中フラグ
-        private const double CharWidth = 7.0;
-        private const double LineHeightValue = 14.0;
 
         public EditorView()
         {
             InitializeComponent();
 		}
 
-        private void Restore(DisplayEditorViewModel vm)
-        {
-            _isRestoring = true;
-
-            var service = new JsonEditorService();
-            var data = vm.RestoreData;
-
-            this.MainEditor.Document.Blocks.Clear();
-            service.RestoreText(this.MainEditor, data.Lines);
-            service.RestoreColors(this.MainEditor, data.Colors);
-
-            vm.RestoreData = null;
-
-            Dispatcher.BeginInvoke(new Action(() => _isRestoring = false),
-                System.Windows.Threading.DispatcherPriority.Background);
-        }
-
-        // Canvasをクリックした際に選択解除
         private void MainEditor_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             // リッチテキストの「何もないところ」や「文字」をクリックした時
@@ -179,8 +159,10 @@ namespace WpfApp1.Views
                 double top = Canvas.GetTop(parent) + e.VerticalChange;
 
                 // 文字単位の座標にスナップしてデータを更新
-                data.Column = (int)Math.Max(0, Math.Round(left / CharWidth));
-                data.Row = (int)Math.Max(0, Math.Round(top / LineHeightValue));
+                double w = ((PosConverter)FindResource("CharToPosConverter")).Scale;
+                double h = ((PosConverter)FindResource("LineToPosConverter")).Scale;
+                data.Column = (int)Math.Max(0, Math.Round(left / w));
+                data.Row = (int)Math.Max(0, Math.Round(top / h));
             }
         }
 
@@ -267,11 +249,12 @@ namespace WpfApp1.Views
                 {
                     // ドロップされた位置（マウス座標）を取得
                     Point dropPoint = e.GetPosition(sender as IInputElement);
-
+                    double w = ((PosConverter)FindResource("CharToPosConverter")).Scale;
+                    double h = ((PosConverter)FindResource("LineToPosConverter")).Scale;
                     // 座標を「行・桁」に変換（PosConverterの逆計算）
                     // 例: Scale=7.0 なら 座標/7.0
-                    int col = (int)Math.Round(dropPoint.X / 7.0);
-                    int row = (int)Math.Round(dropPoint.Y / 14.0);
+                    int col = (int)Math.Round(dropPoint.X / w);
+                    int row = (int)Math.Round(dropPoint.Y / h);
 
                     // 新しい RAM データを生成して追加
                     var newRam = new RamLayout

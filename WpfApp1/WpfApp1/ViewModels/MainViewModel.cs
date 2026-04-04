@@ -89,6 +89,82 @@ namespace WpfApp1.ViewModels
             AddTab();
         }
 
+        // [ファイル(F)] - [新規作成(N)]
+        [RelayCommand]
+        private async Task NewProject()
+        {
+            if (RequestSaveBeforeContinue != null)
+            {
+                var ok = await RequestSaveBeforeContinue.Invoke();
+                if (!ok) return;
+            }
+
+            EditorTabs.Clear();
+            CurrentFilePath = null;
+
+            AddTabCommand.Execute(null);
+            IsDirty = false;
+        }
+
+        // [ファイル(F)] - [開く(O)]
+        [RelayCommand]
+        private async Task OpenFile()
+        {
+            if (RequestSaveBeforeContinue != null)
+            {
+                var ok = await RequestSaveBeforeContinue.Invoke();
+                if (!ok) return;
+            }
+
+            if (RequestOpenFilePath == null) return;
+
+            var path = await RequestOpenFilePath.Invoke();
+            if (string.IsNullOrEmpty(path)) return;
+
+            LoadFromFile(path);
+        }
+
+        // [ファイル(F)] - [上書き保存(S)]
+        [RelayCommand]
+        private async Task SaveFile()
+        {
+            if (string.IsNullOrEmpty(CurrentFilePath))
+            {
+                if (RequestSaveFilePath == null) return;
+
+                var path = await RequestSaveFilePath.Invoke();
+                if (string.IsNullOrEmpty(path)) return;
+
+                CurrentFilePath = path;
+            }
+
+            SaveRequested?.Invoke(CurrentFilePath);
+            IsDirty = false;
+        }
+
+        // [ファイル(F)] - [名前を付けて保存(A)]
+        [RelayCommand]
+        private async Task SaveAsFile()
+        {
+            if (RequestSaveFilePath == null) return;
+
+            var path = await RequestSaveFilePath.Invoke();
+            if (string.IsNullOrEmpty(path)) return;
+
+            CurrentFilePath = path;
+
+            SaveRequested?.Invoke(path);
+            IsDirty = false;
+        }
+
+        // [ファイル(F)] - [終了(X)]
+        [RelayCommand]
+        private void Exit()
+        {
+            Application.Current.Shutdown();
+        }
+
+        // [編集(E)] - [新しいタブ]
         [RelayCommand]
         private void AddTab()
         {
@@ -116,6 +192,43 @@ namespace WpfApp1.ViewModels
             ActiveTab = tab;
         }
 
+        // [編集(E)] - [RAMデータを配置]
+        [RelayCommand(CanExecute = nameof(CanPlaceRam))]
+        private void PlaceRam()
+        {
+            if (SelectedRamCatalog == null || ActiveTab == null) return;
+
+            var newRam = new RamLayout
+            {
+                Row = ActiveTab.CurrentRow,
+                Column = ActiveTab.CurrentColumn,
+                Offset = 0,
+                Symbol = SelectedRamCatalog.Symbol,
+                FormatId = SelectedRamCatalog.FormatId,
+            };
+
+            var vm = new RamItemViewModel(newRam, this);
+
+            ActiveTab.PlacedRams.Add(vm);
+            ActiveTab.SelectedRam = vm;
+            IsDirty = true;
+        }
+        // カタログが選択されていて、かつタブが開いている時だけ有効
+        private bool CanPlaceRam() => SelectedRamCatalog != null && ActiveTab != null;
+
+        // [編集(E)] - [配置RAMを削除]
+        [RelayCommand(CanExecute = nameof(CanRemove))]
+        private void RemoveRam()
+        {
+            if (ActiveTab?.SelectedRam != null)
+            {
+                ActiveTab.PlacedRams.Remove(ActiveTab.SelectedRam);
+                ActiveTab.SelectedRam = null;
+            }
+        }
+        private bool CanRemove() => ActiveTab?.SelectedRam != null;
+
+        // [編集(E)] - [RAMデータ読込]
         [RelayCommand]
         private void LoadExcel(string path)
         {
@@ -140,78 +253,9 @@ namespace WpfApp1.ViewModels
             }
         }
 
-        // --- 新規 ---
-        [RelayCommand]
-        private async Task NewProject()
-        {
-            if (RequestSaveBeforeContinue != null)
-            {
-                var ok = await RequestSaveBeforeContinue.Invoke();
-                if (!ok) return;
-            }
-
-            EditorTabs.Clear();
-            CurrentFilePath = null;
-
-            AddTabCommand.Execute(null);
-            IsDirty = false;
-        }
-
-        // --- 開く ---
-        [RelayCommand]
-        private async Task OpenFile()
-        {
-            if (RequestSaveBeforeContinue != null)
-            {
-                var ok = await RequestSaveBeforeContinue.Invoke();
-                if (!ok) return;
-            }
-
-            if (RequestOpenFilePath == null) return;
-
-            var path = await RequestOpenFilePath.Invoke();
-            if (string.IsNullOrEmpty(path)) return;
-
-            LoadFromFile(path);
-        }
-
-        // --- 保存 ---
-        [RelayCommand]
-        private async Task SaveFile()
-        {
-            if (string.IsNullOrEmpty(CurrentFilePath))
-            {
-                if (RequestSaveFilePath == null) return;
-
-                var path = await RequestSaveFilePath.Invoke();
-                if (string.IsNullOrEmpty(path)) return;
-
-                CurrentFilePath = path;
-            }
-
-            SaveRequested?.Invoke(CurrentFilePath);
-            IsDirty = false;
-        }
-
-        // --- 名前を付けて保存 ---
-        [RelayCommand]
-        private async Task SaveAsFile()
-        {
-            if (RequestSaveFilePath == null) return;
-
-            var path = await RequestSaveFilePath.Invoke();
-            if (string.IsNullOrEmpty(path)) return;
-
-            CurrentFilePath = path;
-
-            SaveRequested?.Invoke(path);
-            IsDirty = false;
-        }
-
-        
 
 
-        // --- ファイル読み込みロジック ---
+        // 保存データの読み込みロジック
         private void LoadFromFile(string path)
         {
             var service = new JsonEditorService();
@@ -238,49 +282,6 @@ namespace WpfApp1.ViewModels
             ActiveTab = EditorTabs.FirstOrDefault();
             IsDirty = false;
         }
-
-        // ===== タブ =====
-        [RelayCommand]
-        private void Exit()
-        {
-            Application.Current.Shutdown();
-        }
-
-        // --- RAM配置コマンド ---
-        [RelayCommand(CanExecute = nameof(CanPlaceRam))]
-        private void PlaceRam()
-        {
-            if (SelectedRamCatalog == null || ActiveTab == null) return;
-
-            var newRam = new RamLayout
-            {
-                Row = ActiveTab.CurrentRow,
-                Column = ActiveTab.CurrentColumn,
-                Offset = 0,
-                Symbol = SelectedRamCatalog.Symbol,
-                FormatId = SelectedRamCatalog.FormatId,
-            };
-
-            var vm = new RamItemViewModel(newRam, this);
-
-            ActiveTab.PlacedRams.Add(vm);
-            ActiveTab.SelectedRam = vm;
-            IsDirty = true;
-        }
-        // カタログが選択されていて、かつタブが開いている時だけ有効
-        private bool CanPlaceRam() => SelectedRamCatalog != null && ActiveTab != null;
-        
-        // --- RAM削除コマンド ---
-        [RelayCommand(CanExecute = nameof(CanRemove))]
-        private void RemoveRam()
-        {
-            if (ActiveTab?.SelectedRam != null)
-            {
-                ActiveTab.PlacedRams.Remove(ActiveTab.SelectedRam);
-                ActiveTab.SelectedRam = null;
-            }
-        }
-        private bool CanRemove() => ActiveTab?.SelectedRam != null;
 
         public RamCatalog? GetCatalogFromAllSheets(string symbol)
         {

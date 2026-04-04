@@ -35,14 +35,10 @@ namespace WpfApp1.Views
         public MainWindow()
         {
             InitializeComponent();
-            //// ViewModelをセット
-            var vm = new MainViewModel();
-            this.DataContext = vm;
+            this.DataContext = new MainViewModel();
 
             Loaded += (s, e) =>
             {
-                var vm = (MainViewModel)DataContext;
-
                 vm.RequestSaveBeforeContinue += ConfirmSaveIfDirtyAsync;
                 vm.RequestOpenFilePath += ShowOpenDialogAsync;
                 vm.RequestSaveFilePath += ShowSaveDialogAsync;
@@ -52,19 +48,31 @@ namespace WpfApp1.Views
             this.Closing += MainWindow_Closing;
         }
 
-        //protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
-        //{
-        //    base.OnClosing(e);
+        // [編集(E)] - [RAMデータ読込]
+        private void LoadRamData_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*"
+            };
 
-        //    // 以前作成した「変更があれば保存確認する」メソッドを呼び出す
-        //    if (!ConfirmSaveIfDirty())
-        //    {
-        //        // キャンセルされたら、終了自体を取り消す
-        //        e.Cancel = true;
-        //    }
-        //}
+            if (dialog.ShowDialog() == true)
+            {
+                vm.LoadExcelCommand.Execute(dialog.FileName);
+            }
+        }
 
+        // [表示(V)] - [変数一覧]
+        private void ShowRamCatalogPane_Click(object sender, RoutedEventArgs e)
+        {
+            if (RamCatalogPane != null)
+            {
+                RamCatalogPane.IsVisible = true;
+                RamCatalogPane.IsSelected = true;
+            }
+        }
 
+        // [表示(V)] - [表記フォーマット]
         private void ShowFormatPane_Click(object sender, RoutedEventArgs e)
         {
             // AvalonDockの機能で、非表示状態から再表示させます
@@ -75,15 +83,7 @@ namespace WpfApp1.Views
             }
         }
 
-        private void ShowRamCatalogPane_Click(object sender, RoutedEventArgs e)
-        {
-            if (RamCatalogPane != null)
-            {
-                RamCatalogPane.IsVisible = true;
-                RamCatalogPane.IsSelected = true;
-            }
-        }
-        
+        // [表示(V)] - [配置RAMデータ]
         private void ShowRamDatePanePane_Click(object sender, RoutedEventArgs e)
         {
             if (RamDatePane != null)
@@ -93,30 +93,9 @@ namespace WpfApp1.Views
             }
         }
 
-        
-
-        
-
-        // メニューの「RAMデータ読込」クリック
-        private void LoadRamData_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new OpenFileDialog
-            {
-                Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*"
-            };
-
-            if (dialog.ShowDialog() == true)
-            {
-                //var vm = (MainViewModel)this.DataContext;
-                // ViewModelのコマンドを、パスを引数にして実行する
-                vm.LoadExcelCommand.Execute(dialog.FileName);
-            }
-        }
-
+        // 変更ありのとき、保存するか確認し、Yesの場合に保存する処理
         private async Task<bool> ConfirmSaveIfDirtyAsync()
         {
-            var vm = (MainViewModel)DataContext;
-
             if (!vm.IsDirty) return true;
 
             var result = MessageBox.Show(
@@ -126,25 +105,13 @@ namespace WpfApp1.Views
 
             if (result == MessageBoxResult.Yes)
             {
-                return await SaveFileInternal(); // ← Command使わない！
+                return await SaveFileInternal();
             }
 
             return result == MessageBoxResult.No;
         }
 
-        //private bool SaveWithDialog()
-        //{
-        //    if (!string.IsNullOrEmpty(vm.CurrentFilePath))
-        //    {
-        //        vm.SaveFileCommand.Execute(vm.CurrentFilePath);
-        //        return true;
-        //    }
-
-        //    return ShowSaveAsDialog();
-        //}
-
-
-
+        // ファイルを開くダイアログを表示して、選択されたファイルパスを返す
         private Task<string?> ShowOpenDialogAsync()
         {
             var dialog = new OpenFileDialog
@@ -155,6 +122,7 @@ namespace WpfApp1.Views
             return Task.FromResult(dialog.ShowDialog() == true ? dialog.FileName : null);
         }
 
+        // ファイルを保存するダイアログを表示して、選択されたファイルパスを返す
         private Task<string?> ShowSaveDialogAsync()
         {
             var dialog = new SaveFileDialog
@@ -165,10 +133,9 @@ namespace WpfApp1.Views
             return Task.FromResult(dialog.ShowDialog() == true ? dialog.FileName : null);
         }
 
+        // ファイル保存の内部処理。既存のパスがあればそれを使い、なければ保存ダイアログを表示する
         private async Task<bool> SaveFileInternal()
         {
-            var vm = (MainViewModel)DataContext;
-
             if (string.IsNullOrEmpty(vm.CurrentFilePath))
             {
                 var path = await ShowSaveDialogAsync();
@@ -181,8 +148,10 @@ namespace WpfApp1.Views
             return true;
         }
 
-        private void SaveFile(string path)
+        // 実際のファイル保存処理。プロジェクト全体のデータを収集してJSONにシリアライズする
+        private async void SaveFile(string path)
         {
+            await EnsureAllTabsRealized();
             var saveData = new ProjectSaveData();
             var service = new JsonEditorService();
 
@@ -204,14 +173,29 @@ namespace WpfApp1.Views
 
             service.SaveToJson(saveData, path);
 
-            var vm = (MainViewModel)DataContext;
             vm.IsDirty = false;
         }
 
+        private async Task EnsureAllTabsRealized()
+        {
+            var current = vm.ActiveTab;
+
+            foreach (var tab in vm.EditorTabs)
+            {
+                vm.ActiveTab = tab;
+
+                await Dispatcher.BeginInvoke(
+                    new Action(() => { }),
+                    System.Windows.Threading.DispatcherPriority.Background);
+            }
+
+            // 元に戻す
+            vm.ActiveTab = current;
+        }
+
+        // アプリ全体を閉じるときの処理。変更がある場合は保存するか確認する
         private async void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
         {
-            var vm = (MainViewModel)DataContext;
-
             if (!vm.IsDirty) return;
 
             var result = MessageBox.Show(
@@ -236,6 +220,7 @@ namespace WpfApp1.Views
             }
         }
 
+        // 名前を付けて保存の内部処理。必ず保存ダイアログを表示して、選択されたパスに保存する
         private async Task<bool> SaveAsInternal()
         {
             var vm = (MainViewModel)DataContext;
@@ -251,7 +236,7 @@ namespace WpfApp1.Views
             return true;
         }
 
-
+        // タブを閉じるときの処理。変更がある場合は保存するか確認し、OKならタブを閉じる、Cancelなら閉じない
         private void dockingManager_DocumentClosing(object sender, AvalonDock.DocumentClosingEventArgs e)
         {
             // 閉じようとしているタブの ViewModel を取得
@@ -281,6 +266,7 @@ namespace WpfApp1.Views
             }
         }
 
+        // 変数一覧のDataGridで、左クリックしてドラッグを開始したときの処理
         private void RamCatalogList_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed && sender is DataGrid grid)
@@ -308,24 +294,6 @@ namespace WpfApp1.Views
                 }
             }
         }
-
-        //private T? GetVisualChild<T>(DependencyObject parent) where T : DependencyObject
-        //{
-        //    if (parent == null) return null;
-        //    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-        //    {
-        //        var child = VisualTreeHelper.GetChild(parent, i);
-        //        if (child is T t) return t;
-        //        var result = GetVisualChild<T>(child);
-        //        if (result != null) return result;
-        //    }
-        //    return null;
-        //}
-
-
-
-
-
     }
 
 }

@@ -36,25 +36,6 @@ namespace WpfApp1.ViewModels
 
         public EditorData? RestoreData { get; set; }
 
-		//[RelayCommand]
-		//public void AddRam(RamCatalog sourceCatalog)
-		//{
-		//    // 1. Modelを作る（位置はとりあえず0,0など）
-		//    var newModel = new RamLayout
-		//    {
-		//        Symbol = sourceCatalog.Symbol,
-		//        FormatId = sourceCatalog.FormatId
-		//    };
-
-		//    // 2. ViewModelでラップしてリストに追加
-		//    var vm = new RamItemViewModel(newModel, _main);
-		//    PlacedRams.Add(vm);
-
-		//    // 3. 選択状態にする
-		//    SelectedRam = vm;
-		//}
-
-
 		[RelayCommand]
 		private void ApplyColor(string colorIndex)
 		{
