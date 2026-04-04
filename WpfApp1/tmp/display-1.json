@@ -810,9 +810,9 @@
     {
       "Title": "Disp2",
       "Lines": [
-        "TWO=xxxx.x PSW_L(O) = xxx.xkPa Tsw  = xxxx.x                         ｼｽ異[xxx-xx] 確定[xxx-xx|xx](xx)   ",
-        "TWI=xxxx.x PSW_E(I) = xxx.xkPa Ts_c = xxxx.x                         ﾊﾞｯｸｱｯﾌﾟ[b]  検出[xxx-xx|xx](xx)   ",
-        "TCJ=xxxx.x PSW_S(OP)= xxx.xkPa Ts_h = xxxx.x                                      停止[xxx-xx]ｶｳﾝﾄxx    ",
+        "TWO=xxxx.x PSW_L(O) =xxxx.xkPa Tsw  = xxxx.x                         ｼｽ異[xxx-xx] 確定[xxx-xx|xx](xx)   ",
+        "TWI=xxxx.x PSW_E(I) =xxxx.xkPa Ts_c = xxxx.x                         ﾊﾞｯｸｱｯﾌﾟ[b]  検出[xxx-xx|xx](xx)   ",
+        "TCJ=xxxx.x PSW_S(OP)=xxxx.xkPa Ts_h = xxxx.x                                      停止[xxx-xx]ｶｳﾝﾄxx    ",
         "TC1=xxxx.x                                                                        ｼｽ停[xxx-xx|xx]       ",
         "TC2=xxxx.x                                                                        再起=xxxx             ",
         "                                                                                  ｼｽ再=xxxx             ",
@@ -863,7 +863,13 @@
         {
           "Row": 0,
           "Column": 0,
-          "Length": 11,
+          "Length": 3,
+          "ColorIndex": "9"
+        },
+        {
+          "Row": 0,
+          "Column": 3,
+          "Length": 8,
           "ColorIndex": "4"
         },
         {
@@ -875,13 +881,43 @@
         {
           "Row": 0,
           "Column": 16,
-          "Length": 85,
+          "Length": 5,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 0,
+          "Column": 21,
+          "Length": 1,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 0,
+          "Column": 22,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 0,
+          "Column": 31,
+          "Length": 3,
+          "ColorIndex": "1"
+        },
+        {
+          "Row": 0,
+          "Column": 34,
+          "Length": 67,
           "ColorIndex": "4"
         },
         {
           "Row": 1,
           "Column": 0,
-          "Length": 11,
+          "Length": 3,
+          "ColorIndex": "9"
+        },
+        {
+          "Row": 1,
+          "Column": 3,
+          "Length": 8,
           "ColorIndex": "4"
         },
         {
@@ -893,13 +929,43 @@
         {
           "Row": 1,
           "Column": 16,
-          "Length": 86,
+          "Length": 5,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 1,
+          "Column": 21,
+          "Length": 1,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 1,
+          "Column": 22,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 1,
+          "Column": 31,
+          "Length": 4,
+          "ColorIndex": "1"
+        },
+        {
+          "Row": 1,
+          "Column": 35,
+          "Length": 67,
           "ColorIndex": "4"
         },
         {
           "Row": 2,
           "Column": 0,
-          "Length": 11,
+          "Length": 3,
+          "ColorIndex": "9"
+        },
+        {
+          "Row": 2,
+          "Column": 3,
+          "Length": 8,
           "ColorIndex": "4"
         },
         {
@@ -911,19 +977,55 @@
         {
           "Row": 2,
           "Column": 16,
-          "Length": 86,
+          "Length": 5,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 2,
+          "Column": 21,
+          "Length": 1,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 2,
+          "Column": 22,
+          "Length": 9,
+          "ColorIndex": "4"
+        },
+        {
+          "Row": 2,
+          "Column": 31,
+          "Length": 4,
+          "ColorIndex": "1"
+        },
+        {
+          "Row": 2,
+          "Column": 35,
+          "Length": 67,
           "ColorIndex": "4"
         },
         {
           "Row": 3,
           "Column": 0,
-          "Length": 103,
+          "Length": 3,
+          "ColorIndex": "9"
+        },
+        {
+          "Row": 3,
+          "Column": 3,
+          "Length": 100,
           "ColorIndex": "4"
         },
         {
           "Row": 4,
           "Column": 0,
-          "Length": 102,
+          "Length": 3,
+          "ColorIndex": "9"
+        },
+        {
+          "Row": 4,
+          "Column": 3,
+          "Length": 99,
           "ColorIndex": "4"
         },
         {
@@ -1492,6 +1594,90 @@
           "Offset": 0,
           "Symbol": "PUMP_SwrtData.hex_hp_idx",
           "FormatId": "Bin_0bit"
+        },
+        {
+          "Row": 1,
+          "Column": 4,
+          "Offset": 0,
+          "Symbol": "TWIcnv_swrt",
+          "FormatId": "Bin_Table_00"
+        },
+        {
+          "Row": 0,
+          "Column": 4,
+          "Offset": 0,
+          "Symbol": "TWOcnv_swrt",
+          "FormatId": "Bin_Table_00"
+        },
+        {
+          "Row": 3,
+          "Column": 4,
+          "Offset": 0,
+          "Symbol": "TC1cnv_swrt",
+          "FormatId": "Bin_Table_00"
+        },
+        {
+          "Row": 2,
+          "Column": 4,
+          "Offset": 0,
+          "Symbol": "TCJcnv_swrt",
+          "FormatId": "Bin_Table_00"
+        },
+        {
+          "Row": 4,
+          "Column": 4,
+          "Offset": 0,
+          "Symbol": "TC2cnv_swrt",
+          "FormatId": "Bin_Table_00"
+        },
+        {
+          "Row": 2,
+          "Column": 21,
+          "Offset": 0,
+          "Symbol": "PWSchg",
+          "FormatId": "MATH_02"
+        },
+        {
+          "Row": 1,
+          "Column": 21,
+          "Offset": 0,
+          "Symbol": "PWEchg",
+          "FormatId": "MATH_02"
+        },
+        {
+          "Row": 0,
+          "Column": 21,
+          "Offset": 0,
+          "Symbol": "PWLchg",
+          "FormatId": "MATH_02"
+        },
+        {
+          "Row": 45,
+          "Column": 94,
+          "Offset": 0,
+          "Symbol": "RxdSourceCode[1]",
+          "FormatId": "uint_8"
+        },
+        {
+          "Row": 45,
+          "Column": 99,
+          "Offset": 0,
+          "Symbol": "RxdSourceCode[0]",
+          "FormatId": "uint_8"
+        },
+        {
+          "Row": 46,
+          "Column": 94,
+          "Offset": 0,
+          "Symbol": "SWRT_SourceID_H",
+          "FormatId": "uint_8"
+        },
+        {
+          "Row": 46,
+          "Column": 99,
+          "Offset": 0,
+          "Symbol": "SWRT_SourceID_L",
+          "FormatId": "uint_8"
         }
       ]
     }

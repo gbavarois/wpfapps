@@ -32,7 +32,36 @@ namespace WpfApp1.Views
         public EditorView()
         {
             InitializeComponent();
-		}
+            DataContextChanged += OnDataContextChanged;
+        }
+
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is DisplayEditorViewModel vm)
+            {
+                vm.ApplyColorRequested += ApplyColorToSelection;
+            }
+        }
+
+        private void EditorView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext is DisplayEditorViewModel tabVM && tabVM.RestoreData != null)
+            {
+                _isRestoring = true;
+                var service = new JsonEditorService();
+                var data = tabVM.RestoreData;
+
+                this.MainEditor.Document.Blocks.Clear();
+                service.RestoreText(this.MainEditor, data.Lines);
+                service.RestoreColors(this.MainEditor, data.Colors);
+
+                // 復元が終わったらメモリ解放のために消しておく
+                tabVM.RestoreData = null;
+                // 描画が落ち着くまで少し待ってからフラグを下ろす（Dispatcher経由が確実）
+                Dispatcher.BeginInvoke(new Action(() => _isRestoring = false),
+                    System.Windows.Threading.DispatcherPriority.Background);
+            }
+        }
 
         private void MainEditor_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -127,7 +156,21 @@ namespace WpfApp1.Views
                 tabVM.CurrentColumn = columnCount;
             }
         }
-        
+
+        private void MainEditor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_isRestoring) return;
+
+            // ロード中(Undo/Redoなど)の意図しない反応を防ぐため、
+            // ユーザー操作による変更かどうかを判定するならここで行う
+            if (this.DataContext is DisplayEditorViewModel tabVM)
+            {
+                // 親のMainViewModelを探してフラグを立てる
+                var mainVM = System.Windows.Window.GetWindow(this)?.DataContext as MainViewModel;
+                if (mainVM != null) mainVM.IsDirty = true;
+            }
+        }
+
         private int GetWidth(char c)
         {
             // 半角カタカナの範囲 (U+FF61 ～ U+FF9F) は幅1として扱う
@@ -140,11 +183,42 @@ namespace WpfApp1.Views
             return c > 0xFF ? 2 : 1;
         }
 
-        private void SetColor_Click(object sender, RoutedEventArgs e)
+        private void RamCanvas_Drop(object sender, DragEventArgs e)
         {
-            if (sender is MenuItem menuItem && menuItem.Tag is string colorIndex)
+            if (e.Data.GetDataPresent("RamCatalogData"))
             {
-                ApplyColorToSelection(colorIndex);
+                var catalog = e.Data.GetData("RamCatalogData") as RamCatalog;
+                var tabVM = this.DataContext as DisplayEditorViewModel;
+
+                if (catalog != null && tabVM != null)
+                {
+                    // ドロップされた位置（マウス座標）を取得
+                    Point dropPoint = e.GetPosition(sender as IInputElement);
+                    double w = ((PosConverter)FindResource("CharToPosConverter")).Scale;
+                    double h = ((PosConverter)FindResource("LineToPosConverter")).Scale;
+                    // 座標を「行・桁」に変換（PosConverterの逆計算）
+                    // 例: Scale=7.0 なら 座標/7.0
+                    int col = (int)Math.Round(dropPoint.X / w);
+                    int row = (int)Math.Round(dropPoint.Y / h);
+
+                    // 新しい RAM データを生成して追加
+                    var newRam = new RamLayout
+                    {
+                        Symbol = catalog.Symbol,
+                        FormatId = catalog.FormatId,
+                        Row = row,
+                        Column = col
+                    };
+
+                    // MainViewModel のインスタンスを通じて追加（既存の仕組みを利用）
+                    var mainVM = tabVM.Main;
+                    var newItem = new RamItemViewModel(newRam, mainVM);
+                    tabVM.PlacedRams.Add(newItem);
+                    tabVM.SelectedRam = newItem;
+
+                    // 変更フラグを立てる
+                    mainVM.IsDirty = true;
+                }
             }
         }
 
@@ -202,79 +276,6 @@ namespace WpfApp1.Views
             var service = new JsonEditorService();
             var vm = (DisplayEditorViewModel)this.DataContext;
             return service.CreateSaveEditorData(vm.DisplayName, this.MainEditor, vm.PlacedRams.Select(r => r.Model));
-        }
-
-        private void EditorView_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (this.DataContext is DisplayEditorViewModel tabVM && tabVM.RestoreData != null)
-            {
-                _isRestoring = true;
-                var service = new JsonEditorService();
-                var data = tabVM.RestoreData;
-
-                this.MainEditor.Document.Blocks.Clear();
-                service.RestoreText(this.MainEditor, data.Lines);
-                service.RestoreColors(this.MainEditor, data.Colors);
-
-                // 復元が終わったらメモリ解放のために消しておく
-                tabVM.RestoreData = null;
-                // 描画が落ち着くまで少し待ってからフラグを下ろす（Dispatcher経由が確実）
-                Dispatcher.BeginInvoke(new Action(() => _isRestoring = false),
-                    System.Windows.Threading.DispatcherPriority.Background);
-            }
-        }
-
-        private void MainEditor_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (_isRestoring) return;
-
-            // ロード中(Undo/Redoなど)の意図しない反応を防ぐため、
-            // ユーザー操作による変更かどうかを判定するならここで行う
-            if (this.DataContext is DisplayEditorViewModel tabVM)
-            {
-                // 親のMainViewModelを探してフラグを立てる
-                var mainVM = System.Windows.Window.GetWindow(this)?.DataContext as MainViewModel;
-                if (mainVM != null) mainVM.IsDirty = true;
-            }
-        }
-
-        private void RamCanvas_Drop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent("RamCatalogData"))
-            {
-                var catalog = e.Data.GetData("RamCatalogData") as RamCatalog;
-                var tabVM = this.DataContext as DisplayEditorViewModel;
-
-                if (catalog != null && tabVM != null)
-                {
-                    // ドロップされた位置（マウス座標）を取得
-                    Point dropPoint = e.GetPosition(sender as IInputElement);
-                    double w = ((PosConverter)FindResource("CharToPosConverter")).Scale;
-                    double h = ((PosConverter)FindResource("LineToPosConverter")).Scale;
-                    // 座標を「行・桁」に変換（PosConverterの逆計算）
-                    // 例: Scale=7.0 なら 座標/7.0
-                    int col = (int)Math.Round(dropPoint.X / w);
-                    int row = (int)Math.Round(dropPoint.Y / h);
-
-                    // 新しい RAM データを生成して追加
-                    var newRam = new RamLayout
-                    {
-                        Symbol = catalog.Symbol,
-                        FormatId = catalog.FormatId,
-                        Row = row,
-                        Column = col
-                    };
-
-                    // MainViewModel のインスタンスを通じて追加（既存の仕組みを利用）
-                    var mainVM = tabVM.Main;
-                    var newItem = new RamItemViewModel(newRam, mainVM);
-                    tabVM.PlacedRams.Add(newItem);
-                    tabVM.SelectedRam = newItem;
-
-                    // 変更フラグを立てる
-                    mainVM.IsDirty = true;
-                }
-            }
         }
     }
 }

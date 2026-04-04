@@ -255,11 +255,11 @@ namespace WpfApp1.ViewModels
 
 
 
-        // 保存データの読み込みロジック
+        // JSONファイルからのデータ読み込みロジック
         private void LoadFromFile(string path)
         {
             var service = new JsonEditorService();
-            var projectData = service.LoadProjectFromJson(path);
+            var projectData = service.LoadFromJson(path);
 
             CurrentFilePath = path;
             EditorTabs.Clear();
