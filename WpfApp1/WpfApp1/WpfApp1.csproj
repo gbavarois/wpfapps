@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="PosConverter.cs" />
     <Compile Remove="Services\DisplayFileService.cs" />
   </ItemGroup>
 
