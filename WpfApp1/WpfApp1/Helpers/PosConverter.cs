@@ -10,7 +10,7 @@ namespace WpfApp1
 {
     public class PosConverter : IValueConverter
     {
-        public double Scale { get; set; } // 8.4 や 14 を入れる
+        public double Scale { get; set; }
         public object Convert(object v, Type t, object p, CultureInfo c) => (int)v * Scale;
         public object ConvertBack(object v, Type t, object p, CultureInfo c) => throw new NotImplementedException();
     }
