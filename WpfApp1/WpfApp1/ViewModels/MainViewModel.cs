@@ -37,7 +37,7 @@ namespace WpfApp1.ViewModels
 
         // DataGridで選択されたRAMカタログアイテム
         [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(AddRamFromCatalogCommand))]
+        [NotifyCanExecuteChangedFor(nameof(PlaceRamCommand))]
         private RamCatalog? _selectedRamCatalog;
 
         // フォーマットデータのリスト（これもExcelから読み込む）
@@ -59,7 +59,7 @@ namespace WpfApp1.ViewModels
 
         // 現在アクティブなタブ
         [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(AddRamFromCatalogCommand))]
+        [NotifyCanExecuteChangedFor(nameof(PlaceRamCommand))]
         [NotifyCanExecuteChangedFor(nameof(RemoveRamCommand))]
         private DisplayEditorViewModel? _activeTab;
 
@@ -76,15 +76,13 @@ namespace WpfApp1.ViewModels
         public event Func<Task<bool>>? RequestSaveBeforeContinue;
         public event Func<Task<string?>>? RequestOpenFilePath;
         public event Func<Task<string?>>? RequestSaveFilePath;
+        public event Action<string>? SaveRequested;// --- Viewに保存実行させるイベント ---
 
         // タイトルバーに表示する文字列を合成
         public string WindowTitle => $"{(IsDirty ? "* " : "")}{(Path.GetFileName(_currentFilePath) ?? "無題")} - 画面ファイルエディタ";
 
         [ObservableProperty]
         private bool _isDraggingCatalog; // ドラッグ中かどうか
-
-        // データを変更した時に呼ぶ
-        public void MarkAsDirty() => IsDirty = true;
 
         public MainViewModel()
         {
@@ -118,15 +116,6 @@ namespace WpfApp1.ViewModels
             ActiveTab = tab;
         }
 
-        // SelectedPageNameが変更されたときに自動で呼ばれるメソッド
-        partial void OnSelectedPageChanged(string value)
-        {
-            //var data = _ramTableMaster.GetCatalogsByPage(value);
-            //CurrentCatalogs.Clear();
-            //foreach (var item in data) CurrentCatalogs.Add(item);
-            RefreshAllPlacedRams();
-        }
-
         [RelayCommand]
         private void LoadExcel(string path)
         {
@@ -142,13 +131,13 @@ namespace WpfApp1.ViewModels
 
             FormatList = new ObservableCollection<FormatData>(_ramTableMaster.Formats);
 
-            
-            //PageNames = new ObservableCollection<string>(_ramTableMaster.PageNames);
-            //if (PageNames.Count > 0) SelectedPage = PageNames[0];
-
-            // ロードしたFormatDataを表示用リストにセット ---
-            //FormatList = new ObservableCollection<FormatData>(_ramTableMaster.Formats);
-            RefreshAllPlacedRams();
+            foreach (var tab in EditorTabs)
+            {
+                foreach (var ram in tab.PlacedRams)
+                {
+                    ram.RefreshCatalogInfo();
+                }
+            }
         }
 
         // --- 新規 ---
@@ -219,8 +208,8 @@ namespace WpfApp1.ViewModels
             IsDirty = false;
         }
 
-        // --- Viewに保存実行させるイベント ---
-        public event Action<string>? SaveRequested;
+        
+
 
         // --- ファイル読み込みロジック ---
         private void LoadFromFile(string path)
@@ -242,7 +231,7 @@ namespace WpfApp1.ViewModels
                 {
                     tabVM.PlacedRams.Add(new RamItemViewModel(ram, this));
                 }
-
+                tabVM.RestoreData = tabData;
                 EditorTabs.Add(tabVM);
             }
 
@@ -258,8 +247,8 @@ namespace WpfApp1.ViewModels
         }
 
         // --- RAM配置コマンド ---
-        [RelayCommand(CanExecute = nameof(CanAddRam))]
-        private void AddRamFromCatalog()
+        [RelayCommand(CanExecute = nameof(CanPlaceRam))]
+        private void PlaceRam()
         {
             if (SelectedRamCatalog == null || ActiveTab == null) return;
 
@@ -279,7 +268,7 @@ namespace WpfApp1.ViewModels
             IsDirty = true;
         }
         // カタログが選択されていて、かつタブが開いている時だけ有効
-        private bool CanAddRam() => SelectedRamCatalog != null && ActiveTab != null;
+        private bool CanPlaceRam() => SelectedRamCatalog != null && ActiveTab != null;
         
         // --- RAM削除コマンド ---
         [RelayCommand(CanExecute = nameof(CanRemove))]
@@ -292,22 +281,6 @@ namespace WpfApp1.ViewModels
             }
         }
         private bool CanRemove() => ActiveTab?.SelectedRam != null;
-
-        //[RelayCommand]
-        //private void ClearSelection() => ActiveTab.SelectedRam = null;
-
-		
-
-		public void RefreshAllPlacedRams()
-        {
-            foreach (var tab in EditorTabs)
-            {
-                foreach (var ram in tab.PlacedRams)
-                {
-                    ram.RefreshCatalogInfo();
-                }
-            }
-        }
 
         public RamCatalog? GetCatalogFromAllSheets(string symbol)
         {

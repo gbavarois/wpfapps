@@ -34,22 +34,7 @@ namespace WpfApp1.Views
         public EditorView()
         {
             InitializeComponent();
-			DataContextChanged += OnDataContextChanged;
 		}
-
-		private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-		{
-            if (e.NewValue is DisplayEditorViewModel vm)
-            {
-                vm.ApplyColorRequested += ApplyColorToSelection;
-
-                // ★ここ追加（Loadedから移動）
-                if (vm.RestoreData != null)
-                {
-                    Restore(vm);
-                }
-            }
-        }
 
         private void Restore(DisplayEditorViewModel vm)
         {
@@ -239,22 +224,22 @@ namespace WpfApp1.Views
 
         private void EditorView_Loaded(object sender, RoutedEventArgs e)
         {
-            //if (this.DataContext is DisplayEditorViewModel tabVM && tabVM.RestoreData != null)
-            //{
-            //    _isRestoring = true;
-            //    var service = new JsonEditorService();
-            //    var data = tabVM.RestoreData;
+            if (this.DataContext is DisplayEditorViewModel tabVM && tabVM.RestoreData != null)
+            {
+                _isRestoring = true;
+                var service = new JsonEditorService();
+                var data = tabVM.RestoreData;
 
-            //    this.MainEditor.Document.Blocks.Clear();
-            //    service.RestoreText(this.MainEditor, data.Lines);
-            //    service.RestoreColors(this.MainEditor, data.Colors);
+                this.MainEditor.Document.Blocks.Clear();
+                service.RestoreText(this.MainEditor, data.Lines);
+                service.RestoreColors(this.MainEditor, data.Colors);
 
-            //    // 復元が終わったらメモリ解放のために消しておく
-            //    tabVM.RestoreData = null;
-            //    // 描画が落ち着くまで少し待ってからフラグを下ろす（Dispatcher経由が確実）
-            //    Dispatcher.BeginInvoke(new Action(() => _isRestoring = false),
-            //        System.Windows.Threading.DispatcherPriority.Background);
-            //}
+                // 復元が終わったらメモリ解放のために消しておく
+                tabVM.RestoreData = null;
+                // 描画が落ち着くまで少し待ってからフラグを下ろす（Dispatcher経由が確実）
+                Dispatcher.BeginInvoke(new Action(() => _isRestoring = false),
+                    System.Windows.Threading.DispatcherPriority.Background);
+            }
         }
 
         private void MainEditor_TextChanged(object sender, TextChangedEventArgs e)

@@ -12,9 +12,9 @@
 
     <Window.InputBindings>
         <KeyBinding Key="N"      Modifiers="Control"       Command="{Binding NewProjectCommand}" />
-        <KeyBinding Key="O"      Modifiers="Control"       Command="{Binding OpenCommand}" />
-        <KeyBinding Key="S"      Modifiers="Control"       Command="{Binding SaveCommand}" />
-        <KeyBinding Key="S"      Modifiers="Control+Shift" Command="{Binding SaveAsCommand}" />
+        <KeyBinding Key="O"      Modifiers="Control"       Command="{Binding OpenFileCommand}" />
+        <KeyBinding Key="S"      Modifiers="Control"       Command="{Binding SaveFileCommand}" />
+        <KeyBinding Key="S"      Modifiers="Control+Shift" Command="{Binding SaveAsFileCommand}" />
         <!--KeyBinding Key="F4"     Modifiers="Alt"           Command="{Binding ExitCommand}" /-->
         <KeyBinding Key="Insert" Modifiers="Control+Shift" Command="{Binding PlaceRamCommand}" />
         <KeyBinding Key="Delete"                           Command="{Binding RemoveRamCommand}" />
