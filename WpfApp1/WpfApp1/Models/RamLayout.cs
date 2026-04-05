@@ -10,6 +10,7 @@ namespace WpfApp1.Models
     {
         public int Row { get; set; }
         public int Column { get; set; }
+        public string Address { get; set; }
         public int Offset { get; set; }
         public string Symbol { get; set; } = string.Empty;
         public string FormatId { get; set; } = string.Empty;

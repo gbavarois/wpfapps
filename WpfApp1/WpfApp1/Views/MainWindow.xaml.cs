@@ -3,6 +3,8 @@ using ExcelDataReader.Log;
 using Microsoft.Win32;
 using System;
 using System.Globalization;
+using System.IO;
+using System.Reflection;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Windows;
@@ -151,12 +153,11 @@ namespace WpfApp1.Views
         // 実際のファイル保存処理。プロジェクト全体のデータを収集してJSONにシリアライズする
         private async void SaveFile(string path)
         {
-            await EnsureAllTabsRealized();
             var saveData = new ProjectSaveData();
             var service = new JsonEditorService();
+            var display = new DisplayFileService(vm.FormatList);
 
-            var documents = dockingManager.Layout.Descendents()
-                .OfType<AvalonDock.Layout.LayoutDocument>();
+            var documents = dockingManager.Layout.Descendents().OfType<AvalonDock.Layout.LayoutDocument>();
 
             foreach (var doc in documents)
             {
@@ -164,33 +165,21 @@ namespace WpfApp1.Views
                 if (layoutItem?.View is ContentPresenter cp)
                 {
                     var editorView = VisualTreeHelperExtensions.GetVisualChild<EditorView>(cp);
-                    if (editorView != null)
+                    if(editorView != null && editorView.DataContext is DisplayEditorViewModel viewModel)
                     {
-                        saveData.Tabs.Add(editorView.GetEditorData());
+                        viewModel.RestoreData = editorView.GetEditorData();
                     }
                 }
             }
-
-            service.SaveToJson(saveData, path);
-
-            vm.IsDirty = false;
-        }
-
-        private async Task EnsureAllTabsRealized()
-        {
-            var current = vm.ActiveTab;
-
-            foreach (var tab in vm.EditorTabs)
+            foreach (var editorData in vm.EditorTabs)
             {
-                vm.ActiveTab = tab;
-
-                await Dispatcher.BeginInvoke(
-                    new Action(() => { }),
-                    System.Windows.Threading.DispatcherPriority.Background);
+                saveData.Tabs.Add(editorData.RestoreData);
             }
 
-            // 元に戻す
-            vm.ActiveTab = current;
+            service.SaveToJson(saveData, path);
+            display.SaveToDisplayFile(saveData, path.Replace(".json",".DSP"));
+
+            vm.IsDirty = false;
         }
 
         // アプリ全体を閉じるときの処理。変更がある場合は保存するか確認する
@@ -293,6 +282,17 @@ namespace WpfApp1.Views
                     }
                 }
             }
+        }
+
+        private void OnShowVersion(object sender, RoutedEventArgs e)
+        {
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+
+            MessageBox.Show(
+                $"Version: {version.Major}.{version.Minor}.{version.Build}",
+                "バージョン情報",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
         }
     }
 

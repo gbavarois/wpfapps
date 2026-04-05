@@ -105,9 +105,9 @@ namespace WpfApp1.ViewModels
         {
             get
             {
-                if (int.TryParse(Catalog?.Address, out var baseAddr))
-                    return (baseAddr + _model.Offset).ToString();
-                return Catalog?.Address ?? "";
+                var baseAddress = Catalog != null ? Convert.ToInt32(Catalog.Address.Replace("&H", ""), 16) : 0;
+                var computedAddr = baseAddress + _model.Offset;
+                return "&H" + computedAddr.ToString("X3");
             }
         }
 
@@ -144,6 +144,7 @@ namespace WpfApp1.ViewModels
             {
                 Row = this.Row,
                 Column = this.Column,
+                Address = this.ComputedAddress,
                 Offset = this.Offset,
                 Symbol = this.Symbol,
                 FormatId = this.FormatId

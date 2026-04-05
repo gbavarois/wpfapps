@@ -75,6 +75,9 @@
                 <MenuItem Header="表記フォーマット" Click="ShowFormatPane_Click" />
                 <MenuItem Header="配置RAMデータ" Click="ShowRamDatePanePane_Click" />
             </MenuItem>
+            <MenuItem Header="_ヘルプ(H)">
+                <MenuItem Header="_バージョン情報(A)" Click="OnShowVersion"/>
+            </MenuItem>
         </Menu>
 
         <!-- Docking 本体 -->

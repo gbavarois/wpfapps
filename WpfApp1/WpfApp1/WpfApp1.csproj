@@ -6,11 +6,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="PosConverter.cs" />
-    <Compile Remove="Services\DisplayFileService.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -204,10 +204,10 @@ namespace WpfApp1.Views
                     // 新しい RAM データを生成して追加
                     var newRam = new RamLayout
                     {
+                        Row = row,
+                        Column = col,
                         Symbol = catalog.Symbol,
                         FormatId = catalog.FormatId,
-                        Row = row,
-                        Column = col
                     };
 
                     // MainViewModel のインスタンスを通じて追加（既存の仕組みを利用）
@@ -275,7 +275,7 @@ namespace WpfApp1.Views
         {
             var service = new JsonEditorService();
             var vm = (DisplayEditorViewModel)this.DataContext;
-            return service.CreateSaveEditorData(vm.DisplayName, this.MainEditor, vm.PlacedRams.Select(r => r.Model));
+            return service.CreateSaveEditorData(vm.DisplayName, this.MainEditor, vm.PlacedRams.Select(r => r.ToModel()));
         }
     }
 }

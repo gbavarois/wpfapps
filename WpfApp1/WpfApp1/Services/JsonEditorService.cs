@@ -46,6 +46,7 @@ namespace WpfApp1.Services
                 {
                     Row = ram.Row,
                     Column = ram.Column,
+                    Address = ram.Address,
                     Offset = ram.Offset,
                     Symbol = ram.Symbol,
                     FormatId = ram.FormatId
