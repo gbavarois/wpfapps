@@ -79,7 +79,7 @@ namespace WpfApp1.ViewModels
         public event Action<string>? SaveRequested;// --- Viewに保存実行させるイベント ---
 
         // タイトルバーに表示する文字列を合成
-        public string WindowTitle => $"{(IsDirty ? "* " : "")}{(Path.GetFileName(_currentFilePath) ?? "無題")} - 画面ファイルエディタ";
+        public string WindowTitle => $"{(IsDirty ? "* " : "")}{(Path.GetFileName(_currentFilePath) ?? "無題")} - DSPファイルエディタ";
 
         [ObservableProperty]
         private bool _isDraggingCatalog; // ドラッグ中かどうか
