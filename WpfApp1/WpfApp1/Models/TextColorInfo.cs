@@ -11,6 +11,8 @@ namespace WpfApp1.Models
         public int Row { get; set; }
         public int Column { get; set; }
         public int Length { get; set; }
-        public string ColorIndex { get; set; }
+		public int ColumnB { get; set; }
+		public int LengthB { get; set; }
+		public string ColorIndex { get; set; }
     }
 }

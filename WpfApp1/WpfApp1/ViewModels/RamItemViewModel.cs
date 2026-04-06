@@ -72,7 +72,8 @@ namespace WpfApp1.ViewModels
                     OnPropertyChanged();
                     // FormatIdが変わると、以下のプロパティの結果も変わるため通知する
                     OnPropertyChanged(nameof(Format));
-                    OnPropertyChanged(nameof(Length));
+					OnPropertyChanged(nameof(FormatCode));
+					OnPropertyChanged(nameof(Length));
                     OnPropertyChanged(nameof(Placeholder));
                     OnPropertyChanged(nameof(IsValid));
 					OnPropertyChanged(nameof(IsVertical));
@@ -121,7 +122,8 @@ namespace WpfApp1.ViewModels
             OnPropertyChanged(nameof(Data));
             OnPropertyChanged(nameof(ComputedAddress));
             OnPropertyChanged(nameof(Format));
-            OnPropertyChanged(nameof(Placeholder));
+			OnPropertyChanged(nameof(FormatCode));
+			OnPropertyChanged(nameof(Placeholder));
             OnPropertyChanged(nameof(IsValid));
             OnPropertyChanged(nameof(Length));
 			OnPropertyChanged(nameof(VisualWidth));

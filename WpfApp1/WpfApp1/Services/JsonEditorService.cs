@@ -20,38 +20,18 @@ namespace WpfApp1.Services
         // 保存データ生成（RichText → DTO）
         public EditorData CreateSaveEditorData(string title, RichTextBox rtb, IEnumerable<RamLayout> ramList)
         {
-            var data = new EditorData();
+            var data = new EditorData { Title = title };
 
-            // --- タイトル ---
-            data.Title = title;
-
-            // --- テキスト保存（行単位） ---
-            foreach (var block in rtb.Document.Blocks)
+            // --- RichTextBoxの内容をXAML文字列として取得 ---
+            var range = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+            using (var ms = new MemoryStream())
             {
-                if (block is Paragraph para)
-                {
-                    var text = new TextRange(para.ContentStart, para.ContentEnd).Text;
-                    text = text.Replace("\r", "").Replace("\n", "");    // 改行コード除去
-                    data.Lines.Add(text);
-                }
+                range.Save(ms, DataFormats.Xaml);
+                data.XamlContent = Encoding.UTF8.GetString(ms.ToArray());
             }
 
-            // --- 色情報 ---
-            data.Colors = ExtractColorInfo(rtb);
-
-            // --- RAMデータ ---
-            foreach (var ram in ramList)
-            {
-                data.Rams.Add(new RamLayout
-                {
-                    Row = ram.Row,
-                    Column = ram.Column,
-                    Address = ram.Address,
-                    Offset = ram.Offset,
-                    Symbol = ram.Symbol,
-                    FormatId = ram.FormatId
-                });
-            }
+            // --- RAMデータ（そのまま） ---
+            data.Rams.AddRange(ramList);
 
             return data;
         }
@@ -125,16 +105,20 @@ namespace WpfApp1.Services
         }
 
         // 内部：色情報抽出
-        private List<TextColorInfo> ExtractColorInfo(RichTextBox rtb)
+        public List<TextColorInfo> ExtractColorInfo(FlowDocument doc)
         {
             var result = new List<TextColorInfo>();
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            var sjis = Encoding.GetEncoding("Shift-JIS");
 
             int row = 0;
-            foreach (var block in rtb.Document.Blocks)
+            foreach (var block in doc.Blocks)
             {
                 if (block is not Paragraph para) continue;
 
-                int col = 0;
+                int col = 0;   // 文字数カウント
+                int colB = 0;  // 半角換算カウント
+
                 foreach (var inline in para.Inlines)
                 {
                     if (inline is Run run)
@@ -142,20 +126,25 @@ namespace WpfApp1.Services
                         string text = run.Text ?? "";
                         if (string.IsNullOrEmpty(text)) continue;
 
+                        int byteLength = sjis.GetByteCount(text);
                         string colorIndex = ColorHelper.GetColorIndex(run.Foreground);
+
                         result.Add(new TextColorInfo
                         {
                             Row = row,
                             Column = col,
                             Length = text.Length,
+                            ColumnB = colB,      // 半角単位の桁位置
+                            LengthB = byteLength, // 半角単位の長さ
                             ColorIndex = colorIndex
                         });
+
                         col += text.Length;
+                        colB += byteLength;
                     }
                 }
                 row++;
             }
-
             return result;
         }
 

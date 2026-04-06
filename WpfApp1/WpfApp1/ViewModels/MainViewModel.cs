@@ -169,11 +169,11 @@ namespace WpfApp1.ViewModels
         private void AddTab()
         {
             // 1. 候補となる文字のリストを定義（1～9, A～F）
-            string candidates = "0123456789ABCDEF";
+            string candidates = "123456789ABCDEF";
 
             // 2. 現在のタブ名から、使われている末尾の文字を抽出
             // 例: "Disp1" -> "1"
-            var usedIds = EditorTabs.Select(t => t.DisplayName.Replace("Disp", "")).ToList();
+            var usedIds = EditorTabs.Select(t => t.DisplayName.Replace("Display", "")).ToList();
 
             // 3. 候補の中で、使われていない最初の文字を探す
             // FirstOrDefault で「条件に合う最初のもの」を取得
@@ -185,7 +185,7 @@ namespace WpfApp1.ViewModels
             // 5. 新規タブ作成
             var tab = new DisplayEditorViewModel(this)
             {
-                DisplayName = $"Disp{nextId}"
+                DisplayName = $"Display{nextId}"
             };
 
             EditorTabs.Add(tab);

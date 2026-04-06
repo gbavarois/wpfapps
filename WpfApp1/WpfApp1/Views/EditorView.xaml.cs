@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,16 +49,22 @@ namespace WpfApp1.Views
             if (this.DataContext is DisplayEditorViewModel tabVM && tabVM.RestoreData != null)
             {
                 _isRestoring = true;
-                var service = new JsonEditorService();
                 var data = tabVM.RestoreData;
 
-                this.MainEditor.Document.Blocks.Clear();
-                service.RestoreText(this.MainEditor, data.Lines);
-                service.RestoreColors(this.MainEditor, data.Colors);
+                // --- XAML文字列からリッチテキストを丸ごと復元 ---
+                if (!string.IsNullOrEmpty(data.XamlContent))
+                {
+                    var range = new TextRange(this.MainEditor.Document.ContentStart, this.MainEditor.Document.ContentEnd);
+                    using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(data.XamlContent)))
+                    {
+                        range.Load(ms, DataFormats.Xaml);
+                    }
+                }
 
                 // 復元が終わったらメモリ解放のために消しておく
                 tabVM.RestoreData = null;
-                // 描画が落ち着くまで少し待ってからフラグを下ろす（Dispatcher経由が確実）
+
+                // 描画が落ち着くまで少し待ってからフラグを下ろす
                 Dispatcher.BeginInvoke(new Action(() => _isRestoring = false),
                     System.Windows.Threading.DispatcherPriority.Background);
             }

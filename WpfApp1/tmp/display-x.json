@@ -1,1480 +1,301 @@
 {
   "Tabs": [
     {
-      "Title": "Disp0",
-      "Lines": [
-        "TWO=xxxx.x PSW_L(O) = xxx.xkPa Tsw  = xxxx.x                         ºΩàŸ[xxx-xx] ämíË[xxx-xx|xx](xx)   ",
-        "TWI=xxxx.x PSW_E(I) = xxx.xkPa Ts_c = xxxx.x                          ﬁØ∏±ØÃﬂ[b]  åüèo[xxx-xx|xx](xx)   ",
-        "TCJ=xxxx.x PSW_S(OP)= xxx.xkPa Ts_h = xxxx.x                                      í‚é~[xxx-xx]∂≥›ƒxx    ",
-        "TC1=xxxx.x                                                                        ºΩí‚[xxx-xx|xx]       ",
-        "TC2=xxxx.x                                                                        çƒãN=xxxx             ",
-        "                                                                                  ºΩçƒ=xxxx             ",
-        "[ã@éÌxx][UnitHP:xxxx][êÖîMåHP:xxxx.x]    ó¨ëÃ[x,x,x]                                                   ",
-        "í‚é~í‚é~[í èÌ][xxxxx][ª∞”:x]              É¢Pfffff.ff                <ODU info>                         ",
-        "Rn   : xxxxxx  Wc:xxx.xx     ñ⁄ïWHz xx.xx ï‚Lfffff.ff                COMP:x                             ",
-        "MaxRn: xxxxxx  Wh:xxx.xx     bPump1 xx.xx ï‚Efffff.ff                DEF :x                             ",
-        "dRn  : xxxxxx  Qn:xxx.xx     bPump2 xx.xx L/mfffff.ff                                                   ",
-        "GA   : xxxxxx                        ñ⁄ïWó¨ó fffff.ff                                                   ",
-        "dTc  : xxxxxx                FLo  Bfffff.ff Cfffff.ff                                                   ",
-        "dE   : xxxxxx                Éø1  Bfffff.ff Cfffff.ff                                                   ",
-        "dRn_T:   xxxx                Éø2  Bfffff.ff Cfffff.ff                                                   ",
-        "KeepT:   xxxx                FL   Bfffff.ff Cfffff.ff                                                   ",
-        "Ini_T:   xxxx                Ñ• Minfffff.ff Sys CAPA                                                    ",
-        "                             Ñ§ Maxfffff.ff  fffff.ff                                                   ",
-        "       PMVL1 PMVL2                                                                                      ",
-        "ñ⁄ïW  XxxxxxXxxxxx                                                                                      ",
-        "  é¿  XxxxxxXxxxxx                                                                                      ",
-        "                                                                                        ’∆Qc xxxxxxx    ",
-        "                                                                                        ºΩQc xxxxxxx    ",
-        "                                                                                        EER     xxxx    ",
-        "                                                                                        Vdisp xxxxxx    ",
-        "                                                                                                        ",
-        "                                                                                                        ",
-        "                                   Fc` =xxxxxx Fc =xxxxxx ï‚c =xxxxxx î\ó‚[HH.H.M.L][xxxx%]             ",
-        "                                   Fh` =xxxxxx Fh =xxxxxx ï‚h =xxxxxx î\íg[HH.H.M.L][xxxx%]             ",
-        "                                   DFx%xxxxxx% FSGrêîxxxx ëùå∏[xxxxxx]                                  ",
-        "                                                                                                        ",
-        "                                                                                       ëIë”∞ƒﬁ[xxxx]   ",
-        "                                                                                       √ﬁœ›ƒﬁxx=xxxx%   ",
-        "                                                                                           ç~ê·Ãß› =b   ",
-        "                                                                                           ñÈä‘í·ëõ=b   ",
-        "                                                                                                        ",
-        "                                                                                                        ",
-        "                                             SW04x SW101 102  103  104  105  106                        ",
-        "                                             SW05x  xxxx xxxx xxxx xxxx xxxx xx                         ",
-        "                                             SW06x CN30x  DN03 xx DN82 xx DN** xx DN** xx DN** xx       ",
-        "                                                   CN31x  DN** xx DN** xx DN** xx DN** xx DN** xx       ",
-        "                                                   CN32x  DN** xx DN** xx DN** xx DN** xx DN** xx       ",
-        "                                                   [xx][xx][xx][xxxxx] é∫äO é∫ì‡   ºΩ√—Maxóeó  xxxxxx   ",
-        "                                              ãNìÆå„xxxxéûxxxxï™xxxxïb  xx xx.xxHP ’∆ØƒMaxóeó  xxxxxx   ",
-        "                                                         s=b I=xx 0=xx   x    xxë‰       sub-rxErr[xxxx]",
-        "’∆ìdxxxxxxxx ºΩìdxxxxxxxx êœéZxxxxxxxx êœëçxxxxxxxx xx                               soft-sub[xxxx-xxxx]",
-        "                                                                                    soft-main[xxxx-xxxx]",
-        ""
-      ],
-      "Colors": [
-        {
-          "Row": 0,
-          "Column": 0,
-          "Length": 11,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 0,
-          "Column": 11,
-          "Length": 5,
-          "ColorIndex": "2"
-        },
-        {
-          "Row": 0,
-          "Column": 16,
-          "Length": 85,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 1,
-          "Column": 0,
-          "Length": 11,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 1,
-          "Column": 11,
-          "Length": 5,
-          "ColorIndex": "2"
-        },
-        {
-          "Row": 1,
-          "Column": 16,
-          "Length": 86,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 2,
-          "Column": 0,
-          "Length": 11,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 2,
-          "Column": 11,
-          "Length": 5,
-          "ColorIndex": "2"
-        },
-        {
-          "Row": 2,
-          "Column": 16,
-          "Length": 86,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 3,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 4,
-          "Column": 0,
-          "Length": 102,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 5,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 6,
-          "Column": 0,
-          "Length": 97,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 7,
-          "Column": 0,
-          "Length": 36,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 7,
-          "Column": 36,
-          "Length": 2,
-          "ColorIndex": "5"
-        },
-        {
-          "Row": 7,
-          "Column": 38,
-          "Length": 59,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 8,
-          "Column": 0,
-          "Length": 101,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 9,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 10,
-          "Column": 0,
-          "Length": 42,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 10,
-          "Column": 42,
-          "Length": 3,
-          "ColorIndex": "6"
-        },
-        {
-          "Row": 10,
-          "Column": 45,
-          "Length": 59,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 11,
-          "Column": 0,
-          "Length": 37,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 11,
-          "Column": 37,
-          "Length": 4,
-          "ColorIndex": "6"
-        },
-        {
-          "Row": 11,
-          "Column": 41,
-          "Length": 59,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 12,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 13,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 14,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 15,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 16,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 17,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 18,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 19,
-          "Column": 0,
-          "Length": 102,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 20,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 21,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 22,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 23,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 24,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 25,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 26,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 27,
-          "Column": 0,
-          "Length": 101,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 28,
-          "Column": 0,
-          "Length": 101,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 29,
-          "Column": 0,
-          "Length": 101,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 30,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 31,
-          "Column": 0,
-          "Length": 102,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 32,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 33,
-          "Column": 0,
-          "Length": 102,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 34,
-          "Column": 0,
-          "Length": 100,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 35,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 36,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 37,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 38,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 39,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 40,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 41,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 42,
-          "Column": 0,
-          "Length": 98,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 43,
-          "Column": 0,
-          "Length": 96,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 44,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 45,
-          "Column": 0,
-          "Length": 98,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 46,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        }
-      ],
+      "Title": "Display1",
+      "XamlContent": "<Section xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\" TextAlignment=\"Left\" LineHeight=\"Auto\" IsHyphenationEnabled=\"False\" xml:lang=\"en-us\" FlowDirection=\"LeftToRight\" NumberSubstitution.CultureSource=\"Text\" NumberSubstitution.Substitution=\"AsCulture\" FontFamily=\"MS Gothic\" FontStyle=\"Normal\" FontWeight=\"Normal\" FontStretch=\"Normal\" FontSize=\"14\" Foreground=\"#FF000000\" Typography.StandardLigatures=\"True\" Typography.ContextualLigatures=\"True\" Typography.DiscretionaryLigatures=\"False\" Typography.HistoricalLigatures=\"False\" Typography.AnnotationAlternates=\"0\" Typography.ContextualAlternates=\"True\" Typography.HistoricalForms=\"False\" Typography.Kerning=\"True\" Typography.CapitalSpacing=\"False\" Typography.CaseSensitiveForms=\"False\" Typography.StylisticSet1=\"False\" Typography.StylisticSet2=\"False\" Typography.StylisticSet3=\"False\" Typography.StylisticSet4=\"False\" Typography.StylisticSet5=\"False\" Typography.StylisticSet6=\"False\" Typography.StylisticSet7=\"False\" Typography.StylisticSet8=\"False\" Typography.StylisticSet9=\"False\" Typography.StylisticSet10=\"False\" Typography.StylisticSet11=\"False\" Typography.StylisticSet12=\"False\" Typography.StylisticSet13=\"False\" Typography.StylisticSet14=\"False\" Typography.StylisticSet15=\"False\" Typography.StylisticSet16=\"False\" Typography.StylisticSet17=\"False\" Typography.StylisticSet18=\"False\" Typography.StylisticSet19=\"False\" Typography.StylisticSet20=\"False\" Typography.Fraction=\"Normal\" Typography.SlashedZero=\"False\" Typography.MathematicalGreek=\"False\" Typography.EastAsianExpertForms=\"False\" Typography.Variants=\"Normal\" Typography.Capitals=\"Normal\" Typography.NumeralStyle=\"Normal\" Typography.NumeralAlignment=\"Normal\" Typography.EastAsianWidths=\"Normal\" Typography.EastAsianLanguage=\"Normal\" Typography.StandardSwashes=\"0\" Typography.ContextualSwashes=\"0\" Typography.StylisticAlternates=\"0\"><Paragraph LineHeight=\"14\"><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">TWO</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">=xxxx.x </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">PSW_L(O) =</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xxx.xkPa </Run><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">Tsw  =</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xxxx.x  </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">4WV=</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">x                  ºΩàŸ[xxx-xx] ämíË[xxx-xx|xx](xx)   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">TWI</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">=xxxx.x </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">PSW_E(I) =</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xxx.xkPa </Run><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">Ts_c =</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xxxx.x                          ﬁØ∏±ØÃﬂ[b]  åüèo[xxx-xx|xx](xx)   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">TCJ</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">=xxxx.x </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">PSW_S(OP)=</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xxx.xkPa </Run><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">Ts_h =</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xxxx.x                                      í‚é~[xxx-xx]∂≥›ƒxx    </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">TC1</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">=xxxx.x                                                                        ºΩí‚[xxx-xx|xx]       </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">TC2</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">=xxxx.x                                                                        çƒãN=xxxx             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                  ºΩçƒ=xxxx             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">[ã@éÌxx][UnitHP:xxxx][êÖîMåHP:xxxx.x]    ó¨ëÃ[x,x,x]                                                   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">í‚é~í‚é~[í èÌ][xxxxx][ª∞”:x][Sx]          É¢Pfffff.ff                </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">&lt;ODU info&gt;</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                         </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">Rn   : xxxxxx  Wc:xxx.xx     ñ⁄ïWHz xx.xx ï‚Lfffff.ff                </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">COMP:</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">x                             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">MaxRn: xxxxxx  Wh:xxx.xx     bPump1 xx.xx ï‚Efffff.ff                </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">DEF :</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">x                             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">dRn  : xxxxxx  Qn:xxx.xx     bPump2 xx.xx L/mfffff.ff                </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">DHP :</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">x                             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">GA   : xxxxxx                        ñ⁄ïWó¨ó fffff.ff                                                   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">dTc  : xxxxxx                FLo  Bfffff.ff Cfffff.ff                                                   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">dE   : xxxxxx                Éø1  Bfffff.ff Cfffff.ff                                                   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">dRn_T:   xxxx                Éø2  Bfffff.ff Cfffff.ff                                                   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">KeepT:   xxxx                FL   Bfffff.ff Cfffff.ff                                                   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">Ini_T:   xxxx                Ñ• Minfffff.ff Sys CAPA                                                    </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                             Ñ§ Maxfffff.ff  fffff.ff                                                   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">       </Run><Run Foreground=\"#FFFF8000\" Background=\"#FF000000\">PMVL1 PMVL2</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                      </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FFFF8000\" Background=\"#FF000000\">ñ⁄ïW</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">  XxxxxxXxxxxx                                                                                      </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">  </Run><Run Foreground=\"#FFFF8000\" Background=\"#FF000000\">é¿</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">  XxxxxxXxxxxx                                                                                      </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                        ’∆Qc xxxxxxx    </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                        ºΩQc xxxxxxx    </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                        EER     xxxx    </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                        Vdisp xxxxxx    </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                                        </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                                        </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                   Fc` =xxxxxx Fc =xxxxxx ï‚c =xxxxxx î\ó‚[HH.H.M.L][xxxx%]             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                   Fh` =xxxxxx Fh =xxxxxx ï‚h =xxxxxx î\íg[HH.H.M.L][xxxx%]             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                   DFx%xxxxxx% FSGrêîxxxx ëùå∏[xxxxxx]                                  </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                                        </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                       ëIë”∞ƒﬁ[xxxx]   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                       √ﬁœ›ƒﬁxx=xxxx%   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                           ç~ê·Ãß› =b   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                           ñÈä‘í·ëõ=b   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                                        </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                                        </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                             SW04x SW101 102  103  104  105  106         </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">MyAdr:0x</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xxxx   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                             SW05x  xxxx xxxx xxxx xxxx xxxx xx                         </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                             SW06x CN30x  </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN03</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN82</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx       </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                   CN31x  </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx       </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                   CN32x  </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx       </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                   </Run><Run Foreground=\"#FF4040FF\" Background=\"#FF000000\">[</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xx</Run><Run Foreground=\"#FF4040FF\" Background=\"#FF000000\">][</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xx</Run><Run Foreground=\"#FF4040FF\" Background=\"#FF000000\">][</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xx</Run><Run Foreground=\"#FF4040FF\" Background=\"#FF000000\">][</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xxxxx</Run><Run Foreground=\"#FF4040FF\" Background=\"#FF000000\">]</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> é∫äO é∫ì‡   ºΩ√—Maxóeó  xxxxxx   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                              ãNìÆå„xxxxéûxxxxï™xxxxïb  xx xx.xxHP ’∆ØƒMaxóeó  xxxxxx   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                         </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">s=</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">b </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">I=</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xx </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FFFF4040\" Background=\"#FF000000\">O</Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">=</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xx   x    xxë‰       </Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">sub-rxErr[</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xxxx</Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">]</Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">’∆ìdxxxxxxxx ºΩìdxxxxxxxx êœéZxxxxxxxx êœëçxxxxxxxx xx                               </Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">soft-sub[</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xxxx</Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">-</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xxxx</Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">]</Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                    </Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">soft-main[</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xxxx</Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">-</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xxxx</Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">]</Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                                        </Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                   Verx.xxx[HH:MM:SS.00]</Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"></Run></Paragraph></Section>",
       "Rams": [
         {
-          "Row": 1,
-          "Column": 4,
-          "Offset": 0,
-          "Symbol": "TWIcnv_swrt",
-          "FormatId": "Bin_Table_00"
-        },
-        {
           "Row": 0,
           "Column": 4,
+          "Address": "&H002",
           "Offset": 0,
           "Symbol": "TWOcnv_swrt",
           "FormatId": "Bin_Table_00"
         },
         {
-          "Row": 2,
-          "Column": 21,
-          "Offset": 0,
-          "Symbol": "PWSchg",
-          "FormatId": "Bin_Table_00"
-        },
-        {
           "Row": 1,
-          "Column": 21,
+          "Column": 4,
+          "Address": "&H000",
           "Offset": 0,
-          "Symbol": "PWEchg",
+          "Symbol": "TWIcnv_swrt",
           "FormatId": "Bin_Table_00"
         },
         {
-          "Row": 0,
-          "Column": 21,
+          "Row": 2,
+          "Column": 4,
+          "Address": "&H006",
           "Offset": 0,
-          "Symbol": "PWEchg",
+          "Symbol": "TCJcnv_swrt",
           "FormatId": "Bin_Table_00"
-        },
-        {
-          "Row": 11,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.FL_target",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 10,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.FL_current",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 7,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.deltaP",
-          "FormatId": "F32"
-        }
-      ]
-    },
-    {
-      "Title": "Disp1",
-      "Lines": [
-        "01234567890         01234567890         ",
-        "                                        ",
-        " 12345678901         12345678901        ",
-        "                                        ",
-        "  23456789012         23456789012       ",
-        "                                        ",
-        "   34567890123         34567890123      ",
-        "                                        ",
-        "    45678901234         45678901234     ",
-        "                                        ",
-        "     56789012345         56789012345    ",
-        "                                        ",
-        "      67890123456         67890123456   ",
-        "                                        ",
-        "       78901234567         78901234567  ",
-        "                                        ",
-        "        89012345678         89012345678 ",
-        "                                        ",
-        "         90123456789         90123456789",
-        ""
-      ],
-      "Colors": [
-        {
-          "Row": 0,
-          "Column": 0,
-          "Length": 20,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 0,
-          "Column": 20,
-          "Length": 11,
-          "ColorIndex": "0"
-        },
-        {
-          "Row": 0,
-          "Column": 31,
-          "Length": 9,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 1,
-          "Column": 0,
-          "Length": 40,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 2,
-          "Column": 0,
-          "Length": 1,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 2,
-          "Column": 1,
-          "Length": 11,
-          "ColorIndex": "1"
-        },
-        {
-          "Row": 2,
-          "Column": 12,
-          "Length": 9,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 2,
-          "Column": 21,
-          "Length": 11,
-          "ColorIndex": "1"
-        },
-        {
-          "Row": 2,
-          "Column": 32,
-          "Length": 8,
-          "ColorIndex": "4"
         },
         {
           "Row": 3,
-          "Column": 0,
-          "Length": 40,
-          "ColorIndex": "4"
+          "Column": 4,
+          "Address": "&H004",
+          "Offset": 0,
+          "Symbol": "TC1cnv_swrt",
+          "FormatId": "Bin_Table_00"
         },
         {
           "Row": 4,
-          "Column": 0,
-          "Length": 2,
-          "ColorIndex": "4"
+          "Column": 4,
+          "Address": "&H008",
+          "Offset": 0,
+          "Symbol": "TC2cnv_swrt",
+          "FormatId": "Bin_Table_00"
         },
         {
-          "Row": 4,
-          "Column": 2,
-          "Length": 11,
-          "ColorIndex": "2"
+          "Row": 0,
+          "Column": 21,
+          "Address": "&H012",
+          "Offset": 0,
+          "Symbol": "PWLchg",
+          "FormatId": "MATH_02"
         },
         {
-          "Row": 4,
-          "Column": 13,
-          "Length": 9,
-          "ColorIndex": "4"
+          "Row": 1,
+          "Column": 21,
+          "Address": "&H00E",
+          "Offset": 0,
+          "Symbol": "PWEchg",
+          "FormatId": "MATH_02"
         },
         {
-          "Row": 4,
-          "Column": 22,
-          "Length": 11,
-          "ColorIndex": "2"
+          "Row": 2,
+          "Column": 21,
+          "Address": "&H00A",
+          "Offset": 0,
+          "Symbol": "PWSchg",
+          "FormatId": "MATH_02"
         },
         {
-          "Row": 4,
-          "Column": 33,
-          "Length": 7,
-          "ColorIndex": "4"
+          "Row": 0,
+          "Column": 37,
+          "Address": "&H03E",
+          "Offset": 0,
+          "Symbol": "Hydro.Tsw_x10",
+          "FormatId": "MATH_03"
         },
         {
-          "Row": 5,
-          "Column": 0,
-          "Length": 40,
-          "ColorIndex": "4"
+          "Row": 1,
+          "Column": 37,
+          "Address": "&H036",
+          "Offset": 0,
+          "Symbol": "Hydro.MinTs_x10",
+          "FormatId": "MATH_03"
+        },
+        {
+          "Row": 2,
+          "Column": 37,
+          "Address": "&H03A",
+          "Offset": 0,
+          "Symbol": "Hydro.MaxTs_x10",
+          "FormatId": "MATH_03"
+        },
+        {
+          "Row": 0,
+          "Column": 50,
+          "Address": "&H218",
+          "Offset": 0,
+          "Symbol": "do_set1_swrt",
+          "FormatId": "Bin_Table_10"
         },
         {
           "Row": 6,
-          "Column": 0,
-          "Length": 3,
-          "ColorIndex": "4"
+          "Column": 5,
+          "Address": "&H028",
+          "Offset": 0,
+          "Symbol": "E2DN_ModelSelect003",
+          "FormatId": "Hex_8bit"
         },
         {
           "Row": 6,
-          "Column": 3,
-          "Length": 11,
-          "ColorIndex": "3"
+          "Column": 16,
+          "Address": "&H02A",
+          "Offset": 0,
+          "Symbol": "SWRT_UnitHP",
+          "FormatId": "uint_8"
         },
         {
           "Row": 6,
-          "Column": 14,
-          "Length": 9,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 6,
-          "Column": 23,
-          "Length": 11,
-          "ColorIndex": "3"
-        },
-        {
-          "Row": 6,
-          "Column": 34,
-          "Length": 6,
-          "ColorIndex": "4"
+          "Column": 31,
+          "Address": "&H02E",
+          "Offset": 0,
+          "Symbol": "Hydro.CircHP_x10",
+          "FormatId": "MATH_02"
         },
         {
           "Row": 7,
-          "Column": 0,
-          "Length": 40,
-          "ColorIndex": "4"
+          "Column": 26,
+          "Address": "&H02C",
+          "Offset": 0,
+          "Symbol": "HydroDriveFLG1_swrt",
+          "FormatId": "Bin_Table_10"
+        },
+        {
+          "Row": 7,
+          "Column": 30,
+          "Address": "&H0C8",
+          "Offset": 0,
+          "Symbol": "Hydro_capa.Scode",
+          "FormatId": "Hex_4bit"
+        },
+        {
+          "Row": 7,
+          "Column": 4,
+          "Address": "&H026",
+          "Offset": 0,
+          "Symbol": "DriveMode.uc",
+          "FormatId": "Bin_Table_23"
+        },
+        {
+          "Row": 7,
+          "Column": 15,
+          "Address": "&H0F1",
+          "Offset": 1,
+          "Symbol": "SWRT_SourceID_H",
+          "FormatId": "Bin_Table_27"
         },
         {
           "Row": 8,
-          "Column": 0,
-          "Length": 40,
-          "ColorIndex": "4"
+          "Column": 7,
+          "Address": "&H0CC",
+          "Offset": 0,
+          "Symbol": "Hydro_capa.Rn_x100",
+          "FormatId": "MATH_00"
         },
         {
           "Row": 9,
-          "Column": 0,
-          "Length": 40,
-          "ColorIndex": "4"
+          "Column": 7,
+          "Address": "&H0D0",
+          "Offset": 0,
+          "Symbol": "Hydro_capa.SWRT_MaxRn",
+          "FormatId": "MATH_00"
         },
         {
           "Row": 10,
-          "Column": 0,
-          "Length": 5,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 10,
-          "Column": 5,
-          "Length": 11,
-          "ColorIndex": "5"
-        },
-        {
-          "Row": 10,
-          "Column": 16,
-          "Length": 9,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 10,
-          "Column": 25,
-          "Length": 11,
-          "ColorIndex": "5"
-        },
-        {
-          "Row": 10,
-          "Column": 36,
-          "Length": 4,
-          "ColorIndex": "4"
+          "Column": 7,
+          "Address": "&H0D4",
+          "Offset": 0,
+          "Symbol": "Hydro_capa.SWRT_Delta_Rn_x100",
+          "FormatId": "MATH_04"
         },
         {
           "Row": 11,
-          "Column": 0,
-          "Length": 40,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 12,
-          "Column": 0,
-          "Length": 6,
-          "ColorIndex": "4"
+          "Column": 7,
+          "Address": "&H0D8",
+          "Offset": 0,
+          "Symbol": "Hydro_capa.SWRT_GA_x100",
+          "FormatId": "MATH_04"
         },
         {
           "Row": 12,
           "Column": 6,
-          "Length": 11,
-          "ColorIndex": "6"
-        },
-        {
-          "Row": 12,
-          "Column": 17,
-          "Length": 9,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 12,
-          "Column": 26,
-          "Length": 11,
-          "ColorIndex": "6"
-        },
-        {
-          "Row": 12,
-          "Column": 37,
-          "Length": 3,
-          "ColorIndex": "4"
+          "Address": "&H0DC",
+          "Offset": 0,
+          "Symbol": "Hydro_capa.SWRT_Delta_Tc_x10",
+          "FormatId": "MATH_03"
         },
         {
           "Row": 13,
-          "Column": 0,
-          "Length": 40,
-          "ColorIndex": "4"
+          "Column": 6,
+          "Address": "&H0E0",
+          "Offset": 0,
+          "Symbol": "Hydro_capa.SWRT_Delta_E_x10",
+          "FormatId": "MATH_03"
         },
         {
           "Row": 14,
-          "Column": 0,
-          "Length": 7,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 14,
-          "Column": 7,
-          "Length": 11,
-          "ColorIndex": "7"
-        },
-        {
-          "Row": 14,
-          "Column": 18,
-          "Length": 9,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 14,
-          "Column": 27,
-          "Length": 11,
-          "ColorIndex": "7"
-        },
-        {
-          "Row": 14,
-          "Column": 38,
-          "Length": 2,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 15,
-          "Column": 0,
-          "Length": 40,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 16,
-          "Column": 0,
-          "Length": 8,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 16,
-          "Column": 8,
-          "Length": 11,
-          "ColorIndex": "8"
-        },
-        {
-          "Row": 16,
-          "Column": 19,
-          "Length": 9,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 16,
-          "Column": 28,
-          "Length": 11,
-          "ColorIndex": "8"
-        },
-        {
-          "Row": 16,
-          "Column": 39,
-          "Length": 1,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 17,
-          "Column": 0,
-          "Length": 40,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 18,
-          "Column": 0,
-          "Length": 9,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 18,
           "Column": 9,
-          "Length": 11,
-          "ColorIndex": "9"
+          "Address": "&H0E4",
+          "Offset": 0,
+          "Symbol": "Hydro_capa.T10s_Hydro_Rn_adj",
+          "FormatId": "uint_8"
         },
         {
-          "Row": 18,
-          "Column": 20,
-          "Length": 9,
-          "ColorIndex": "4"
+          "Row": 15,
+          "Column": 9,
+          "Address": "&H0E6",
+          "Offset": 0,
+          "Symbol": "Hydro_capa.T1m_Keep_Ro",
+          "FormatId": "uint_8"
         },
         {
-          "Row": 18,
-          "Column": 29,
-          "Length": 11,
-          "ColorIndex": "9"
-        }
-      ],
-      "Rams": []
-    },
-    {
-      "Title": "Disp2",
-      "Lines": [
-        "TWO=xxxx.x PSW_L(O) = xxx.xkPa Tsw  = xxxx.x                         ºΩàŸ[xxx-xx] ämíË[xxx-xx|xx](xx)   ",
-        "TWI=xxxx.x PSW_E(I) = xxx.xkPa Ts_c = xxxx.x                          ﬁØ∏±ØÃﬂ[b]  åüèo[xxx-xx|xx](xx)   ",
-        "TCJ=xxxx.x PSW_S(OP)= xxx.xkPa Ts_h = xxxx.x                                      í‚é~[xxx-xx]∂≥›ƒxx    ",
-        "TC1=xxxx.x                                                                        ºΩí‚[xxx-xx|xx]       ",
-        "TC2=xxxx.x                                                                        çƒãN=xxxx             ",
-        "                                                                                  ºΩçƒ=xxxx             ",
-        "[ã@éÌxx][UnitHP:xxxx][êÖîMåHP:xxxx.x]    ó¨ëÃ[x,x,x]                                                   ",
-        "í‚é~í‚é~[í èÌ][xxxxx][ª∞”:x]              É¢Pfffff.ff                <ODU info>                         ",
-        "Rn   : xxxxxx  Wc:xxx.xx     ñ⁄ïWHz xx.xx ï‚Lfffff.ff                COMP:x                             ",
-        "MaxRn: xxxxxx  Wh:xxx.xx     bPump1 xx.xx ï‚Efffff.ff                DEF :x                             ",
-        "dRn  : xxxxxx  Qn:xxx.xx     bPump2 xx.xx L/mfffff.ff                                                   ",
-        "GA   : xxxxxx                        ñ⁄ïWó¨ó fffff.ff                                                   ",
-        "dTc  : xxxxxx                FLo  Bfffff.ff Cfffff.ff                                                   ",
-        "dE   : xxxxxx                Éø1  Bfffff.ff Cfffff.ff                                                   ",
-        "dRn_T:   xxxx                Éø2  Bfffff.ff Cfffff.ff                                                   ",
-        "KeepT:   xxxx                FL   Bfffff.ff Cfffff.ff                                                   ",
-        "Ini_T:   xxxx                Ñ• Minfffff.ff Sys CAPA                                                    ",
-        "                             Ñ§ Maxfffff.ff  fffff.ff                                                   ",
-        "       PMVL1 PMVL2                                                                                      ",
-        "ñ⁄ïW  XxxxxxXxxxxx                                                                                      ",
-        "  é¿  XxxxxxXxxxxx                                                                                      ",
-        "                                                                                        ’∆Qc xxxxxxx    ",
-        "                                                                                        ºΩQc xxxxxxx    ",
-        "                                                                                        EER     xxxx    ",
-        "                                                                                        Vdisp xxxxxx    ",
-        "                                                                                                        ",
-        "                                                                                                        ",
-        "                                   Fc` =xxxxxx Fc =xxxxxx ï‚c =xxxxxx î\ó‚[HH.H.M.L][xxxx%]             ",
-        "                                   Fh` =xxxxxx Fh =xxxxxx ï‚h =xxxxxx î\íg[HH.H.M.L][xxxx%]             ",
-        "                                   DFx%xxxxxx% FSGrêîxxxx ëùå∏[xxxxxx]                                  ",
-        "                                                                                                        ",
-        "                                                                                       ëIë”∞ƒﬁ[xxxx]   ",
-        "                                                                                       √ﬁœ›ƒﬁxx=xxxx%   ",
-        "                                                                                           ç~ê·Ãß› =b   ",
-        "                                                                                           ñÈä‘í·ëõ=b   ",
-        "                                                                                                        ",
-        "                                                                                                        ",
-        "                                             SW04x SW101 102  103  104  105  106                        ",
-        "                                             SW05x  xxxx xxxx xxxx xxxx xxxx xx                         ",
-        "                                             SW06x CN30x  DN03 xx DN82 xx DN** xx DN** xx DN** xx       ",
-        "                                                   CN31x  DN** xx DN** xx DN** xx DN** xx DN** xx       ",
-        "                                                   CN32x  DN** xx DN** xx DN** xx DN** xx DN** xx       ",
-        "                                                   [xx][xx][xx][xxxxx] é∫äO é∫ì‡   ºΩ√—Maxóeó  xxxxxx   ",
-        "                                              ãNìÆå„xxxxéûxxxxï™xxxxïb  xx xx.xxHP ’∆ØƒMaxóeó  xxxxxx   ",
-        "                                                         s=b I=xx 0=xx   x    xxë‰       sub-rxErr[xxxx]",
-        "’∆ìdxxxxxxxx ºΩìdxxxxxxxx êœéZxxxxxxxx êœëçxxxxxxxx xx                               soft-sub[xxxx-xxxx]",
-        "                                                                                    soft-main[xxxx-xxxx]",
-        ""
-      ],
-      "Colors": [
-        {
-          "Row": 0,
-          "Column": 0,
-          "Length": 11,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 0,
-          "Column": 11,
-          "Length": 5,
-          "ColorIndex": "2"
-        },
-        {
-          "Row": 0,
-          "Column": 16,
-          "Length": 85,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 1,
-          "Column": 0,
-          "Length": 11,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 1,
-          "Column": 11,
-          "Length": 5,
-          "ColorIndex": "2"
-        },
-        {
-          "Row": 1,
-          "Column": 16,
-          "Length": 86,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 2,
-          "Column": 0,
-          "Length": 11,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 2,
-          "Column": 11,
-          "Length": 5,
-          "ColorIndex": "2"
-        },
-        {
-          "Row": 2,
-          "Column": 16,
-          "Length": 86,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 3,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 4,
-          "Column": 0,
-          "Length": 102,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 5,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 6,
-          "Column": 0,
-          "Length": 97,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 7,
-          "Column": 0,
-          "Length": 97,
-          "ColorIndex": "4"
+          "Row": 16,
+          "Column": 9,
+          "Address": "&H0CA",
+          "Offset": 0,
+          "Symbol": "Hydro_capa.T1m_ini_Ro",
+          "FormatId": "uint_8"
         },
         {
           "Row": 8,
-          "Column": 0,
-          "Length": 101,
-          "ColorIndex": "4"
+          "Column": 18,
+          "Address": "&H23A",
+          "Offset": 0,
+          "Symbol": "IduFaCool",
+          "FormatId": "MATH_00"
         },
         {
           "Row": 9,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
+          "Column": 18,
+          "Address": "&H23E",
+          "Offset": 0,
+          "Symbol": "IduFaHeat",
+          "FormatId": "MATH_00"
         },
         {
           "Row": 10,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 11,
-          "Column": 0,
-          "Length": 100,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 12,
-          "Column": 0,
-          "Length": 29,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 12,
-          "Column": 29,
-          "Length": 3,
-          "ColorIndex": "6"
-        },
-        {
-          "Row": 12,
-          "Column": 32,
-          "Length": 2,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 12,
-          "Column": 34,
-          "Length": 1,
-          "ColorIndex": "8"
-        },
-        {
-          "Row": 12,
-          "Column": 35,
-          "Length": 9,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 12,
-          "Column": 44,
-          "Length": 1,
-          "ColorIndex": "5"
-        },
-        {
-          "Row": 12,
-          "Column": 45,
-          "Length": 59,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 13,
-          "Column": 0,
-          "Length": 29,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 13,
-          "Column": 29,
-          "Length": 2,
-          "ColorIndex": "6"
-        },
-        {
-          "Row": 13,
-          "Column": 31,
-          "Length": 2,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 13,
-          "Column": 33,
-          "Length": 1,
-          "ColorIndex": "8"
-        },
-        {
-          "Row": 13,
-          "Column": 34,
-          "Length": 9,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 13,
-          "Column": 43,
-          "Length": 1,
-          "ColorIndex": "5"
-        },
-        {
-          "Row": 13,
-          "Column": 44,
-          "Length": 59,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 14,
-          "Column": 0,
-          "Length": 29,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 14,
-          "Column": 29,
-          "Length": 2,
-          "ColorIndex": "6"
-        },
-        {
-          "Row": 14,
-          "Column": 31,
-          "Length": 2,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 14,
-          "Column": 33,
-          "Length": 1,
-          "ColorIndex": "8"
-        },
-        {
-          "Row": 14,
-          "Column": 34,
-          "Length": 9,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 14,
-          "Column": 43,
-          "Length": 1,
-          "ColorIndex": "5"
-        },
-        {
-          "Row": 14,
-          "Column": 44,
-          "Length": 59,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 15,
-          "Column": 0,
-          "Length": 29,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 15,
-          "Column": 29,
-          "Length": 2,
-          "ColorIndex": "6"
-        },
-        {
-          "Row": 15,
-          "Column": 31,
-          "Length": 3,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 15,
-          "Column": 34,
-          "Length": 1,
-          "ColorIndex": "8"
-        },
-        {
-          "Row": 15,
-          "Column": 35,
-          "Length": 9,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 15,
-          "Column": 44,
-          "Length": 1,
-          "ColorIndex": "5"
-        },
-        {
-          "Row": 15,
-          "Column": 45,
-          "Length": 59,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 16,
-          "Column": 0,
-          "Length": 31,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 16,
-          "Column": 31,
-          "Length": 3,
-          "ColorIndex": "6"
-        },
-        {
-          "Row": 16,
-          "Column": 34,
-          "Length": 9,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 16,
-          "Column": 43,
-          "Length": 8,
-          "ColorIndex": "6"
-        },
-        {
-          "Row": 16,
-          "Column": 51,
-          "Length": 52,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 17,
-          "Column": 0,
-          "Length": 31,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 17,
-          "Column": 31,
-          "Length": 3,
-          "ColorIndex": "6"
-        },
-        {
-          "Row": 17,
-          "Column": 34,
-          "Length": 69,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 18,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 19,
-          "Column": 0,
-          "Length": 102,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 20,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 21,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 22,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 23,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 24,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 25,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 26,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 27,
-          "Column": 0,
-          "Length": 101,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 28,
-          "Column": 0,
-          "Length": 101,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 29,
-          "Column": 0,
-          "Length": 101,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 30,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 31,
-          "Column": 0,
-          "Length": 102,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 32,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 33,
-          "Column": 0,
-          "Length": 102,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 34,
-          "Column": 0,
-          "Length": 100,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 35,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 36,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 37,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 38,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 39,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 40,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 41,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 42,
-          "Column": 0,
-          "Length": 98,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 43,
-          "Column": 0,
-          "Length": 96,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 44,
-          "Column": 0,
-          "Length": 103,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 45,
-          "Column": 0,
-          "Length": 98,
-          "ColorIndex": "4"
-        },
-        {
-          "Row": 46,
-          "Column": 0,
-          "Length": 104,
-          "ColorIndex": "4"
-        }
-      ],
-      "Rams": [
-        {
-          "Row": 12,
-          "Column": 35,
+          "Column": 18,
+          "Address": "&H032",
           "Offset": 0,
-          "Symbol": "PUMP_SwrtData.B_FLo",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 13,
-          "Column": 35,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.B_Alpha1",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 14,
-          "Column": 35,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.B_Alpha2",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 15,
-          "Column": 35,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.B_FL_fix",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 12,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.C_FLo",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 13,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.C_Alpha1",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 14,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.C_Alpha2",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 15,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.C_FL_fix",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 11,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.FL_target",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 10,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.FL_current",
-          "FormatId": "F32"
+          "Symbol": "Hydro_capa.Qn_x100",
+          "FormatId": "MATH_00"
         },
         {
           "Row": 8,
-          "Column": 45,
+          "Column": 35,
+          "Address": "&H1BC",
           "Offset": 0,
-          "Symbol": "PUMP_SwrtData.PerrL",
-          "FormatId": "F32"
+          "Symbol": "GA500_SwrtData1.set_hz",
+          "FormatId": "MATH_00"
         },
         {
           "Row": 9,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.PerrE",
-          "FormatId": "F32"
+          "Column": 29,
+          "Address": "&H1C6",
+          "Offset": 2,
+          "Symbol": "GA500_SwrtData1.run",
+          "FormatId": "Bin_0bit"
         },
         {
-          "Row": 7,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.deltaP",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 17,
-          "Column": 45,
-          "Offset": 0,
-          "Symbol": "PUMP_SwrtData.FL_sys_max",
-          "FormatId": "F32"
-        },
-        {
-          "Row": 17,
+          "Row": 9,
           "Column": 35,
+          "Address": "&H1C0",
           "Offset": 0,
-          "Symbol": "PUMP_SwrtData.FL_hyd_max",
-          "FormatId": "F32"
+          "Symbol": "GA500_SwrtData1.mon_hz",
+          "FormatId": "MATH_00"
         },
         {
-          "Row": 16,
+          "Row": 10,
+          "Column": 29,
+          "Address": "&H1D2",
+          "Offset": 2,
+          "Symbol": "GA500_SwrtData2.run",
+          "FormatId": "Bin_0bit"
+        },
+        {
+          "Row": 10,
           "Column": 35,
+          "Address": "&H1CC",
           "Offset": 0,
-          "Symbol": "PUMP_SwrtData.FL_min",
-          "FormatId": "F32"
+          "Symbol": "GA500_SwrtData2.mon_hz",
+          "FormatId": "MATH_00"
         },
         {
           "Row": 6,
           "Column": 47,
+          "Address": "&H380",
           "Offset": 0,
           "Symbol": "PUMP_SwrtData.fluid_type",
           "FormatId": "Bin_0bit"
@@ -1482,6 +303,7 @@
         {
           "Row": 6,
           "Column": 49,
+          "Address": "&H382",
           "Offset": 0,
           "Symbol": "PUMP_SwrtData.brine_type",
           "FormatId": "Bin_0bit"
@@ -1489,11 +311,476 @@
         {
           "Row": 6,
           "Column": 51,
+          "Address": "&H384",
           "Offset": 0,
           "Symbol": "PUMP_SwrtData.hex_hp_idx",
           "FormatId": "Bin_0bit"
+        },
+        {
+          "Row": 7,
+          "Column": 45,
+          "Address": "&H320",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.deltaP",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 8,
+          "Column": 45,
+          "Address": "&H310",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.PerrL",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 9,
+          "Column": 45,
+          "Address": "&H318",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.PerrE",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 10,
+          "Column": 45,
+          "Address": "&H308",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.FL_current",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 11,
+          "Column": 45,
+          "Address": "&H300",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.FL_target",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 12,
+          "Column": 35,
+          "Address": "&H328",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.B_FLo",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 13,
+          "Column": 35,
+          "Address": "&H330",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.B_Alpha1",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 14,
+          "Column": 35,
+          "Address": "&H338",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.B_Alpha2",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 15,
+          "Column": 35,
+          "Address": "&H340",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.B_FL_fix",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 12,
+          "Column": 45,
+          "Address": "&H348",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.C_FLo",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 13,
+          "Column": 45,
+          "Address": "&H350",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.C_Alpha1",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 14,
+          "Column": 45,
+          "Address": "&H358",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.C_Alpha2",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 15,
+          "Column": 45,
+          "Address": "&H360",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.C_FL_fix",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 16,
+          "Column": 35,
+          "Address": "&H378",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.FL_min",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 17,
+          "Column": 35,
+          "Address": "&H370",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.FL_hyd_max",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 17,
+          "Column": 45,
+          "Address": "&H368",
+          "Offset": 0,
+          "Symbol": "PUMP_SwrtData.FL_sys_max",
+          "FormatId": "F32"
+        },
+        {
+          "Row": 8,
+          "Column": 74,
+          "Address": "&H042",
+          "Offset": 0,
+          "Symbol": "OduDriveFLG1_swrt",
+          "FormatId": "Bin_Table_10"
+        },
+        {
+          "Row": 9,
+          "Column": 74,
+          "Address": "&H042",
+          "Offset": 0,
+          "Symbol": "OduDriveFLG1_swrt",
+          "FormatId": "Bin_Table_11"
+        },
+        {
+          "Row": 10,
+          "Column": 74,
+          "Address": "&H042",
+          "Offset": 0,
+          "Symbol": "OduDriveFLG1_swrt",
+          "FormatId": "Bin_Table_12"
+        },
+        {
+          "Row": 19,
+          "Column": 6,
+          "Address": "&H054",
+          "Offset": 0,
+          "Symbol": "SubMcu_TxdData.STATUS15",
+          "FormatId": "uint_16"
+        },
+        {
+          "Row": 19,
+          "Column": 12,
+          "Address": "&H058",
+          "Offset": 0,
+          "Symbol": "SubMcu_TxdData.STATUS17",
+          "FormatId": "uint_16"
+        },
+        {
+          "Row": 20,
+          "Column": 6,
+          "Address": "&H044",
+          "Offset": 0,
+          "Symbol": "SubMcu_RxdData.Pmv1Data_H",
+          "FormatId": "uint_16"
+        },
+        {
+          "Row": 20,
+          "Column": 12,
+          "Address": "&H048",
+          "Offset": 0,
+          "Symbol": "SubMcu_RxdData.Pmv2Data_H",
+          "FormatId": "uint_16"
+        },
+        {
+          "Row": 45,
+          "Column": 94,
+          "Address": "&H0E8",
+          "Offset": 0,
+          "Symbol": "RxdSourceCode[1]",
+          "FormatId": "Hex_16bit"
+        },
+        {
+          "Row": 45,
+          "Column": 99,
+          "Address": "&H0EC",
+          "Offset": 0,
+          "Symbol": "RxdVerNo[0]",
+          "FormatId": "Hex_16bit"
+        },
+        {
+          "Row": 46,
+          "Column": 94,
+          "Address": "&H0F0",
+          "Offset": 0,
+          "Symbol": "SWRT_SourceID_H",
+          "FormatId": "Hex_16bit"
+        },
+        {
+          "Row": 46,
+          "Column": 99,
+          "Address": "&H0F4",
+          "Offset": 0,
+          "Symbol": "NextMMSVerNo",
+          "FormatId": "Hex_16bit"
+        },
+        {
+          "Row": 38,
+          "Column": 52,
+          "Address": "&H201",
+          "Offset": 1,
+          "Symbol": "SW101_102_swrt",
+          "FormatId": "Horiz_4bit"
+        },
+        {
+          "Row": 38,
+          "Column": 57,
+          "Address": "&H200",
+          "Offset": 0,
+          "Symbol": "SW101_102_swrt",
+          "FormatId": "Horiz_4bit"
+        },
+        {
+          "Row": 38,
+          "Column": 62,
+          "Address": "&H203",
+          "Offset": 1,
+          "Symbol": "SW103_104_swrt",
+          "FormatId": "Horiz_4bit"
+        },
+        {
+          "Row": 38,
+          "Column": 67,
+          "Address": "&H202",
+          "Offset": 0,
+          "Symbol": "SW103_104_swrt",
+          "FormatId": "Horiz_4bit"
+        },
+        {
+          "Row": 38,
+          "Column": 72,
+          "Address": "&H205",
+          "Offset": 1,
+          "Symbol": "SW105_106_swrt",
+          "FormatId": "Horiz_4bit"
+        },
+        {
+          "Row": 38,
+          "Column": 77,
+          "Address": "&H204",
+          "Offset": 0,
+          "Symbol": "SW105_106_swrt",
+          "FormatId": "Bin_Table_13"
+        },
+        {
+          "Row": 38,
+          "Column": 78,
+          "Address": "&H204",
+          "Offset": 0,
+          "Symbol": "SW105_106_swrt",
+          "FormatId": "Bin_Table_12"
+        },
+        {
+          "Row": 37,
+          "Column": 97,
+          "Address": "&H20E",
+          "Offset": 0,
+          "Symbol": "UhUnitAddress",
+          "FormatId": "Hex_16bit"
+        },
+        {
+          "Row": 39,
+          "Column": 63,
+          "Address": "&H028",
+          "Offset": 0,
+          "Symbol": "E2DN_ModelSelect003",
+          "FormatId": "Hex_8bit"
+        },
+        {
+          "Row": 39,
+          "Column": 71,
+          "Address": "&H216",
+          "Offset": 0,
+          "Symbol": "E2DN_NewTccLink",
+          "FormatId": "Hex_8bit"
+        },
+        {
+          "Row": 42,
+          "Column": 52,
+          "Address": "&H213",
+          "Offset": 1,
+          "Symbol": "SW1_2_swrt",
+          "FormatId": "Bin_Table_53"
+        },
+        {
+          "Row": 42,
+          "Column": 56,
+          "Address": "&H212",
+          "Offset": 0,
+          "Symbol": "SW1_2_swrt",
+          "FormatId": "Bin_Table_53"
+        },
+        {
+          "Row": 42,
+          "Column": 60,
+          "Address": "&H215",
+          "Offset": 1,
+          "Symbol": "SW3_swrt",
+          "FormatId": "Bin_Table_53"
+        },
+        {
+          "Row": 42,
+          "Column": 64,
+          "Address": "&H250",
+          "Offset": 0,
+          "Symbol": "Output_LED[0]",
+          "FormatId": "Bin_Table_25"
+        },
+        {
+          "Row": 42,
+          "Column": 65,
+          "Address": "&H252",
+          "Offset": 0,
+          "Symbol": "Output_LED[1]",
+          "FormatId": "Bin_Table_25"
+        },
+        {
+          "Row": 42,
+          "Column": 66,
+          "Address": "&H254",
+          "Offset": 0,
+          "Symbol": "Output_LED[2]",
+          "FormatId": "Bin_Table_25"
+        },
+        {
+          "Row": 42,
+          "Column": 67,
+          "Address": "&H256",
+          "Offset": 0,
+          "Symbol": "Output_LED[3]",
+          "FormatId": "Bin_Table_25"
+        },
+        {
+          "Row": 42,
+          "Column": 68,
+          "Address": "&H258",
+          "Offset": 0,
+          "Symbol": "Output_LED[4]",
+          "FormatId": "Bin_Table_25"
+        },
+        {
+          "Row": 43,
+          "Column": 72,
+          "Address": "&H21C",
+          "Offset": 0,
+          "Symbol": "HpMaxAll_swrt",
+          "FormatId": "Hex_8bit"
+        },
+        {
+          "Row": 43,
+          "Column": 75,
+          "Address": "&H21E",
+          "Offset": 0,
+          "Symbol": "HpInMaxAll_swrt",
+          "FormatId": "Hex_8bit"
+        },
+        {
+          "Row": 43,
+          "Column": 78,
+          "Address": "&H220",
+          "Offset": 2,
+          "Symbol": "HpInMaxAll_swrt",
+          "FormatId": "Hex_8bit"
+        },
+        {
+          "Row": 44,
+          "Column": 78,
+          "Address": "&H224",
+          "Offset": 0,
+          "Symbol": "InUnitCount_swrt",
+          "FormatId": "Hex_8bit"
+        },
+        {
+          "Row": 48,
+          "Column": 86,
+          "Address": "&H0F5",
+          "Offset": 1,
+          "Symbol": "NextMMSVerNo",
+          "FormatId": "Hex_4bit"
+        },
+        {
+          "Row": 48,
+          "Column": 88,
+          "Address": "&H0F4",
+          "Offset": 0,
+          "Symbol": "NextMMSVerNo",
+          "FormatId": "Hex_4bit"
+        },
+        {
+          "Row": 48,
+          "Column": 89,
+          "Address": "&H0F6",
+          "Offset": 2,
+          "Symbol": "NextMMSVerNo",
+          "FormatId": "Hex_8bit"
+        },
+        {
+          "Row": 48,
+          "Column": 92,
+          "Address": "&H0F8",
+          "Offset": 0,
+          "Symbol": "-",
+          "FormatId": "TIME"
         }
       ]
+    },
+    {
+      "Title": "Display2",
+      "XamlContent": "<Section xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\" TextAlignment=\"Left\" LineHeight=\"Auto\" IsHyphenationEnabled=\"False\" xml:lang=\"en-us\" FlowDirection=\"LeftToRight\" NumberSubstitution.CultureSource=\"Text\" NumberSubstitution.Substitution=\"AsCulture\" FontFamily=\"MS Gothic\" FontStyle=\"Normal\" FontWeight=\"Normal\" FontStretch=\"Normal\" FontSize=\"14\" Foreground=\"#FF000000\" Typography.StandardLigatures=\"True\" Typography.ContextualLigatures=\"True\" Typography.DiscretionaryLigatures=\"False\" Typography.HistoricalLigatures=\"False\" Typography.AnnotationAlternates=\"0\" Typography.ContextualAlternates=\"True\" Typography.HistoricalForms=\"False\" Typography.Kerning=\"True\" Typography.CapitalSpacing=\"False\" Typography.CaseSensitiveForms=\"False\" Typography.StylisticSet1=\"False\" Typography.StylisticSet2=\"False\" Typography.StylisticSet3=\"False\" Typography.StylisticSet4=\"False\" Typography.StylisticSet5=\"False\" Typography.StylisticSet6=\"False\" Typography.StylisticSet7=\"False\" Typography.StylisticSet8=\"False\" Typography.StylisticSet9=\"False\" Typography.StylisticSet10=\"False\" Typography.StylisticSet11=\"False\" Typography.StylisticSet12=\"False\" Typography.StylisticSet13=\"False\" Typography.StylisticSet14=\"False\" Typography.StylisticSet15=\"False\" Typography.StylisticSet16=\"False\" Typography.StylisticSet17=\"False\" Typography.StylisticSet18=\"False\" Typography.StylisticSet19=\"False\" Typography.StylisticSet20=\"False\" Typography.Fraction=\"Normal\" Typography.SlashedZero=\"False\" Typography.MathematicalGreek=\"False\" Typography.EastAsianExpertForms=\"False\" Typography.Variants=\"Normal\" Typography.Capitals=\"Normal\" Typography.NumeralStyle=\"Normal\" Typography.NumeralAlignment=\"Normal\" Typography.EastAsianWidths=\"Normal\" Typography.EastAsianLanguage=\"Normal\" Typography.StandardSwashes=\"0\" Typography.ContextualSwashes=\"0\" Typography.StylisticAlternates=\"0\"><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">  </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">01234567890</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">        </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">01234567890</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">   </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF4040FF\" Background=\"#FF000000\">12345678901</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">        </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF4040FF\" Background=\"#FF000000\">12345678901</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">            </Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">    </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FFFF4040\" Background=\"#FF000000\">23456789012</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">        </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FFFF4040\" Background=\"#FF000000\">23456789012</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">           </Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">     </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FFFF00FF\" Background=\"#FF000000\">34567890123</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">    ëS  </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FFFF00FF\" Background=\"#FF000000\">34567890123</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">          </Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">      45678901234   äp   45678901234         </Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">       </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FFFF\" Background=\"#FF000000\">56789012345</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">  ï∂éö  </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FFFF\" Background=\"#FF000000\">56789012345</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">        </Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">        </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FFFFFF00\" Background=\"#FF000000\">67890123456</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">        </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FFFFFF00\" Background=\"#FF000000\">67890123456</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">       </Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">         </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FFFFFFFF\" Background=\"#FF000000\">78901234567</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">        </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FFFFFFFF\" Background=\"#FF000000\">78901234567</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">      </Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">          </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FFFF8000\" Background=\"#FF000000\">89012345678</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">        </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FFFF8000\" Background=\"#FF000000\">89012345678</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">     </Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">           </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF80FF00\" Background=\"#FF000000\">90123456789</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">        </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF80FF00\" Background=\"#FF000000\">90123456789</Run><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">    </Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                             </Run></Paragraph></Section>",
+      "Rams": []
+    },
+    {
+      "Title": "Display3",
+      "XamlContent": "<Section xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\" TextAlignment=\"Left\" LineHeight=\"Auto\" IsHyphenationEnabled=\"False\" xml:lang=\"en-us\" FlowDirection=\"LeftToRight\" NumberSubstitution.CultureSource=\"Text\" NumberSubstitution.Substitution=\"AsCulture\" FontFamily=\"MS Gothic\" FontStyle=\"Normal\" FontWeight=\"Normal\" FontStretch=\"Normal\" FontSize=\"14\" Foreground=\"#FF000000\" Typography.StandardLigatures=\"True\" Typography.ContextualLigatures=\"True\" Typography.DiscretionaryLigatures=\"False\" Typography.HistoricalLigatures=\"False\" Typography.AnnotationAlternates=\"0\" Typography.ContextualAlternates=\"True\" Typography.HistoricalForms=\"False\" Typography.Kerning=\"True\" Typography.CapitalSpacing=\"False\" Typography.CaseSensitiveForms=\"False\" Typography.StylisticSet1=\"False\" Typography.StylisticSet2=\"False\" Typography.StylisticSet3=\"False\" Typography.StylisticSet4=\"False\" Typography.StylisticSet5=\"False\" Typography.StylisticSet6=\"False\" Typography.StylisticSet7=\"False\" Typography.StylisticSet8=\"False\" Typography.StylisticSet9=\"False\" Typography.StylisticSet10=\"False\" Typography.StylisticSet11=\"False\" Typography.StylisticSet12=\"False\" Typography.StylisticSet13=\"False\" Typography.StylisticSet14=\"False\" Typography.StylisticSet15=\"False\" Typography.StylisticSet16=\"False\" Typography.StylisticSet17=\"False\" Typography.StylisticSet18=\"False\" Typography.StylisticSet19=\"False\" Typography.StylisticSet20=\"False\" Typography.Fraction=\"Normal\" Typography.SlashedZero=\"False\" Typography.MathematicalGreek=\"False\" Typography.EastAsianExpertForms=\"False\" Typography.Variants=\"Normal\" Typography.Capitals=\"Normal\" Typography.NumeralStyle=\"Normal\" Typography.NumeralAlignment=\"Normal\" Typography.EastAsianWidths=\"Normal\" Typography.EastAsianLanguage=\"Normal\" Typography.StandardSwashes=\"0\" Typography.ContextualSwashes=\"0\" Typography.StylisticAlternates=\"0\"><Paragraph LineHeight=\"14\"><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">TWO</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">=xxxx.x </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">PSW_L(O) =</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xxx.xkPa </Run><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">Tsw  =</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xxxx.x  </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">4WV=</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">x                  ºΩàŸ[xxx-xx] ämíË[xxx-xx|xx](xx)   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">TWI</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">=xxxx.x </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">PSW_E(I) =</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xxx.xkPa </Run><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">Ts_c =</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xxxx.x                          ﬁØ∏±ØÃﬂ[b]  åüèo[xxx-xx|xx](xx)   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">TCJ</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">=xxxx.x </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">PSW_S(OP)=</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xxx.xkPa </Run><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">Ts_h =</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xxxx.x                                      í‚é~[xxx-xx]∂≥›ƒxx    </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">TC1</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">=xxxx.x                                                                        ºΩí‚[xxx-xx|xx]       </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FFFFFF00\" Background=\"#FF000000\">TC2</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">=xxxx.x                                                                        çƒãN=xxxx             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                  ºΩçƒ=xxxx             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">[ã@éÌxx][UnitHP:xxxx][êÖîMåHP:xxxx.x]    ó¨ëÃ[x,x,x]                                                   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">í‚é~í‚é~[í èÌ][xxxxx][ª∞”:x][Sx]          É¢Pfffff.ff                </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">&lt;ODU info&gt;</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                         </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">Rn   : xxxxxx  Wc:xxx.xx     ñ⁄ïWHz xx.xx ï‚Lfffff.ff                </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">COMP:</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">x                             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">MaxRn: xxxxxx  Wh:xxx.xx     bPump1 xx.xx ï‚Efffff.ff                </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">DEF :</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">x                             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">dRn  : xxxxxx  Qn:xxx.xx     bPump2 xx.xx L/mfffff.ff                </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">DHP :</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">x                             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">GA   : xxxxxx                        ñ⁄ïWó¨ó fffff.ff                                                   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">dTc  : xxxxxx                FLo  Bfffff.ff Cfffff.ff                                                   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">dE   : xxxxxx                Éø1  Bfffff.ff Cfffff.ff                                                   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">dRn_T:   xxxx                Éø2  Bfffff.ff Cfffff.ff                                                   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">KeepT:   xxxx                FL   Bfffff.ff Cfffff.ff                                                   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">Ini_T:   xxxx                Ñ• Minfffff.ff Sys CAPA                                                    </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                             Ñ§ Maxfffff.ff  fffff.ff                                                   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">       </Run><Run Foreground=\"#FFFF8000\" Background=\"#FF000000\">PMVL1 PMVL2</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                      </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FFFF8000\" Background=\"#FF000000\">ñ⁄ïW</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">  XxxxxxXxxxxx                                                                                      </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">  </Run><Run Foreground=\"#FFFF8000\" Background=\"#FF000000\">é¿</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">  XxxxxxXxxxxx                                                                                      </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                        ’∆Qc xxxxxxx    </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                        ºΩQc xxxxxxx    </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                        EER     xxxx    </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                        Vdisp xxxxxx    </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                                        </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                                        </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                   Fc` =xxxxxx Fc =xxxxxx ï‚c =xxxxxx î\ó‚[HH.H.M.L][xxxx%]             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                   Fh` =xxxxxx Fh =xxxxxx ï‚h =xxxxxx î\íg[HH.H.M.L][xxxx%]             </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                   DFx%xxxxxx% FSGrêîxxxx ëùå∏[xxxxxx]                                  </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                                        </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                       ëIë”∞ƒﬁ[xxxx]   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                       √ﬁœ›ƒﬁxx=xxxx%   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                           ç~ê·Ãß› =b   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                           ñÈä‘í·ëõ=b   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                                        </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                                        </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                             SW04x SW101 102  103  104  105  106         </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">MyAdr:0x</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xxxx   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                             SW05x  xxxx xxxx xxxx xxxx xxxx xx                         </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                             SW06x CN30x  </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN03</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN82</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx       </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                   CN31x  </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx       </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                   CN32x  </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx </Run><Run Foreground=\"#FF00FFFF\" Background=\"#FF000000\">DN**</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> xx       </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                   </Run><Run Foreground=\"#FF4040FF\" Background=\"#FF000000\">[</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xx</Run><Run Foreground=\"#FF4040FF\" Background=\"#FF000000\">][</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xx</Run><Run Foreground=\"#FF4040FF\" Background=\"#FF000000\">][</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xx</Run><Run Foreground=\"#FF4040FF\" Background=\"#FF000000\">][</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xxxxx</Run><Run Foreground=\"#FF4040FF\" Background=\"#FF000000\">]</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"> é∫äO é∫ì‡   ºΩ√—Maxóeó  xxxxxx   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                              ãNìÆå„xxxxéûxxxxï™xxxxïb  xx xx.xxHP ’∆ØƒMaxóeó  xxxxxx   </Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                         </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">s=</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">b </Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">I=</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xx </Run><Run xml:lang=\"ja-jp\" Foreground=\"#FFFF4040\" Background=\"#FF000000\">O</Run><Run Foreground=\"#FFFF4040\" Background=\"#FF000000\">=</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xx   x    xxë‰       </Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">sub-rxErr[</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xxxx</Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">]</Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">’∆ìdxxxxxxxx ºΩìdxxxxxxxx êœéZxxxxxxxx êœëçxxxxxxxx xx                               </Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">soft-sub[</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xxxx</Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">-</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xxxx</Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">]</Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                    </Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">soft-main[</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xxxx</Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">-</Run><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\">xxxx</Run><Run Foreground=\"#FFFF00FF\" Background=\"#FF000000\">]</Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                                        </Run></Paragraph><Paragraph LineHeight=\"14\"><Run xml:lang=\"ja-jp\" Foreground=\"#FF00FF00\" Background=\"#FF000000\">                                                                                   Verx.xxx[HH:MM:SS.00]</Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"></Run></Paragraph><Paragraph LineHeight=\"14\"><Run Foreground=\"#FF00FF00\" Background=\"#FF000000\"></Run></Paragraph></Section>",
+      "Rams": [
+        {
+          "Row": 25,
+          "Column": 25,
+          "Address": "&H016",
+          "Offset": 0,
+          "Symbol": "DummyOut2",
+          "FormatId": "Hex_8bit"
+        },
+        {
+          "Row": 22,
+          "Column": 42,
+          "Address": "&H02C",
+          "Offset": 0,
+          "Symbol": "HydroDriveFLG1_swrt",
+          "FormatId": "Hex_8bit"
+        },
+        {
+          "Row": 19,
+          "Column": 65,
+          "Address": "&H03E",
+          "Offset": 0,
+          "Symbol": "Hydro.Tsw_x10",
+          "FormatId": "MATH_03"
+        }
+      ]
+    },
+    {
+      "Title": "Display4",
+      "XamlContent": "<Section xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\" TextAlignment=\"Left\" LineHeight=\"Auto\" IsHyphenationEnabled=\"False\" xml:lang=\"en-us\" FlowDirection=\"LeftToRight\" NumberSubstitution.CultureSource=\"Text\" NumberSubstitution.Substitution=\"AsCulture\" FontFamily=\"MS Gothic\" FontStyle=\"Normal\" FontWeight=\"Normal\" FontStretch=\"Normal\" FontSize=\"14\" Foreground=\"#FF000000\" Typography.StandardLigatures=\"True\" Typography.ContextualLigatures=\"True\" Typography.DiscretionaryLigatures=\"False\" Typography.HistoricalLigatures=\"False\" Typography.AnnotationAlternates=\"0\" Typography.ContextualAlternates=\"True\" Typography.HistoricalForms=\"False\" Typography.Kerning=\"True\" Typography.CapitalSpacing=\"False\" Typography.CaseSensitiveForms=\"False\" Typography.StylisticSet1=\"False\" Typography.StylisticSet2=\"False\" Typography.StylisticSet3=\"False\" Typography.StylisticSet4=\"False\" Typography.StylisticSet5=\"False\" Typography.StylisticSet6=\"False\" Typography.StylisticSet7=\"False\" Typography.StylisticSet8=\"False\" Typography.StylisticSet9=\"False\" Typography.StylisticSet10=\"False\" Typography.StylisticSet11=\"False\" Typography.StylisticSet12=\"False\" Typography.StylisticSet13=\"False\" Typography.StylisticSet14=\"False\" Typography.StylisticSet15=\"False\" Typography.StylisticSet16=\"False\" Typography.StylisticSet17=\"False\" Typography.StylisticSet18=\"False\" Typography.StylisticSet19=\"False\" Typography.StylisticSet20=\"False\" Typography.Fraction=\"Normal\" Typography.SlashedZero=\"False\" Typography.MathematicalGreek=\"False\" Typography.EastAsianExpertForms=\"False\" Typography.Variants=\"Normal\" Typography.Capitals=\"Normal\" Typography.NumeralStyle=\"Normal\" Typography.NumeralAlignment=\"Normal\" Typography.EastAsianWidths=\"Normal\" Typography.EastAsianLanguage=\"Normal\" Typography.StandardSwashes=\"0\" Typography.ContextualSwashes=\"0\" Typography.StylisticAlternates=\"0\"><Paragraph LineHeight=\"14\"></Paragraph></Section>",
+      "Rams": []
     }
   ]
 }

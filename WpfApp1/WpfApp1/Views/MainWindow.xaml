@@ -8,7 +8,7 @@
         xmlns:views="clr-namespace:WpfApp1.Views"
         xmlns:vm="clr-namespace:WpfApp1.ViewModels" 
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="800" Width="1600">
+        Title="{Binding WindowTitle}" Height="900" Width="1600">
 
     <Window.InputBindings>
         <KeyBinding Key="N"      Modifiers="Control"       Command="{Binding NewProjectCommand}" />
@@ -228,7 +228,7 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />   <!-- 上：一覧 -->
                                         <RowDefinition Height="Auto" /> <!-- 境界線 -->
-                                        <RowDefinition Height="125" />   <!-- 下：詳細 -->
+                                        <RowDefinition Height="145" />   <!-- 下：詳細 -->
                                     </Grid.RowDefinitions>
 
                                     <!-- 上側：RAMデータ一覧 (DataGrid) -->
@@ -245,8 +245,8 @@
                                                 </ContextMenu>
                                             </DataGrid.ContextMenu>
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="行" Binding="{Binding Row}" Width="30"/>
                                                 <DataGridTextColumn Header="桁" Binding="{Binding Column}" Width="30"/>
+                                                <DataGridTextColumn Header="行" Binding="{Binding Row}" Width="30"/>
                                                 <DataGridTextColumn Header="データ名" Binding="{Binding Data, Mode=OneWay}" IsReadOnly="True" Width="*">
                                                     <DataGridTextColumn.ElementStyle>
                                                         <Style TargetType="TextBlock">
@@ -313,6 +313,18 @@
                                                 <DockPanel Margin="0,2">
                                                     <TextBlock Text="プレースホルダ:" Width="90" FontWeight="Bold"/>
                                                     <TextBlock Text="{Binding ActiveTab.SelectedRam.Placeholder}" />
+                                                </DockPanel>
+
+                                                <DockPanel Margin="0,2">
+                                                    <TextBlock Text="フォーマット:" Width="90" FontWeight="Bold"/>
+                                                    <TextBlock>
+														<TextBlock.Text>
+															<MultiBinding StringFormat="{}{0} ({1})">
+																<Binding Path="ActiveTab.SelectedRam.FormatId" />
+																<Binding Path="ActiveTab.SelectedRam.FormatCode" />
+															</MultiBinding>
+        												</TextBlock.Text>
+													</TextBlock>
                                                 </DockPanel>
 
                                             </StackPanel>

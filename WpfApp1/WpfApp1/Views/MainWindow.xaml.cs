@@ -177,7 +177,7 @@ namespace WpfApp1.Views
             }
 
             service.SaveToJson(saveData, path);
-            display.SaveToDisplayFile(saveData, path.Replace(".json",".DSP"));
+            display.SaveToDisplayFile(saveData, path.Replace(".json",".disp"));
 
             vm.IsDirty = false;
         }

@@ -15,8 +15,7 @@ namespace WpfApp1.Models
     public class EditorData
     {
         public string Title { get; set; } = "";
-        public List<string> Lines { get; set; } = new();
-        public List<TextColorInfo> Colors { get; set; } = new();
+        public string XamlContent { get; set; } = "";
         public List<RamLayout> Rams { get; set; } = new();
     }
 }

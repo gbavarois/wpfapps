@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,27 @@ namespace WpfApp1.Models
         {
             _pages = ExcelLoader.LoadCatalogs(filePath);
             _formats = ExcelLoader.LoadFormats(filePath);
+
+            _pages.ElementAt(0).Value.Add(new RamCatalog
+            {
+                Data = "時刻データ",
+                Symbol = "-",
+                Type = "1",
+                Length = "1",
+                Unit = "-",
+                LSB = "-",
+                FormatId = "TIME",
+                Note = "右下隅に配置する時刻データ",
+                Address = "0F8"
+            });
+            _formats.Add(new FormatData
+                {
+                    Id = "TIME",
+                    Code = "-1",
+                    Length = 11,
+                    Placeholder = "HH:MM:SS.00",
+                    Description = "時刻データ"
+                });
         }
 
         //private Dictionary<string, List<RamCatalog>> _pages = new();
