@@ -5,8 +5,29 @@
       "label": "build",
       "type": "process",
       "command": "dotnet",
-      "args": ["build"],
+      "args": [
+        "build"
+      ],
       "group": "build",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "publish (single exe)",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "publish",
+        "-c",
+        "Release",
+        "-r",
+        "win-x64",
+        "--self-contained",
+        "true",
+        "/p:PublishSingleFile=true",
+    	"/p:IncludeNativeLibrariesForSelfExtract=true",
+    	"/p:IncludeAllContentForSelfExtract=true",
+    	"/p:PublishReadyToRun=true"
+      ],
       "problemMatcher": "$msCompile"
     }
   ]
