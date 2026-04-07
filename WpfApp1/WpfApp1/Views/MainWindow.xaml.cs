@@ -1,28 +1,13 @@
 ﻿using AvalonDock.Layout;
-using ExcelDataReader.Log;
 using Microsoft.Win32;
-using System;
-using System.Globalization;
-using System.IO;
 using System.Reflection;
-using System.Runtime.Intrinsics.Arm;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using WpfApp1;
 using WpfApp1.Helpers;
 using WpfApp1.Models;
 using WpfApp1.Services;
 using WpfApp1.ViewModels;
-using WpfApp1.Views;
 
 namespace WpfApp1.Views
 {
@@ -173,7 +158,9 @@ namespace WpfApp1.Views
             }
             foreach (var editorData in vm.EditorTabs)
             {
-                saveData.Tabs.Add(editorData.RestoreData);
+                // RestoreData may be null; fall back to current editor state
+                var ed = editorData.RestoreData ?? editorData.GetSaveData();
+                saveData.Tabs.Add(ed);
             }
 
             service.SaveToJson(saveData, path);
@@ -251,7 +238,8 @@ namespace WpfApp1.Views
                 var mainVM = (MainViewModel)this.DataContext;
                 mainVM.EditorTabs.Remove(tabVM);
 
-                if (mainVM.EditorTabs.Count == 0) mainVM.IsDirty = false;
+                // タブを削除したら変更あり（ダーティ）にする
+                mainVM.IsDirty = true;
             }
         }
 
@@ -286,7 +274,7 @@ namespace WpfApp1.Views
 
         private void OnShowVersion(object sender, RoutedEventArgs e)
         {
-            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            var version = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0);
 
             MessageBox.Show(
                 $"Version: {version.Major}.{version.Minor}.{version.Build}",

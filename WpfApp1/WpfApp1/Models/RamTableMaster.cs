@@ -1,11 +1,4 @@
-﻿using DocumentFormat.OpenXml.Drawing.Charts;
-using DocumentFormat.OpenXml.Spreadsheet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WpfApp1.Services;
+﻿using WpfApp1.Services;
 
 namespace WpfApp1.Models
 {
@@ -43,25 +36,6 @@ namespace WpfApp1.Models
                     Description = "時刻データ"
                 });
         }
-
-        //private Dictionary<string, List<RamCatalog>> _pages = new();
-        //private List<FormatData> _formats = new(); // 内部保持
-
-        //public List<string> SheetNames => _pages.Keys.ToList();
-
-        //// ViewModelから参照できるように公開
-        //public List<FormatData> Formats => _formats;
-
-        //public void Load(string filePath)
-        //{
-        //    _pages = ExcelLoader.LoadCatalogs(filePath);
-        //    _formats = ExcelLoader.LoadFormats(filePath);
-        //}
-
-        //public List<RamCatalog> GetCatalogsBySheet(string sheetName)
-        //{
-        //    return _pages.TryGetValue(sheetName, out var list) ? list : new List<RamCatalog>();
-        //}
 
         public RamCatalog? FindCatalogBySymbol(string symbol)
         {

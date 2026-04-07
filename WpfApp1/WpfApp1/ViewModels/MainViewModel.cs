@@ -1,12 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DocumentFormat.OpenXml.EMMA;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using WpfApp1.Models;
 using WpfApp1.Services;
@@ -70,7 +65,7 @@ namespace WpfApp1.ViewModels
         // 現在開いているファイルのフルパスを保持する変数
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(WindowTitle))]
-        public string _currentFilePath;
+        private string? _currentFilePath;
 
         // --- ダイアログ依頼イベント ---
         public event Func<Task<bool>>? RequestSaveBeforeContinue;
@@ -79,7 +74,7 @@ namespace WpfApp1.ViewModels
         public event Action<string>? SaveRequested;// --- Viewに保存実行させるイベント ---
 
         // タイトルバーに表示する文字列を合成
-        public string WindowTitle => $"{(IsDirty ? "* " : "")}{(Path.GetFileName(_currentFilePath) ?? "無題")} - DSPファイルエディタ";
+        public string WindowTitle => $"{(IsDirty ? "* " : "")}{(string.IsNullOrEmpty(CurrentFilePath) ? "無題" : Path.GetFileName(CurrentFilePath))} - DSPファイルエディタ";
 
         [ObservableProperty]
         private bool _isDraggingCatalog; // ドラッグ中かどうか

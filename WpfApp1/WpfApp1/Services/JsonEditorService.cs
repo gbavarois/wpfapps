@@ -1,11 +1,6 @@
-﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -56,7 +51,13 @@ namespace WpfApp1.Services
             var sjis = System.Text.Encoding.GetEncoding("shift_jis");
             var json = File.ReadAllText(path, sjis);
 
-            return System.Text.Json.JsonSerializer.Deserialize<ProjectSaveData>(json);
+            var result = System.Text.Json.JsonSerializer.Deserialize<ProjectSaveData>(json);
+            if (result == null)
+            {
+                throw new InvalidDataException($"Failed to deserialize JSON file: {path}");
+            }
+
+            return result;
         }
 
         // テキスト復元
@@ -149,7 +150,7 @@ namespace WpfApp1.Services
         }
 
         // 内部：TextPointer取得
-        public TextPointer GetTextPointerAt(RichTextBox rtb, int row, int col)
+        public TextPointer? GetTextPointerAt(RichTextBox rtb, int row, int col)
         {
             int currentRow = 0;
 

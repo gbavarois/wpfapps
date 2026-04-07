@@ -28,7 +28,21 @@ namespace WpfApp1.Helpers
         public static Brush GetBrushFromIndex(string index)
         {
             var colorCode = GetColorCode(index);
-            return (Brush)new BrushConverter().ConvertFromString(colorCode);
+            try
+            {
+                var obj = new BrushConverter().ConvertFromString(colorCode);
+                if (obj is Brush brush)
+                {
+                    return brush;
+                }
+            }
+            catch
+            {
+                // ignore and fall through to default
+            }
+
+            // Fallback to a safe non-null brush
+            return Brushes.Black;
         }
 
         public static string GetColorIndex(Brush brush)

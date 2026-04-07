@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using WpfApp1;
 using WpfApp1.Helpers;
 using WpfApp1.Models;
 using WpfApp1.Services;
@@ -27,7 +18,6 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class EditorView : UserControl
     {
-		private DisplayEditorViewModel? _vm;
 		private bool _isRestoring = false; // 復元中フラグ
 
         public EditorView()

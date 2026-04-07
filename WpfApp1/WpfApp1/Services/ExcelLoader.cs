@@ -1,6 +1,4 @@
 ﻿using ClosedXML.Excel;
-using ExcelDataReader;
-using System.Data;
 using System.IO;
 using WpfApp1.Models;
 
@@ -77,8 +75,11 @@ namespace WpfApp1.Services
             }
             return result;
         }
-        private static int GetColNum(IXLRow headerRow, string columnName)
+        private static int GetColNum(IXLRow? headerRow, string columnName)
         {
+            // headerRow が null の場合は列が見つからないものとして 0 を返す
+            if (headerRow == null) return 0;
+
             // 列名が見つからない場合は 0 を返し、row.Cell(0) は空のセルとして扱われるようにする
             return headerRow.Cells().FirstOrDefault(c => c.GetString() == columnName)?.Address.ColumnNumber ?? 0;
         }
